@@ -45,6 +45,7 @@ public abstract class DetectOnMouseClick : MonoBehaviour
         {
             if (isDowned)
             {
+                isDowned = false;
                 mousePosition = Input.mousePosition;
                 mousePosition = myCam.ScreenToWorldPoint(mousePosition);
 
