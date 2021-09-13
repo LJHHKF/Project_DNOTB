@@ -106,6 +106,7 @@ public class Box : DetectOnMouseClick
             else
             {
                 EventManager.instance.isEnding_02 = true;
+                DataRWManager.instance.InputDataValue("end02", 1, DataRWManager.instance.mySaveData_event);
                 EventManager.instance.OnEvent_EndingOpen();
                 Debug.Log("2번째 엔딩");
             }
@@ -116,8 +117,8 @@ public class Box : DetectOnMouseClick
     {
         m_sprR.sprite = unboxingSprite;
         EventManager.instance.isEnding_01 = true;
+        DataRWManager.instance.InputDataValue("end01", 1, DataRWManager.instance.mySaveData_event);
         EventManager.instance.OnEvent_EndingOpen();
-
         Debug.Log("1번째 엔딩");
     }
 

@@ -34,6 +34,12 @@ public class MySceneManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void OnDestroy()
+    {
+        if (m_instance == this)
+            m_instance = null;
+    }
+
     public void LoadScene(MySceneName.SceneName name)
     {
         switch (name)

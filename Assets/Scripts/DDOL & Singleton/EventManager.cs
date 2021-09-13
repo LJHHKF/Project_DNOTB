@@ -5,22 +5,24 @@ using System;
 
 public class EventManager : MonoBehaviour
 {
-    private static EventManager m_instace;
+    private static EventManager m_instance;
     public static EventManager instance
     {
         get
         {
-            if (m_instace == null)
-                m_instace = FindObjectOfType<EventManager>();
-            return m_instace;
+            if (m_instance == null)
+                m_instance = FindObjectOfType<EventManager>();
+            return m_instance;
         }
     }
 
     public event Action ev_Reset;
     //public event Action ev_EndingOpen;
 
+    private bool end01;
     private bool m_isEnding_01;
     public bool isEnding_01 { get { return m_isEnding_01; } set { m_isEnding_01 = value; } }
+    private bool end02;
     private bool m_isEnding_02;
     public bool isEnding_02 { get { return m_isEnding_02; } set { m_isEnding_02 = value; } }
 
@@ -34,7 +36,8 @@ public class EventManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_instace = null;
+        if(m_instance == this)
+            m_instance = null;
     }
 
     //private void Start()
@@ -62,6 +65,23 @@ public class EventManager : MonoBehaviour
     {
         //ev_EndingOpen?.Invoke();
         m_subManager?.UnActiveObjects_ending();
-        Debug.Log("엔딩 오픈");
+        DataRWManager.WriteData("DNOTB_save_event.csv", DataRWManager.instance.mySaveData_event);
+        Debug.Log("엔딩 오픈, 저장 진행");
+    }
+
+    public bool CheckDoneEndingCount(int _min)
+    {
+        int hit = 0;
+        bool result = false;
+        foreach(KeyValuePair<string, int> items in DataRWManager.instance.mySaveData_event)
+        {
+            if (items.Value > 0) hit += 1;
+            if (hit >= _min)
+            {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 }
