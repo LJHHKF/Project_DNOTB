@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class LobbyScene : MonoBehaviour
 {
+    public void Start()
+    {
+        CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
+    }
+
     public void ToMainGame()
     {
         MySceneManager.instance.LoadScene(MySceneName.SceneName.MainGame);

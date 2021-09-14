@@ -19,12 +19,14 @@ public class EventManager : MonoBehaviour
     public event Action ev_Reset;
     //public event Action ev_EndingOpen;
 
-    private bool end01;
     private bool m_isEnding_01;
     public bool isEnding_01 { get { return m_isEnding_01; } set { m_isEnding_01 = value; } }
-    private bool end02;
     private bool m_isEnding_02;
     public bool isEnding_02 { get { return m_isEnding_02; } set { m_isEnding_02 = value; } }
+    private bool m_isEnding_03;
+    public bool isEnding_03 { get { return m_isEnding_03; } set { m_isEnding_03 = value; } }
+    private bool m_hadknife;
+    public bool hadKnife { get { return m_hadknife; } set { m_hadknife = value; } }
 
     private SubEventManager m_subManager;
 
@@ -57,6 +59,9 @@ public class EventManager : MonoBehaviour
 
         isEnding_01 = false;
         isEnding_02 = false;
+        isEnding_03 = false;
+        hadKnife = false;
+        CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
 
         Debug.Log("리셋 실행");
     }
@@ -69,7 +74,7 @@ public class EventManager : MonoBehaviour
         Debug.Log("엔딩 오픈, 저장 진행");
     }
 
-    public bool CheckDoneEndingCount(int _min)
+    public bool CheckDoneEndingCount_each(int _min)
     {
         int hit = 0;
         bool result = false;
@@ -83,5 +88,15 @@ public class EventManager : MonoBehaviour
             }
         }
         return result;
+    }
+
+    public int CheckDoneEndingCount_all()
+    {
+        int hit = 0;
+        foreach (KeyValuePair<string, int> items in DataRWManager.instance.mySaveData_event)
+        {
+            if (items.Value > 0) hit += 1;
+        }
+        return hit;
     }
 }

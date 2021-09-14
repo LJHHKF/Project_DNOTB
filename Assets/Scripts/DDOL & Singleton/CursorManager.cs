@@ -36,14 +36,24 @@ public class CursorManager : MonoBehaviour
     private Vector2 m_knifePivot;
 
 
+    private void Awake()
+    {
+        if (instnace != this)
+            Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (m_instance == this)
+            m_instance = null;
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
         m_normalPivot = new Vector2(normalCursorImg.width * normalCImagePivot.x, normalCursorImg.height * normalCImagePivot.y);
         m_knifePivot = new Vector2(knifeCursorImg.width * knifeCImagePivot.x, knifeCursorImg.height * knifeCImagePivot.y);
-
-        MySetCursor(CursorType.Normal);
     }
 
     public void MySetCursor(MyCursor.CursorType _type)
@@ -59,8 +69,15 @@ public class CursorManager : MonoBehaviour
                     Cursor.SetCursor(knifeCursorImg, m_knifePivot, CursorMode.Auto);
                     break;
             }
+            if (_type != CursorType.None)
+                current_type = _type;
         }
         else
             return;
+    }
+
+    public CursorType GetCurrentCursorType()
+    {
+        return current_type;
     }
 }
