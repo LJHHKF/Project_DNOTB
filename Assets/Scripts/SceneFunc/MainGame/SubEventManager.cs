@@ -43,13 +43,6 @@ public class SubEventManager : MonoBehaviour
 
     public void UnActiveObjects_ending()
     {
-
-        endDepth = EventManager.instance.CheckDoneEndingCount_all();
-        if(endDepth > 0)
-        {
-            UnActive_least_1();
-        }
-
         for (int i = 0; i < unActiveObjects_ending.Length; i++)
             unActiveObjects_ending[i].SetActive(false);
     }
