@@ -33,14 +33,20 @@ public partial class BoxMain : MonoBehaviour
     [SerializeField] private GameObject object_BoxCol;
     [SerializeField] private GameObject object_Sticker;
     [SerializeField] private GameObject objcet_Invoice;
+    [SerializeField] private GameObject object_Cube;
+    [SerializeField] private GameObject object_Portal;
+    [SerializeField] private GameObject object_CubeSticker;
 
     private SpriteRenderer m_sprR;
 
     //엔딩2
-    private bool isUntaped;
+    private bool m_isUntaped;
+    public bool isUntaped { get { return m_isUntaped; } set { m_isUntaped = value; } }
     private readonly float timeForSecondEnd = 60.0f;
     private float wastedTime;
-    //
+    //엔딩4
+    private bool m_isCubeMoved;
+    public bool isCubeMoved { get { return m_isCubeMoved; } set { m_isCubeMoved = value; } }
     
 
     private void Awake()
@@ -100,18 +106,26 @@ public partial class BoxMain : MonoBehaviour
         object_Tape.SetActive(true);
         object_BoxCol.SetActive(false);
         m_sprR.sprite = boxingSprite;
+
+        isCubeMoved = false;
     }
 
     private void OnResetEvent_depth_1()
     {
         object_Sticker.SetActive(true);
         objcet_Invoice.SetActive(false);
+        object_Cube.SetActive(false);
+        object_Portal.SetActive(false);
+        object_CubeSticker.SetActive(false);
     }
 
     private void OnUnsetEvent_depth_1()
     {
         object_Sticker.SetActive(false);
         objcet_Invoice.SetActive(false);
+        object_Cube.SetActive(false);
+        object_Portal.SetActive(false);
+        object_CubeSticker.SetActive(false);
     }
 }
 
@@ -120,17 +134,26 @@ public partial class BoxMain : MonoBehaviour
     public void DoUntaping()
     {
         isUntaped = true;
-
-        object_Tape.SetActive(false);
-        object_BoxCol.SetActive(true);
+        if (isCubeMoved)
+        {
+            object_Tape.SetActive(false);
+            object_Portal.SetActive(true);
+        }
+        else
+        {
+            object_Tape.SetActive(false);
+            object_BoxCol.SetActive(true);
+        }
     }
 
     public void DoUnBoxing(MyEndings.UnboxingType _type)
     {
         m_sprR.sprite = unboxingSprite;
-        if (object_Tape.activeSelf) object_Tape.SetActive(false);
-        if (object_Sticker.activeSelf) object_Sticker.SetActive(false);
-        if (objcet_Invoice.activeSelf) objcet_Invoice.SetActive(false);
+        object_Tape.SetActive(false);  // 기존엔 if(object_Tape.activeSelf)를 체크해서 했었으나 뻘짓임을 깨닫고 수정
+        object_Sticker.SetActive(false);
+        objcet_Invoice.SetActive(false);
+        object_Cube.SetActive(false);
+        object_Portal.SetActive(false);
         
         switch (_type)
         {
@@ -153,5 +176,26 @@ public partial class BoxMain : MonoBehaviour
     {
         object_Sticker.SetActive(false);
         objcet_Invoice.SetActive(true);
+    }
+
+    public void CubeSetActive()
+    {
+        object_Cube.SetActive(true);
+    }
+
+    public void DoCubePassPortal()
+    {
+        object_Cube.SetActive(false);
+        object_Portal.SetActive(false);
+        object_CubeSticker.SetActive(true);
+    }
+
+    public void RemoveCubeSticker()
+    {
+        object_CubeSticker.SetActive(false);
+        EventManager.instance.isEnding_04 = true;
+        DataRWManager.instance.InputDataValue("end04", 1, DataRWManager.instance.mySaveData_event);
+        EventManager.instance.OnEvent_EndingOpen();
+        Debug.Log("4번째 엔딩");
     }
 }

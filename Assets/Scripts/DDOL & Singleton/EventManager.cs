@@ -25,8 +25,8 @@ public class EventManager : MonoBehaviour
     public bool isEnding_02 { get { return m_isEnding_02; } set { m_isEnding_02 = value; } }
     private bool m_isEnding_03;
     public bool isEnding_03 { get { return m_isEnding_03; } set { m_isEnding_03 = value; } }
-    private bool m_hadknife;
-    public bool hadKnife { get { return m_hadknife; } set { m_hadknife = value; } }
+    private bool m_isEnding_04;
+    public bool isEnding_04 { get { return m_isEnding_04; } set { m_isEnding_04 = value; } }
 
     private SubEventManager m_subManager;
 
@@ -60,7 +60,7 @@ public class EventManager : MonoBehaviour
         isEnding_01 = false;
         isEnding_02 = false;
         isEnding_03 = false;
-        hadKnife = false;
+        isEnding_04 = false;
         CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
 
         Debug.Log("리셋 실행");

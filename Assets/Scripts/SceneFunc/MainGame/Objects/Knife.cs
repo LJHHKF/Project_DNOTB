@@ -18,13 +18,11 @@ public class Knife : MonoBehaviour, IEventObject
         if(_type == MyCursor.CursorType.Normal)
         {
             CursorManager.instnace.MySetCursor(MyCursor.CursorType.Knife);
-            EventManager.instance.hadKnife = true;
             imageObject.SetActive(false);
         }
         else if(_type == MyCursor.CursorType.Knife)
         {
             CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
-            EventManager.instance.hadKnife = false;
             imageObject.SetActive(true);
         }
     }
