@@ -26,10 +26,11 @@ public partial class BoxMain : MonoBehaviour
 
     [Header("Resource Setting")]
     [SerializeField] private Sprite boxingSprite;
+    [SerializeField] private Sprite untapingSprite;
     [SerializeField] private Sprite unboxingSprite;
 
     [Header("Objects linking")]
-    [SerializeField] private GameObject object_Tape;
+    [SerializeField] private GameObject object_Collider_Tape;
     [SerializeField] private GameObject object_BoxCol;
     [SerializeField] private GameObject object_Sticker;
     [SerializeField] private GameObject objcet_Invoice;
@@ -103,7 +104,7 @@ public partial class BoxMain : MonoBehaviour
     {
         isUntaped = false;
         wastedTime = 0.0f;
-        object_Tape.SetActive(true);
+        object_Collider_Tape.SetActive(true);
         object_BoxCol.SetActive(false);
         m_sprR.sprite = boxingSprite;
 
@@ -136,12 +137,14 @@ public partial class BoxMain : MonoBehaviour
         isUntaped = true;
         if (isCubeMoved)
         {
-            object_Tape.SetActive(false);
+            object_Collider_Tape.SetActive(false);
+            m_sprR.sprite = untapingSprite;
             object_Portal.SetActive(true);
         }
         else
         {
-            object_Tape.SetActive(false);
+            object_Collider_Tape.SetActive(false);
+            m_sprR.sprite = untapingSprite;
             object_BoxCol.SetActive(true);
         }
     }
@@ -149,7 +152,7 @@ public partial class BoxMain : MonoBehaviour
     public void DoUnBoxing(MyEndings.UnboxingType _type)
     {
         m_sprR.sprite = unboxingSprite;
-        object_Tape.SetActive(false);  // 기존엔 if(object_Tape.activeSelf)를 체크해서 했었으나 뻘짓임을 깨닫고 수정
+        object_Collider_Tape.SetActive(false);  // 기존엔 if(object_Tape.activeSelf)를 체크해서 했었으나 뻘짓임을 깨닫고 수정
         object_Sticker.SetActive(false);
         objcet_Invoice.SetActive(false);
         object_Cube.SetActive(false);
