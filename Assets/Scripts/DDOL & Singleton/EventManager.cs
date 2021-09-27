@@ -19,15 +19,6 @@ public class EventManager : MonoBehaviour
     public event Action ev_Reset;
     //public event Action ev_EndingOpen;
 
-    private bool m_isEnding_01;
-    public bool isEnding_01 { get { return m_isEnding_01; } set { m_isEnding_01 = value; } }
-    private bool m_isEnding_02;
-    public bool isEnding_02 { get { return m_isEnding_02; } set { m_isEnding_02 = value; } }
-    private bool m_isEnding_03;
-    public bool isEnding_03 { get { return m_isEnding_03; } set { m_isEnding_03 = value; } }
-    private bool m_isEnding_04;
-    public bool isEnding_04 { get { return m_isEnding_04; } set { m_isEnding_04 = value; } }
-
     private SubEventManager m_subManager;
 
     private void Awake()
@@ -57,10 +48,6 @@ public class EventManager : MonoBehaviour
         m_subManager?.ActiveObject_ending();
         ev_Reset?.Invoke();
 
-        isEnding_01 = false;
-        isEnding_02 = false;
-        isEnding_03 = false;
-        isEnding_04 = false;
         CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
 
         Debug.Log("리셋 실행");

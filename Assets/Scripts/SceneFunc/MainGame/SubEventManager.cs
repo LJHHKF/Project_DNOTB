@@ -38,7 +38,7 @@ public class SubEventManager : MonoBehaviour
     private void Start()
     {
         EventManager.instance.SetSubEvManager(gameObject);
-        StartCoroutine(DelayedReset(0.1f));
+        StartCoroutine(DelayedReset(0.01f));
     }
 
     public void UnActiveObjects_ending()

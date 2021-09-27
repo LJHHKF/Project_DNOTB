@@ -9,6 +9,14 @@ namespace MyEndings
         first,
         third
     }
+
+    public enum EndingIndex
+    {
+        first,
+        second,
+        third,
+        fourth
+    }
 }
 
 public partial class BoxMain : MonoBehaviour
@@ -28,10 +36,13 @@ public partial class BoxMain : MonoBehaviour
     [SerializeField] private Sprite boxingSprite;
     [SerializeField] private Sprite untapingSprite;
     [SerializeField] private Sprite unboxingSprite;
+    [SerializeField] private Sprite end01_ObjectSprite;
 
     [Header("Objects linking")]
     [SerializeField] private GameObject object_Collider_Tape;
     [SerializeField] private GameObject object_BoxCol;
+    [SerializeField] private GameObject object_InBoxObject;
+    private SpriteRenderer inBoxObjectSpriteR;
     [SerializeField] private GameObject object_Sticker;
     [SerializeField] private GameObject objcet_Invoice;
     [SerializeField] private GameObject object_Cube;
@@ -43,7 +54,8 @@ public partial class BoxMain : MonoBehaviour
     //엔딩2
     private bool m_isUntaped;
     public bool isUntaped { get { return m_isUntaped; } set { m_isUntaped = value; } }
-    private readonly float timeForSecondEnd = 60.0f;
+    [Header("Ending Conditions")]
+    [SerializeField] private float timeForSecondEnd = 60.0f;
     private float wastedTime;
     //엔딩4
     private bool m_isCubeMoved;
@@ -80,6 +92,7 @@ public partial class BoxMain : MonoBehaviour
     void Start()
     {
         m_sprR = GetComponent<SpriteRenderer>();
+        inBoxObjectSpriteR = object_InBoxObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -92,9 +105,9 @@ public partial class BoxMain : MonoBehaviour
             else
             {
                 isUntaped = true;
-                EventManager.instance.isEnding_02 = true;
                 DataRWManager.instance.InputDataValue("end02", 1, DataRWManager.instance.mySaveData_event);
                 EventManager.instance.OnEvent_EndingOpen();
+                EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.second);
                 Debug.Log("2번째 엔딩");
             }
         }
@@ -106,6 +119,7 @@ public partial class BoxMain : MonoBehaviour
         wastedTime = 0.0f;
         object_Collider_Tape.SetActive(true);
         object_BoxCol.SetActive(false);
+        object_InBoxObject.SetActive(false);
         m_sprR.sprite = boxingSprite;
 
         isCubeMoved = false;
@@ -157,19 +171,23 @@ public partial class BoxMain : MonoBehaviour
         objcet_Invoice.SetActive(false);
         object_Cube.SetActive(false);
         object_Portal.SetActive(false);
-        
+
+        object_InBoxObject.SetActive(true);
+
         switch (_type)
         {
             case MyEndings.UnboxingType.first:
-                EventManager.instance.isEnding_01 = true;
                 DataRWManager.instance.InputDataValue("end01", 1, DataRWManager.instance.mySaveData_event);
                 EventManager.instance.OnEvent_EndingOpen();
+                EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.first);
+                inBoxObjectSpriteR.sprite = end01_ObjectSprite;
                 Debug.Log("1번째 엔딩");
                 break;
             case MyEndings.UnboxingType.third:
-                EventManager.instance.isEnding_03 = true;
                 DataRWManager.instance.InputDataValue("end03", 1, DataRWManager.instance.mySaveData_event);
                 EventManager.instance.OnEvent_EndingOpen();
+                EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third);
+                inBoxObjectSpriteR.sprite = null;
                 Debug.Log("3번재 엔딩");
                 break;
         }
@@ -196,9 +214,9 @@ public partial class BoxMain : MonoBehaviour
     public void RemoveCubeSticker()
     {
         object_CubeSticker.SetActive(false);
-        EventManager.instance.isEnding_04 = true;
         DataRWManager.instance.InputDataValue("end04", 1, DataRWManager.instance.mySaveData_event);
         EventManager.instance.OnEvent_EndingOpen();
+        EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.fourth);
         Debug.Log("4번째 엔딩");
     }
 }
