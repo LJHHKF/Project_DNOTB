@@ -25,17 +25,10 @@ public class EndCutSceneManager : MonoBehaviour
     private Text[] text_dialogues = new Text[3];
     private Image dialogues_BG;
     
-
-    [Header("Ending Sprite")]
-    [SerializeField] private Sprite cs_spr_end01;
-    [SerializeField] private Sprite cs_spr_end02;
-
-    [Header("Dialouge Setting")]
-    [SerializeField] private float dialogueDelay;
-    [SerializeField] private float fadeOut_max_alpha;
-    [SerializeField] private float fadeOut_max_second;
     private float curAlpha = 0;
-    [TextArea] [SerializeField] private string[] dialogue_end02;
+
+    [Header("Other Setting")]
+    [SerializeField] private bool isListScene = false;
 
     private void Awake()
     {
@@ -62,18 +55,20 @@ public class EndCutSceneManager : MonoBehaviour
             obj_dialogues[i] = p_dialogues.transform.Find(name.ToString()).gameObject;
             text_dialogues[i] = obj_dialogues[i].transform.Find("Text").GetComponent<Text>();
         }
-
-        StartCoroutine(DialoguesOn(MyEndings.EndingIndex.second));
     }
 
     private void OnEnable()
     {
         EventManager.instance.ev_Reset += OffCutScene;
+        if (isListScene)
+            ListSceneBoxMain.child_instance.ev_endingListReset += OffCutScene;
     }
 
     private void OnDisable()
     {
         EventManager.instance.ev_Reset -= OffCutScene;
+        if (isListScene)
+            ListSceneBoxMain.child_instance.ev_endingListReset -= OffCutScene;
     }
 
     private void OffCutScene()
@@ -96,7 +91,7 @@ public class EndCutSceneManager : MonoBehaviour
         switch(_index)
         {
             case MyEndings.EndingIndex.first:
-                StartCoroutine(DelayedCutSceneOpen(3.0f, 5.0f,cs_spr_end01));
+                StartCoroutine(DelayedCutSceneOpen(3.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end01));
                 break;
             case MyEndings.EndingIndex.second:
                 StartCoroutine(DialoguesOn(_index));
@@ -110,7 +105,13 @@ public class EndCutSceneManager : MonoBehaviour
         cutScene_frame.SetActive(true);
         cutScene_img.sprite = _spr;
         yield return new WaitForSeconds(_endTime);
-        OffCutScene();
+        if (isListScene)
+        {
+            ListSceneBoxMain.child_instance.OnListSceneReset(); // OffCutScene을 포함한 이벤트.
+            EndingListPageScene.instance.EndingRepeatWindowSetActive(false);
+        }
+        else
+            OffCutScene();
         yield break;
     }
 
@@ -119,12 +120,12 @@ public class EndCutSceneManager : MonoBehaviour
         if (_index == MyEndings.EndingIndex.second)
         {
             p_dialogues.SetActive(true);
-            while (curAlpha < fadeOut_max_alpha)
+            while (curAlpha < EndCutSceneDataManager.instance.prop_fadeOut_max_alpha)
             {
-                if (fadeOut_max_second != 0)
-                    curAlpha += (Time.deltaTime / fadeOut_max_second) * fadeOut_max_alpha;
+                if (EndCutSceneDataManager.instance.prop_fadeOut_max_second != 0)
+                    curAlpha += (Time.deltaTime / EndCutSceneDataManager.instance.prop_fadeOut_max_second) * EndCutSceneDataManager.instance.prop_fadeOut_max_alpha;
                 else
-                    curAlpha = fadeOut_max_alpha;
+                    curAlpha = EndCutSceneDataManager.instance.prop_fadeOut_max_alpha;
 
                 dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, curAlpha);
                 yield return null;
@@ -140,7 +141,7 @@ public class EndCutSceneManager : MonoBehaviour
                 switch(_index)
                 {
                     case MyEndings.EndingIndex.second:
-                        if (cnt >= dialogue_end02.Length)
+                        if (cnt >= EndCutSceneDataManager.instance.prop_dialogue_end02.Length)
                         {
                             isEnd = true;
                             for (int i = 0; i < obj_dialogues.Length; i++)
@@ -150,8 +151,8 @@ public class EndCutSceneManager : MonoBehaviour
                             }
                             while(curAlpha > 0)
                             {
-                                if (fadeOut_max_second != 0)
-                                    curAlpha -= (Time.deltaTime / fadeOut_max_second) * fadeOut_max_alpha;
+                                if (EndCutSceneDataManager.instance.prop_fadeOut_max_alpha != 0)
+                                    curAlpha -= (Time.deltaTime / EndCutSceneDataManager.instance.prop_fadeOut_max_second) * EndCutSceneDataManager.instance.prop_fadeOut_max_alpha;
                                 else
                                     curAlpha = 0;
 
@@ -159,26 +160,26 @@ public class EndCutSceneManager : MonoBehaviour
                                 yield return null;
                             }
                             p_dialogues.SetActive(false);
-                            StartCoroutine(DelayedCutSceneOpen(0.0f, 5.0f, cs_spr_end02));
+                            StartCoroutine(DelayedCutSceneOpen(0.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end02));
                             break;
                         }
                         else if (cnt == 0)
-                            text_dialogues[0].text = dialogue_end02[cnt];
+                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt];
                         else if (cnt == 1)
                         {
                             text_dialogues[1].text = text_dialogues[0].text;
-                            text_dialogues[0].text = dialogue_end02[cnt];
+                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt];
                         }
                         else if (cnt >= 2)
                         {
                             text_dialogues[2].text = text_dialogues[1].text;
                             text_dialogues[1].text = text_dialogues[0].text;
-                            text_dialogues[0].text = dialogue_end02[cnt];
+                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt];
                         }
                     break;
                 }
                 cnt++;
-                yield return new WaitForSeconds(dialogueDelay);
+                yield return new WaitForSeconds(EndCutSceneDataManager.instance.prop_dialogueDelay);
             }
         }
         yield break;
