@@ -20,6 +20,8 @@ public class EndCutSceneDataManager : MonoBehaviour
     public Sprite prop_cs_spr_end01 { get { return cs_spr_end01; } }
     [SerializeField] private Sprite cs_spr_end02;
     public Sprite prop_cs_spr_end02 { get { return cs_spr_end02; } }
+    [SerializeField] private Sprite cs_spr_end03;
+    public Sprite prop_cs_spr_end03 { get { return cs_spr_end03; } }
 
     [Header("Dialouge Setting")]
     [SerializeField] private float dialogueDelay;

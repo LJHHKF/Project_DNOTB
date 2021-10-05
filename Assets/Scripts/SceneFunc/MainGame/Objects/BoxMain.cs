@@ -36,7 +36,7 @@ public partial class BoxMain : MonoBehaviour
     [SerializeField] protected Sprite boxingSprite;
     [SerializeField] protected Sprite untapingSprite;
     [SerializeField] protected Sprite unboxingSprite;
-    [SerializeField] protected Sprite end01_ObjectSprite;
+    [SerializeField] protected Sprite end03_ObjectSprite;
 
     [Header("Box Objects linking")]
     [SerializeField] private GameObject object_Collider_Tape;
@@ -45,9 +45,9 @@ public partial class BoxMain : MonoBehaviour
     [SerializeField] protected GameObject object_InBoxObject;
     protected SpriteRenderer inBoxObjectSpriteR;
     [SerializeField] protected GameObject object_Invoice_Cover;
-    [SerializeField] protected GameObject objcet_Invoice;
+    [SerializeField] protected GameObject object_Invoice;
     [SerializeField] protected GameObject object_Cube;
-    [SerializeField] private GameObject object_Portal;
+    [SerializeField] protected GameObject object_Portal;
     [SerializeField] protected GameObject object_CubeSticker;
 
     protected SpriteRenderer m_sprR;
@@ -130,7 +130,7 @@ public partial class BoxMain : MonoBehaviour
     {
         object_Invoice_Cover.SetActive(true);
         object_Collider_underInvoiceTape?.SetActive(false);
-        objcet_Invoice.SetActive(false);
+        object_Invoice.SetActive(false);
         object_Cube.SetActive(false);
         object_Portal.SetActive(false);
         object_CubeSticker.SetActive(false);
@@ -140,7 +140,7 @@ public partial class BoxMain : MonoBehaviour
     {
         object_Invoice_Cover.SetActive(false);
         object_Collider_underInvoiceTape?.SetActive(true);
-        objcet_Invoice.SetActive(false);
+        object_Invoice.SetActive(false);
         object_Cube.SetActive(false);
         object_Portal.SetActive(false);
         object_CubeSticker.SetActive(false);
@@ -171,7 +171,7 @@ public partial class BoxMain : MonoBehaviour
         m_sprR.sprite = unboxingSprite;
         object_Collider_Tape?.SetActive(false);  // 기존엔 if(object_Tape.activeSelf)를 체크해서 했었으나 뻘짓임을 깨닫고 수정
         object_Invoice_Cover.SetActive(false);
-        objcet_Invoice.SetActive(false);
+        object_Invoice.SetActive(false);
         object_Cube.SetActive(false);
         object_Portal.SetActive(false);
 
@@ -183,14 +183,14 @@ public partial class BoxMain : MonoBehaviour
                 DataRWManager.instance.InputDataValue("end01", 1, DataRWManager.instance.mySaveData_event);
                 EventManager.instance.OnEvent_EndingOpen();
                 EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.first);
-                inBoxObjectSpriteR.sprite = end01_ObjectSprite;
+                inBoxObjectSpriteR.sprite = null;
                 Debug.Log("1번째 엔딩");
                 break;
             case MyEndings.UnboxingType.third:
                 DataRWManager.instance.InputDataValue("end03", 1, DataRWManager.instance.mySaveData_event);
                 EventManager.instance.OnEvent_EndingOpen();
                 EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third);
-                inBoxObjectSpriteR.sprite = null;
+                inBoxObjectSpriteR.sprite = end03_ObjectSprite;
                 Debug.Log("3번재 엔딩");
                 break;
         }
@@ -199,7 +199,7 @@ public partial class BoxMain : MonoBehaviour
     public void RemoveSticker()
     {
         object_Invoice_Cover.SetActive(false);
-        objcet_Invoice.SetActive(true);
+        object_Invoice.SetActive(true);
     }
 
     public void CubeSetActive()

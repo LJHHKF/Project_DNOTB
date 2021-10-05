@@ -18,9 +18,10 @@ public class EndingListPageScene : MonoBehaviour
     [Header("Object linking")]
     [SerializeField] private GameObject endingRepeatWindow;
 
-    [Header("end Image Set")]
-    [SerializeField] private Sprite spr_end01;
-    [SerializeField] private Sprite spr_end02;
+    //[Header("end Image Set")]
+    //[SerializeField] private Sprite spr_end01;
+    //[SerializeField] private Sprite spr_end02;
+    //[SerializeField] private Sprite spr_end03;
 
     private void Start()
     {
@@ -48,9 +49,11 @@ public class EndingListPageScene : MonoBehaviour
         switch (_index)
         {
             case MyEndings.EndingIndex.first:
-                return spr_end01;
+                return EndCutSceneDataManager.instance.prop_cs_spr_end01;
             case MyEndings.EndingIndex.second:
-                return spr_end02;
+                return EndCutSceneDataManager.instance.prop_cs_spr_end02;
+            case MyEndings.EndingIndex.third:
+                return EndCutSceneDataManager.instance.prop_cs_spr_end03;
         }
         return null;
     }

@@ -29,7 +29,7 @@ public class ListSceneBoxMain : BoxMain
     //[SerializeField] protected GameObject object_InBoxObject;
     //protected SpriteRenderer inBoxObjectSpriteR;
     //[SerializeField] protected GameObject object_Invoice_Cover;
-    //[SerializeField] protected GameObject objcet_Invoice;
+    //[SerializeField] protected GameObject object_Invoice;
     //[SerializeField] protected GameObject object_Cube;
     //[SerializeField] private GameObject object_Portal;  // 직렬화를 해둬서 public 처럼 보임
     //[SerializeField] protected GameObject object_CubeSticker;
@@ -96,24 +96,39 @@ public class ListSceneBoxMain : BoxMain
         switch (_index)
         {
             case MyEndings.EndingIndex.first:
-                m_sprR.sprite = unboxingSprite;
-                object_InBoxObject.SetActive(true);
-                inBoxObjectSpriteR.sprite = end01_ObjectSprite;
+                UnBoxing();
+                UnSetCube();
+                inBoxObjectSpriteR.sprite = null; // 아직 리소스 없음.
                 break;
             case MyEndings.EndingIndex.second:
+                UnSetCube();
                 //m_sprR.sprite = boxingSprite;
                 break;
             case MyEndings.EndingIndex.third:
-                m_sprR.sprite = unboxingSprite;
+                UnBoxing();
+                UnSetCube();
                 knifeObject.SetActive(false);
-                object_InBoxObject.SetActive(true);
-                inBoxObjectSpriteR.sprite = null; // 아직 리소스 없음.
+                inBoxObjectSpriteR.sprite = end03_ObjectSprite;
                 break;
             case MyEndings.EndingIndex.fourth:
-                m_sprR.sprite = unboxingSprite;
-                object_InBoxObject.SetActive(true);
+                UnBoxing();
                 inBoxObjectSpriteR.sprite = null; // 아직 리소스 없음.
                 break;
+        }
+
+        void UnBoxing()
+        {
+            m_sprR.sprite = unboxingSprite;
+            object_InBoxObject.SetActive(true);
+            object_Invoice_Cover.SetActive(false);
+            object_Invoice.SetActive(false);
+        }
+
+        void UnSetCube()
+        {
+            object_Cube.SetActive(false);
+            object_CubeSticker.SetActive(false);
+            object_Portal.SetActive(false);
         }
     }
 
