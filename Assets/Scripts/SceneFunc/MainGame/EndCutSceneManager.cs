@@ -23,6 +23,7 @@ public class EndCutSceneManager : MonoBehaviour
     [SerializeField] private GameObject p_dialogues;
     private GameObject[] obj_dialogues = new GameObject[3];
     private Text[] text_dialogues = new Text[3];
+    private Image[] img_dialogues = new Image[3];
     private Image dialogues_BG;
     
     private float curAlpha = 0;
@@ -53,6 +54,7 @@ public class EndCutSceneManager : MonoBehaviour
             name.Remove(name.Length - 1, 1);
             name.Append(i + 1);
             obj_dialogues[i] = p_dialogues.transform.Find(name.ToString()).gameObject;
+            img_dialogues[i] = obj_dialogues[i].GetComponent<Image>();
             text_dialogues[i] = obj_dialogues[i].transform.Find("Text").GetComponent<Text>();
         }
     }
@@ -167,17 +169,25 @@ public class EndCutSceneManager : MonoBehaviour
                             break;
                         }
                         else if (cnt == 0)
-                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt];
+                        {
+                            img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialouge_spr_right : EndCutSceneDataManager.instance.prop_dialogue_spr_left;
+                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
+                        }
                         else if (cnt == 1)
                         {
+                            img_dialogues[1].sprite = img_dialogues[0].sprite;
                             text_dialogues[1].text = text_dialogues[0].text;
-                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt];
+                            img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialouge_spr_right : EndCutSceneDataManager.instance.prop_dialogue_spr_left;
+                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
                         }
                         else if (cnt >= 2)
                         {
+                            img_dialogues[2].sprite = img_dialogues[1].sprite;
                             text_dialogues[2].text = text_dialogues[1].text;
+                            img_dialogues[1].sprite = img_dialogues[0].sprite;
                             text_dialogues[1].text = text_dialogues[0].text;
-                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt];
+                            img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialouge_spr_right : EndCutSceneDataManager.instance.prop_dialogue_spr_left;
+                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
                         }
                     break;
                 }

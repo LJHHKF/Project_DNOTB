@@ -191,7 +191,7 @@ public partial class BoxMain : MonoBehaviour
                 EventManager.instance.OnEvent_EndingOpen();
                 EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third);
                 inBoxObjectSpriteR.sprite = end03_ObjectSprite;
-                Debug.Log("3번재 엔딩");
+                Debug.Log("3번째 엔딩");
                 break;
         }
     }

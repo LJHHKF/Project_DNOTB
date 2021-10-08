@@ -221,8 +221,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalCursorImg: {fileID: 2800000, guid: 0e77220cabdbca946914bc41ace06339, type: 3}
   normalCImagePivot: {x: 0.5, y: 0}
-  knifeCursorImg: {fileID: 2800000, guid: 46e104b81482a6e489ddc823dce7072c, type: 3}
-  knifeCImagePivot: {x: 0, y: 0.2}
+  knifeCursorImg: {fileID: 2800000, guid: 1f13b64a4fc819447af45b2eac3302f3, type: 3}
+  knifeCImagePivot: {x: 0, y: 0.195}
 --- !u!114 &501938372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,14 +238,20 @@ MonoBehaviour:
   cs_spr_end01: {fileID: 21300000, guid: 0a33bc97059a7d74abf45ce0fdc56985, type: 3}
   cs_spr_end02: {fileID: 21300000, guid: b6d80e0c334b6f44bbd0e69ea8067cb8, type: 3}
   cs_spr_end03: {fileID: 21300000, guid: 543fbfbbb82fa6c48a9174078adff0fe, type: 3}
+  dialogue_spr_left: {fileID: 21300000, guid: 13549d0f930d09a4b97280281e73e7c6, type: 3}
+  dialogue_spr_right: {fileID: 21300000, guid: 3671a9383934f3a429388b780bf3927d, type: 3}
   dialogueDelay: 1
   fadeOut_max_alpha: 0.6
   fadeOut_max_second: 1
   dialogue_end02:
-  - "\uC608\uC2DC \uB300\uD6541"
-  - "\uC608\uC2DC \uB300\uD6542"
-  - "\uC608\uC2DC \uB300\uD6543"
-  - "\uC608\uC2DC \uB300\uD6544"
+  - isLeft: 1
+    dialogue: "\uC608\uC2DC1, \uC67C\uCABD"
+  - isLeft: 0
+    dialogue: "\uC608\uC2DC2, \uC624\uB978\uCABD"
+  - isLeft: 1
+    dialogue: "\uC608\uC2DC3, \uC67C\uCABD"
+  - isLeft: 0
+    dialogue: "\uC608\uC2DC4, \uC624\uB978\uCABD"
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
