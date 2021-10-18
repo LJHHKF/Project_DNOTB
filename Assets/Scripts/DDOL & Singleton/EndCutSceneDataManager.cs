@@ -40,7 +40,7 @@ public class EndCutSceneDataManager : MonoBehaviour
     [SerializeField] private Sprite dialogue_spr_left;
     public Sprite prop_dialogue_spr_left { get { return dialogue_spr_left; } }
     [SerializeField] private Sprite dialogue_spr_right;
-    public Sprite prop_dialouge_spr_right { get { return dialogue_spr_right; } }
+    public Sprite prop_dialogue_spr_right { get { return dialogue_spr_right; } }
     [SerializeField] private float dialogueDelay;
     public float prop_dialogueDelay { get { return dialogueDelay; } } 
     [SerializeField] private float fadeOut_max_alpha;

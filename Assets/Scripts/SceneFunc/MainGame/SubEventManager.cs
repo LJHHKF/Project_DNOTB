@@ -17,6 +17,7 @@ public class SubEventManager : MonoBehaviour
         }
     }
 
+    [Header("Event Objects Setting")]
     [SerializeField] private GameObject[] unActiveObjects_ending;
     [SerializeField] private GameObject[] activeObjects_least_1;
     private int endDepth = 0;

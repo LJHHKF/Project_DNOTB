@@ -43,3 +43,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: SubPuzzle
+    uniqueID: 2000875793
+    locked: 0

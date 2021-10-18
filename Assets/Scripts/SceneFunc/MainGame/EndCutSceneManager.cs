@@ -170,14 +170,14 @@ public class EndCutSceneManager : MonoBehaviour
                         }
                         else if (cnt == 0)
                         {
-                            img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialouge_spr_right : EndCutSceneDataManager.instance.prop_dialogue_spr_left;
+                            img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
                             text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
                         }
                         else if (cnt == 1)
                         {
                             img_dialogues[1].sprite = img_dialogues[0].sprite;
                             text_dialogues[1].text = text_dialogues[0].text;
-                            img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialouge_spr_right : EndCutSceneDataManager.instance.prop_dialogue_spr_left;
+                            img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
                             text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
                         }
                         else if (cnt >= 2)
@@ -186,7 +186,7 @@ public class EndCutSceneManager : MonoBehaviour
                             text_dialogues[2].text = text_dialogues[1].text;
                             img_dialogues[1].sprite = img_dialogues[0].sprite;
                             text_dialogues[1].text = text_dialogues[0].text;
-                            img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialouge_spr_right : EndCutSceneDataManager.instance.prop_dialogue_spr_left;
+                            img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
                             text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
                         }
                     break;

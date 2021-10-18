@@ -99,7 +99,7 @@ public partial class BoxMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isUntaped)
+        if(!isUntaped && !SubPuzzleManager.instance.isSubPuzzleOn)
         {
             if (wastedTime < timeForSecondEnd)
                 wastedTime += Time.deltaTime;
