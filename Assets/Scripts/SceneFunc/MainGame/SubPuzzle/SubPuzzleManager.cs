@@ -38,7 +38,7 @@ public class SubPuzzleManager : MonoBehaviour
         get { return m_isDialClear; }
         set {
             m_isDialClear = value;
-            if (m_isDialClear == true)
+            if (m_isDialClear)
                 UnActiveDialLock();
             } 
     }
@@ -50,10 +50,23 @@ public class SubPuzzleManager : MonoBehaviour
         set
         {
             m_isConcentrationClear = value;
-            if (m_isConcentrationClear == true)
+            if (m_isConcentrationClear)
                 UnActiveConcentration();
         }
     }
+    [SerializeField] private GameObject slidingPuzzleObjects;
+    private bool m_isSlidingPuzzleClear = false;
+    public bool isSlidingPuzzleClear
+    {
+        get { return m_isSlidingPuzzleClear; }
+        set
+        {
+            m_isSlidingPuzzleClear = value;
+            if (m_isSlidingPuzzleClear)
+                UnActiveSlidingPuzzle();
+        }
+    }
+    public SlidingPuzzleEventManager slidingPuzzleEventManager { get { return slidingPuzzleObjects.GetComponent<SlidingPuzzleEventManager>(); } }
 
     private void Awake()
     {
@@ -100,10 +113,6 @@ public class SubPuzzleManager : MonoBehaviour
         {
             Vector2 mousePos = Input.mousePosition;
 
-            Debug.Log($"mousePos:{mousePos}");
-            Debug.Log($"LeftTopPos:{m_pos_LeftTop}");
-            Debug.Log($"RightTopPos:{m_pos_RightBottom}");
-
             //마우스 포지션이 스크린 범위 밖이라면
             if(mousePos.x < m_pos_LeftTop.x ||
                mousePos.x > m_pos_RightBottom.x ||
@@ -117,12 +126,14 @@ public class SubPuzzleManager : MonoBehaviour
 
     private void ResetEvent()
     {
-        gameObject.SetActive(false);
         dialLockObjects.SetActive(false);
         concentrationObjects.SetActive(false);
+        slidingPuzzleObjects.SetActive(false);
+        gameObject.SetActive(false);
         
         m_isDialClear = false;
         m_isConcentrationClear = false;
+        m_isSlidingPuzzleClear = false;
         m_isSubPuzzleOn = false;
     }
 
@@ -142,6 +153,8 @@ public class SubPuzzleManager : MonoBehaviour
         {
             OnWindow();
             dialLockObjects.SetActive(true);
+            concentrationObjects.SetActive(false);
+            slidingPuzzleObjects.SetActive(false);
         }
     }
 
@@ -157,12 +170,31 @@ public class SubPuzzleManager : MonoBehaviour
         {
             OnWindow();
             concentrationObjects.SetActive(true);
+            dialLockObjects.SetActive(false);
+            slidingPuzzleObjects.SetActive(false);
         }
     }
 
     private void UnActiveConcentration()
     {
         concentrationObjects.SetActive(false);
+        OffWindow();
+    }
+
+    public void ActiveSlidingPuzzle()
+    {
+        if (!isSlidingPuzzleClear)
+        {
+            OnWindow();
+            slidingPuzzleObjects.SetActive(true);
+            dialLockObjects.SetActive(false);
+            concentrationObjects.SetActive(false);
+        }
+    }
+
+    private void UnActiveSlidingPuzzle()
+    {
+        slidingPuzzleObjects.SetActive(false);
         OffWindow();
     }
 }
