@@ -24,7 +24,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
     private int curSpaceIndex;
     private bool isMoved = false;
     private float moveChkDelay = 0.0f;
-    //private int instantIndex;
+    private float shakingDelay = 0.0f;
 
     private void OnEnable()
     {
@@ -45,9 +45,12 @@ public class SlidingPuzzlePiece : MonoBehaviour
             moveChkDelay -= Time.deltaTime;
         else if (transform.localPosition != Vector3.zero)
             transform.localPosition = Vector3.zero;
+
+        if (shakingDelay > 0.0f)
+            shakingDelay -= Time.deltaTime;
     }
 
-    public void InitSetting(GameObject _space,int _instantIndex,int _correctIndex)
+    public void InitSetting(GameObject _space, int _correctIndex)
     {
         if(m_eventManager == null)
         {
@@ -67,16 +70,17 @@ public class SlidingPuzzlePiece : MonoBehaviour
         isSelected = false;
         correctSpaceIndex = _correctIndex;
         m_Text.text = _correctIndex.ToString();
-        m_eventManager.PieceSetParent(_instantIndex, _space.transform);
-        //instantIndex = _instantIndex;
+        gameObject.transform.SetParent(_space.transform);
     }
 
     public void PieceSelected()
     {
-        isSelected = true;
-
-        if(m_rect == null)
-            m_rect = GetComponent<RectTransform>();
+        if (shakingDelay <= 0.0f)
+        {
+            isSelected = true;
+            if (m_rect == null)
+                m_rect = GetComponent<RectTransform>();
+        }
     }
 
     private void PieceMoveTo(SlidingPuzzle.MoveTo _move)
@@ -90,7 +94,8 @@ public class SlidingPuzzlePiece : MonoBehaviour
 
         if(_t == null) // ½ÇÆÐ
         {
-            shakeManager.ShakeOn();
+            shakeManager.ResetInitPos();
+            shakingDelay = shakeManager.ShakeOn();
             return;
         }
         else
@@ -107,7 +112,6 @@ public class SlidingPuzzlePiece : MonoBehaviour
 
         IEnumerator moveOn()
         {
-            //RectTransform t_rect = _t.GetComponent<RectTransform>();
             isMoved = true;
             moveChkDelay += 1.0f;
             while (true)

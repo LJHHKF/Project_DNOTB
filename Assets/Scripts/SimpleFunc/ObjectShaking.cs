@@ -10,22 +10,29 @@ public class ObjectShaking : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitPos = gameObject.transform.position;
+        ResetInitPos();
     }
 
-    public void ShakeOn()
+    public float ShakeOn()
     {
         StartCoroutine(Shake());
+        return shakeTime;
+    }
+
+    public void ResetInitPos()
+    {
+        InitPos = gameObject.transform.position;
     }
 
     private IEnumerator Shake()
     {
-        while(shakeTime > 0)
+        float _time = shakeTime;
+        while(_time > 0)
         {
             Vector3 shakePos = Random.insideUnitCircle * shakePower;
 
             transform.position = InitPos + shakePos;
-            shakeTime -= Time.deltaTime;
+            _time -= Time.deltaTime;
             yield return null;
         }
         transform.position = InitPos;

@@ -71,7 +71,6 @@ public class SlidingPuzzleEventManager : MonoBehaviour
             if (!array_PieceCorrect[i])
             {
                 isEnd = false;
-                Debug.Log($"Chk Failed:{i}");
                 break;
             }
         }
@@ -104,19 +103,12 @@ public class SlidingPuzzleEventManager : MonoBehaviour
                 array_correctNum[cnt] = piecesInfo[list_CorrectSpaceIndex[rand] - 1].correctSpaceIndex;
                 array_Pieces[cnt].GetComponent<SlidingPuzzlePiece>().InitSetting
                     (spaces[i],
-                    cnt,
                     piecesInfo[list_CorrectSpaceIndex[rand] - 1].correctSpaceIndex
                     ); // InitSetting 함수는 추후 스프라이트도 넣고 해야함. 
                 list_CorrectSpaceIndex.RemoveAt(rand);
                 cnt++;
             }
         }
-    }
-
-    public void PieceSetParent(int _pieceIndex, Transform _parent)
-    {
-        array_Pieces[_pieceIndex].transform.SetParent(_parent);
-        array_Pieces[_pieceIndex].transform.localPosition = Vector2.zero;
     }
 
     public void GetInitPiecesSetting(int _index, out int _spaceIndex)
