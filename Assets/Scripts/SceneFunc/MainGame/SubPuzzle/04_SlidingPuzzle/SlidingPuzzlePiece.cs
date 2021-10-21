@@ -23,7 +23,6 @@ public class SlidingPuzzlePiece : MonoBehaviour
     private int correctSpaceIndex;
     private int curSpaceIndex;
     private bool isMoved = false;
-    private float moveChkDelay = 0.0f;
     private float shakingDelay = 0.0f;
 
     private void OnEnable()
@@ -38,13 +37,6 @@ public class SlidingPuzzlePiece : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
                 isSelected = false;
         }
-        if (Input.GetKeyDown(KeyCode.R))
-            transform.localPosition = Vector3.zero;
-
-        if (moveChkDelay > 0.0f)
-            moveChkDelay -= Time.deltaTime;
-        else if (transform.localPosition != Vector3.zero)
-            transform.localPosition = Vector3.zero;
 
         if (shakingDelay > 0.0f)
             shakingDelay -= Time.deltaTime;
@@ -113,7 +105,6 @@ public class SlidingPuzzlePiece : MonoBehaviour
         IEnumerator moveOn()
         {
             isMoved = true;
-            moveChkDelay += 1.0f;
             while (true)
             {
                 transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector2.zero , 0.1f);
