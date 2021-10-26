@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class DialLockEventManager : MonoBehaviour
 {
+    private static DialLockEventManager m_instance;
+    public static DialLockEventManager instance
+    {
+        get
+        {
+            if (m_instance == null)
+                m_instance = FindObjectOfType<DialLockEventManager>();
+            return m_instance;
+        }
+    }
+
     [SerializeField] private float dialRollTime;
     public float prop_dialRollTime { get { return dialRollTime; } }
 
@@ -42,6 +53,18 @@ public class DialLockEventManager : MonoBehaviour
             if(m_dialFin_4)
                 ChkEnd();
             }
+    }
+
+    private void Awake()
+    {
+        if (instance != this)
+            Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (m_instance == this)
+            m_instance = null;
     }
 
     // Start is called before the first frame update

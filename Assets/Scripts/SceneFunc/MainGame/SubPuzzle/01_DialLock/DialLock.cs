@@ -7,7 +7,6 @@ using TMPro;
 public class DialLock : MonoBehaviour
 {
     [Header("Component Link")]
-    [SerializeField] private DialLockEventManager dEventManager;
     [SerializeField] private TextMeshProUGUI m_Text;
 
     public enum DialOrder
@@ -42,7 +41,7 @@ public class DialLock : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rollTime = dEventManager.prop_dialRollTime;
+        rollTime = DialLockEventManager.instance.prop_dialRollTime;
         SetRandomValue();
         EventManager.instance.ev_Reset += SetRandomValue;
     }
@@ -118,16 +117,16 @@ public class DialLock : MonoBehaviour
         switch(order)
         {
             case DialOrder.first:
-                dEventManager.dialFin_1 = isEqual;
+                DialLockEventManager.instance.dialFin_1 = isEqual;
                 break;
             case DialOrder.second:
-                dEventManager.dialFin_2 = isEqual;
+                DialLockEventManager.instance.dialFin_2 = isEqual;
                 break;
             case DialOrder.third:
-                dEventManager.dialFin_3 = isEqual;
+                DialLockEventManager.instance.dialFin_3 = isEqual;
                 break;
             case DialOrder.fourth:
-                dEventManager.dialFin_4 = isEqual;
+                DialLockEventManager.instance.dialFin_4 = isEqual;
                 break;
         }
     }

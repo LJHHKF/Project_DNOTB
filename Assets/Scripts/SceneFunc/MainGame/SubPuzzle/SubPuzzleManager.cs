@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SubPuzzleManager : MonoBehaviour
+public partial class SubPuzzleManager : MonoBehaviour
 {
     private static SubPuzzleManager m_instance;
     public static SubPuzzleManager instance
@@ -66,12 +66,28 @@ public class SubPuzzleManager : MonoBehaviour
                 UnActiveSlidingPuzzle();
         }
     }
-    public SlidingPuzzleEventManager slidingPuzzleEventManager { get { return slidingPuzzleObjects.GetComponent<SlidingPuzzleEventManager>(); } }
+    [SerializeField] private GameObject wayRotatePuzzleObjects;
+    private bool m_isWayRotatePuzzleClear = false;
+    public bool isWayPuzzleClear
+    {
+        get { return m_isWayRotatePuzzleClear; }
+        set
+        {
+            m_isWayRotatePuzzleClear = value;
+            if (m_isWayRotatePuzzleClear)
+                UnActiveWayRotatePuzzle();
+        }
+    }
+
 
     private void Awake()
     {
         if (instance != this)
             Destroy(gameObject);
+
+        slidingPuzzleObjects.SetActive(true);
+        SlidingPuzzleEventManager.instance.InitSetting();
+        ResetEvent();
     }
 
     private void OnDestroy()
@@ -92,7 +108,6 @@ public class SubPuzzleManager : MonoBehaviour
         m_pos_LeftTop = cam_main.WorldToScreenPoint(pos_LeftTop.position);
         m_pos_RightBottom = cam_main.WorldToScreenPoint(pos_RightBottom.position);
 
-        ResetEvent();
         EventManager.instance.ev_Reset += ResetEvent;
     }
 
@@ -129,11 +144,13 @@ public class SubPuzzleManager : MonoBehaviour
         dialLockObjects.SetActive(false);
         concentrationObjects.SetActive(false);
         slidingPuzzleObjects.SetActive(false);
+        wayRotatePuzzleObjects.SetActive(false);
         gameObject.SetActive(false);
         
         m_isDialClear = false;
         m_isConcentrationClear = false;
         m_isSlidingPuzzleClear = false;
+        m_isWayRotatePuzzleClear = false;
         m_isSubPuzzleOn = false;
     }
 
@@ -146,7 +163,11 @@ public class SubPuzzleManager : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+}
 
+
+public partial class SubPuzzleManager : MonoBehaviour
+{
     public void ActiveDialLock()
     {
         if (!isDialClear)
@@ -155,6 +176,7 @@ public class SubPuzzleManager : MonoBehaviour
             dialLockObjects.SetActive(true);
             concentrationObjects.SetActive(false);
             slidingPuzzleObjects.SetActive(false);
+            wayRotatePuzzleObjects.SetActive(false);
         }
     }
 
@@ -172,6 +194,7 @@ public class SubPuzzleManager : MonoBehaviour
             concentrationObjects.SetActive(true);
             dialLockObjects.SetActive(false);
             slidingPuzzleObjects.SetActive(false);
+            wayRotatePuzzleObjects.SetActive(false);
         }
     }
 
@@ -189,12 +212,31 @@ public class SubPuzzleManager : MonoBehaviour
             slidingPuzzleObjects.SetActive(true);
             dialLockObjects.SetActive(false);
             concentrationObjects.SetActive(false);
+            wayRotatePuzzleObjects.SetActive(false);
         }
     }
 
     private void UnActiveSlidingPuzzle()
     {
         slidingPuzzleObjects.SetActive(false);
+        OffWindow();
+    }
+
+    public void ActiveWayRotatePuzzle()
+    {
+        if(!isWayPuzzleClear)
+        {
+            OnWindow();
+            wayRotatePuzzleObjects.SetActive(true);
+            dialLockObjects.SetActive(false);
+            concentrationObjects.SetActive(false); 
+            slidingPuzzleObjects.SetActive(false);
+        }
+    }
+
+    private void UnActiveWayRotatePuzzle()
+    {
+        wayRotatePuzzleObjects.SetActive(false);
         OffWindow();
     }
 }

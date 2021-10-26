@@ -9,7 +9,6 @@ public class SlidingPuzzlePiece : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_Text;
     [SerializeField] private ObjectShaking shakeManager;
     private SlidingPuzzleSpace m_spaceManager;
-    private SlidingPuzzleEventManager m_eventManager;
     private RectTransform m_rect;
     private bool m_isSelected = false;
     private bool isSelected {
@@ -44,15 +43,6 @@ public class SlidingPuzzlePiece : MonoBehaviour
 
     public void InitSetting(GameObject _space, int _correctIndex)
     {
-        if(m_eventManager == null)
-        {
-            m_eventManager = SubPuzzleManager.instance.slidingPuzzleEventManager; //transform.GetComponentInParent<SlidingPuzzleEventManager>();
-            if (m_eventManager == null)
-            {
-                Debug.Log("슬라이딩 퍼즐 이벤트 매니저를 피스에 제대로 연결하지 못했습니다.");
-                return;
-            }
-        }
         m_spaceManager = _space.GetComponent<SlidingPuzzleSpace>();
         if (m_spaceManager == null)
         {
@@ -116,7 +106,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
             isMoved = false;
             m_spaceManager = _t.GetComponent<SlidingPuzzleSpace>();
             curSpaceIndex = m_spaceManager.prop_SpaceIndex;
-            m_eventManager.SetCorrectValue(correctSpaceIndex, (correctSpaceIndex == curSpaceIndex));
+            SlidingPuzzleEventManager.instance.SetCorrectValue(correctSpaceIndex, (correctSpaceIndex == curSpaceIndex));
             yield break;
         }
     }

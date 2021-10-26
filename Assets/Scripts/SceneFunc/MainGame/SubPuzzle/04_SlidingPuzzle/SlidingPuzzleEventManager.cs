@@ -16,6 +16,17 @@ namespace SlidingPuzzle
 
 public class SlidingPuzzleEventManager : MonoBehaviour
 {
+    private static SlidingPuzzleEventManager m_instance;
+    public static SlidingPuzzleEventManager instance
+    {
+        get
+        {
+            if (m_instance == null)
+                m_instance = FindObjectOfType<SlidingPuzzleEventManager>();
+            return m_instance;
+        }
+    }
+
     [Serializable]
     private struct PieceInfo
     {
@@ -33,8 +44,13 @@ public class SlidingPuzzleEventManager : MonoBehaviour
     private int[] array_correctNum = new int[8];
 
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
+    {
+        if (instance != this)
+            Destroy(gameObject);
+    }
+
+    public void InitSetting()
     {
         list_CorrectSpaceIndex.Capacity = 9;
         InitSetPieces();
@@ -43,16 +59,18 @@ public class SlidingPuzzleEventManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.instance.ev_Reset -= InitSetPieces;
+        if (m_instance == this)
+        {
+            m_instance = null;
+            EventManager.instance.ev_Reset -= InitSetPieces;
+        }
     }
 
     private void SetList()
     {
         list_CorrectSpaceIndex.Clear();
         for (int i = 0; i < spaces.Length; i++)
-        {
             list_CorrectSpaceIndex.Add(i);
-        }
         for (int i = 0; i < array_PieceCorrect.Length; i++)
             array_PieceCorrect[i] = false;
     }
@@ -65,17 +83,12 @@ public class SlidingPuzzleEventManager : MonoBehaviour
     public void SetCorrectValue(int _index, bool _value)
     {
         array_PieceCorrect[_index - 1] = _value;
-        bool isEnd = true;
         for(int i = 0; i < array_PieceCorrect.Length; i++)
         {
             if (!array_PieceCorrect[i])
-            {
-                isEnd = false;
-                break;
-            }
+                return;
         }
-        if(isEnd)
-            SubPuzzleManager.instance.isSlidingPuzzleClear = true;
+        SubPuzzleManager.instance.isSlidingPuzzleClear = true;
     }
 
     private void InitSetPieces()

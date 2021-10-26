@@ -4,8 +4,20 @@ using UnityEngine;
 
 public class ConcentrationEventManager : MonoBehaviour
 {
-    [Header("Object Link")]
-    [SerializeField] private ConcentrationCard[] cards;
+    private static ConcentrationEventManager m_instance;
+    public static ConcentrationEventManager instance
+    {
+        get
+        {
+            if (m_instance == null)
+                m_instance = FindObjectOfType<ConcentrationEventManager>();
+            return m_instance;
+        }
+    }
+
+    [Header("Object Link, Matched")]
+    [SerializeField] private ConcentrationCard[] cards_up;
+    [SerializeField] private ConcentrationCard[] cards_down;
 
     //Match Set Setting 시작
     private bool m_firstSet = false;
@@ -101,7 +113,13 @@ public class ConcentrationEventManager : MonoBehaviour
     private readonly int fourthValueSetted_order = 4;
     private readonly int fifthValueSetted_order = 5;
 
-    private int[] array_SettedCount = new int[5];
+    //private int[] array_SettedCount = new int[5];
+
+    private void Awake()
+    {
+        if (instance != this)
+            Destroy(gameObject);
+    }
 
     private void Start()
     {
@@ -123,7 +141,11 @@ public class ConcentrationEventManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.instance.ev_Reset -= ResetEvent;
+        if (m_instance == this)
+        {
+            m_instance = null;
+            EventManager.instance.ev_Reset -= ResetEvent;
+        }
     }
 
     private void ResetEvent()
@@ -140,10 +162,11 @@ public class ConcentrationEventManager : MonoBehaviour
         m_fourthSet = false;
         m_fifthSet = false;
         SelectArrayClear();
-        for (int i = 0; i < cards.Length; i++)
+        for (int i = 0; i < cards_up.Length; i++)
         {
             int _i = i;
-            cards[_i].ResetCardToBackFace();
+            cards_up[_i].ResetCardToBackFace();
+            cards_down[_i].ResetCardToBackFace();
         }
     }
 
@@ -161,11 +184,11 @@ public class ConcentrationEventManager : MonoBehaviour
 
     private void ResetListSetted()
     {
-        for (int i = 0; i < array_SettedCount.Length; i++)
-        {
-            int _i = i;
-            array_SettedCount[_i] = 0;
-        }
+        //for (int i = 0; i < array_SettedCount.Length; i++)
+        //{
+        //    int _i = i;
+        //    array_SettedCount[_i] = 0;
+        //}
 
         list_SettedOrder.Clear();
         list_SettedOrder.Add(firstValueSetted_order);
@@ -195,7 +218,7 @@ public class ConcentrationEventManager : MonoBehaviour
     {
         int rand = 0;
         ResetListSetted();
-        for (int i = 0; i < cards.Length; i++) // 카드 길이는 10으로 상정되어 있음.
+        for (int i = 0; i < cards_up.Length; i++) // 카드 길이는 10으로 상정되어 있음. (up 5, down 5 방식으로 수정)
         {
             int _i = i;
             rand = UnityEngine.Random.Range(0, list_SettedOrder.Count);
@@ -203,29 +226,59 @@ public class ConcentrationEventManager : MonoBehaviour
             switch(list_SettedOrder[rand])
             {
                 case 1:
-                    cards[_i].curValue = firstSetValue;
-                    if (++array_SettedCount[0] >= 2)
-                        DeleteIntList_byValue(ref list_SettedOrder, 1);
+                    cards_up[_i].curValue = firstSetValue;
+                    //if (++array_SettedCount[0] >= 2)
+                    DeleteIntList_byValue(ref list_SettedOrder, 1);
                     break;
                 case 2:
-                    cards[_i].curValue = secondSetValue;
-                    if (++array_SettedCount[1] >= 2)
-                        DeleteIntList_byValue(ref list_SettedOrder, 2);
+                    cards_up[_i].curValue = secondSetValue;
+                    //if (++array_SettedCount[1] >= 2)
+                    DeleteIntList_byValue(ref list_SettedOrder, 2);
                     break;
                 case 3:
-                    cards[_i].curValue = thirdSetValue;
-                    if (++array_SettedCount[2] >= 2)
-                        DeleteIntList_byValue(ref list_SettedOrder, 3);
+                    cards_up[_i].curValue = thirdSetValue;
+                    //if (++array_SettedCount[2] >= 2)
+                    DeleteIntList_byValue(ref list_SettedOrder, 3);
                     break;
                 case 4:
-                    cards[_i].curValue = fourthSetValue;
-                    if (++array_SettedCount[3] >= 2)
-                        DeleteIntList_byValue(ref list_SettedOrder, 4);
+                    cards_up[_i].curValue = fourthSetValue;
+                    //if (++array_SettedCount[3] >= 2)
+                    DeleteIntList_byValue(ref list_SettedOrder, 4);
                     break;
                 case 5:
-                        cards[_i].curValue = fifthSetValue;
-                    if (++array_SettedCount[4] >= 2)
-                        DeleteIntList_byValue(ref list_SettedOrder, 5);
+                    cards_up[_i].curValue = fifthSetValue;
+                    //if (++array_SettedCount[4] >= 2)
+                    DeleteIntList_byValue(ref list_SettedOrder, 5);
+                    break;
+            }
+        }
+        ResetListSetted();
+        for (int i = 0; i < cards_down.Length; i++) // 카드 길이는 10으로 상정되어 있음.
+        {
+            int _i = i;
+            rand = UnityEngine.Random.Range(0, list_SettedOrder.Count);
+
+            switch (list_SettedOrder[rand])
+            {
+                case 1:
+                    cards_down[_i].curValue = firstSetValue;
+                    DeleteIntList_byValue(ref list_SettedOrder, 1);
+                    break;
+                case 2:
+                    cards_down[_i].curValue = secondSetValue;
+                    DeleteIntList_byValue(ref list_SettedOrder, 2);
+                    break;
+                case 3:
+                    cards_down[_i].curValue = thirdSetValue;
+                    DeleteIntList_byValue(ref list_SettedOrder, 3);
+                    break;
+                case 4:
+                    cards_down[_i].curValue = fourthSetValue;
+                    DeleteIntList_byValue(ref list_SettedOrder, 4);
+                    break;
+                case 5:
+                    cards_down[_i].curValue = fifthSetValue;
+                    DeleteIntList_byValue(ref list_SettedOrder, 5);
                     break;
             }
         }

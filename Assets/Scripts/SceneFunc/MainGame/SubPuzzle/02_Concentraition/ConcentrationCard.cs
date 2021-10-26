@@ -7,7 +7,6 @@ public class ConcentrationCard : MonoBehaviour
 {
     [Header("Object Link")]
     [SerializeField] private TextMeshProUGUI m_Text;
-    private ConcentrationEventManager con_eventManager;
 
     private int m_curValue;
     public int curValue
@@ -22,8 +21,7 @@ public class ConcentrationCard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        con_eventManager = transform.GetComponentInParent<ConcentrationEventManager>();
-        cardFlipTime = con_eventManager.cardFlipTime;
+        cardFlipTime = ConcentrationEventManager.instance.cardFlipTime;
     }
 
     private void OnEnable()
@@ -33,9 +31,9 @@ public class ConcentrationCard : MonoBehaviour
 
     public void CardClicked()
     {
-        if(!con_eventManager.isSecondFliping)
+        if(!ConcentrationEventManager.instance.isSecondFliping)
         {
-            con_eventManager.CardSelect(this);
+            ConcentrationEventManager.instance.CardSelect(this);
             StartCoroutine(FlipCard());
         }
     }
