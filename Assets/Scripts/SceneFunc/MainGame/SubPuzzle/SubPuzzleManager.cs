@@ -66,15 +66,15 @@ public partial class SubPuzzleManager : MonoBehaviour
                 UnActiveSlidingPuzzle();
         }
     }
-    [SerializeField] private GameObject wayRotatePuzzleObjects;
-    private bool m_isWayRotatePuzzleClear = false;
-    public bool isWayPuzzleClear
+    [SerializeField] private GameObject pipelinePuzzleObjects;
+    private bool m_isPipelinePuzzleClear = false;
+    public bool isPipelinePuzzleClear
     {
-        get { return m_isWayRotatePuzzleClear; }
+        get { return m_isPipelinePuzzleClear; }
         set
         {
-            m_isWayRotatePuzzleClear = value;
-            if (m_isWayRotatePuzzleClear)
+            m_isPipelinePuzzleClear = value;
+            if (m_isPipelinePuzzleClear)
                 UnActiveWayRotatePuzzle();
         }
     }
@@ -144,13 +144,13 @@ public partial class SubPuzzleManager : MonoBehaviour
         dialLockObjects.SetActive(false);
         concentrationObjects.SetActive(false);
         slidingPuzzleObjects.SetActive(false);
-        wayRotatePuzzleObjects.SetActive(false);
+        pipelinePuzzleObjects.SetActive(false);
         gameObject.SetActive(false);
         
         m_isDialClear = false;
         m_isConcentrationClear = false;
         m_isSlidingPuzzleClear = false;
-        m_isWayRotatePuzzleClear = false;
+        m_isPipelinePuzzleClear = false;
         m_isSubPuzzleOn = false;
     }
 
@@ -176,7 +176,7 @@ public partial class SubPuzzleManager : MonoBehaviour
             dialLockObjects.SetActive(true);
             concentrationObjects.SetActive(false);
             slidingPuzzleObjects.SetActive(false);
-            wayRotatePuzzleObjects.SetActive(false);
+            pipelinePuzzleObjects.SetActive(false);
         }
     }
 
@@ -194,7 +194,7 @@ public partial class SubPuzzleManager : MonoBehaviour
             concentrationObjects.SetActive(true);
             dialLockObjects.SetActive(false);
             slidingPuzzleObjects.SetActive(false);
-            wayRotatePuzzleObjects.SetActive(false);
+            pipelinePuzzleObjects.SetActive(false);
         }
     }
 
@@ -212,7 +212,7 @@ public partial class SubPuzzleManager : MonoBehaviour
             slidingPuzzleObjects.SetActive(true);
             dialLockObjects.SetActive(false);
             concentrationObjects.SetActive(false);
-            wayRotatePuzzleObjects.SetActive(false);
+            pipelinePuzzleObjects.SetActive(false);
         }
     }
 
@@ -224,10 +224,10 @@ public partial class SubPuzzleManager : MonoBehaviour
 
     public void ActiveWayRotatePuzzle()
     {
-        if(!isWayPuzzleClear)
+        if(!isPipelinePuzzleClear)
         {
             OnWindow();
-            wayRotatePuzzleObjects.SetActive(true);
+            pipelinePuzzleObjects.SetActive(true);
             dialLockObjects.SetActive(false);
             concentrationObjects.SetActive(false); 
             slidingPuzzleObjects.SetActive(false);
@@ -236,7 +236,7 @@ public partial class SubPuzzleManager : MonoBehaviour
 
     private void UnActiveWayRotatePuzzle()
     {
-        wayRotatePuzzleObjects.SetActive(false);
+        pipelinePuzzleObjects.SetActive(false);
         OffWindow();
     }
 }

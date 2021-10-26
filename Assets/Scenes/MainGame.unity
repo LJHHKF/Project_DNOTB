@@ -4474,7 +4474,7 @@ MonoBehaviour:
   dialLockObjects: {fileID: 9945051}
   concentrationObjects: {fileID: 223713870}
   slidingPuzzleObjects: {fileID: 1463191340}
-  wayRotatePuzzleObjects: {fileID: 1475861458}
+  pipelinePuzzleObjects: {fileID: 1475861458}
 --- !u!114 &852616140
 MonoBehaviour:
   m_ObjectHideFlags: 0

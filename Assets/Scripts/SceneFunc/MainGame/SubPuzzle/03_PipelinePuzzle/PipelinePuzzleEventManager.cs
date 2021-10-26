@@ -80,6 +80,6 @@ public class PipelinePuzzleEventManager : MonoBehaviour
             if(!pieces[i].CheckRotCorrect())
                 return;
         }
-        SubPuzzleManager.instance.isWayPuzzleClear = true;
+        SubPuzzleManager.instance.isPipelinePuzzleClear = true;
     }
 }
