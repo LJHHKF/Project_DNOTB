@@ -101,6 +101,9 @@ public class EndCutSceneManager : MonoBehaviour
             case MyEndings.EndingIndex.third:
                 StartCoroutine(DelayedCutSceneOpen(3.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end03));
                 break;
+            case MyEndings.EndingIndex.fourth:
+                StartCoroutine(DelayedCutSceneOpen(3.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end04));
+                break;
         }
     }
 

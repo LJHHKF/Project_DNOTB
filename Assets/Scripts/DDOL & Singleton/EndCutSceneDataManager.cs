@@ -35,6 +35,8 @@ public class EndCutSceneDataManager : MonoBehaviour
     public Sprite prop_cs_spr_end02 { get { return cs_spr_end02; } }
     [SerializeField] private Sprite cs_spr_end03;
     public Sprite prop_cs_spr_end03 { get { return cs_spr_end03; } }
+    [SerializeField] private Sprite cs_spr_end04;
+    public Sprite prop_cs_spr_end04 { get { return cs_spr_end04; } }
 
     [Header("Dialouge Setting")]
     [SerializeField] private Sprite dialogue_spr_left;

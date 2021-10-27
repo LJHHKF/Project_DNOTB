@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EndingListPageScene : MonoBehaviour
 {
@@ -23,9 +24,17 @@ public class EndingListPageScene : MonoBehaviour
     //[SerializeField] private Sprite spr_end02;
     //[SerializeField] private Sprite spr_end03;
 
+    [Header("Other Setting")]
+    [SerializeField] private int maxPage = 1;
+
+    public event Action ev_pageChange;
+    private int m_curPage = 0;
+    public int curPage { get { return m_curPage; } private set { m_curPage = value; } }
+
     private void Start()
     {
         endingRepeatWindow.SetActive(false);
+        curPage = 0;
     }
 
     public void ToLobby()
@@ -54,7 +63,32 @@ public class EndingListPageScene : MonoBehaviour
                 return EndCutSceneDataManager.instance.prop_cs_spr_end02;
             case MyEndings.EndingIndex.third:
                 return EndCutSceneDataManager.instance.prop_cs_spr_end03;
+            case MyEndings.EndingIndex.fourth:
+                return EndCutSceneDataManager.instance.prop_cs_spr_end04;
         }
         return null;
+    }
+
+    public void ChangeListPageBTN(bool _isNext)
+    {
+        bool pageChanged = false;
+        if (_isNext)
+        {
+            if (curPage < maxPage)
+            {
+                curPage++;
+                pageChanged = true;
+            }
+        }
+        else
+        {
+            if (curPage > 0)
+            {
+                curPage--;
+                pageChanged = true;
+            }
+        }
+        if(pageChanged)
+            ev_pageChange?.Invoke();
     }
 }

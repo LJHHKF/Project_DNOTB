@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class ListSceneBoxMain : BoxMain
+public class ListSceneBoxMain : MonoBehaviour
 {
     private static ListSceneBoxMain m_instance;
     public static ListSceneBoxMain child_instance
@@ -16,25 +16,19 @@ public class ListSceneBoxMain : BoxMain
         }
     }
 
-    //[Header("Resource Setting")]
-    //[SerializeField] protected Sprite boxingSprite;
-    //[SerializeField] protected Sprite untapingSprite;
-    //[SerializeField] protected Sprite unboxingSprite;
-    //[SerializeField] protected Sprite end01_ObjectSprite;
+    [Header("Resource Setting")]
+    [SerializeField] protected Sprite boxingSprite;
+    [SerializeField] protected Sprite untapingSprite;
+    [SerializeField] protected Sprite unboxingSprite;
 
-    //[Header("Objects linking")]
-    //[SerializeField] private GameObject object_Collider_Tape; // 직렬화를 해둬서 public 처럼 보임
-    //[SerializeField] private GameObject object_BoxCol; // 직렬화를 해둬서 public 처럼 보임
-    //[SerializeField] private GameObject object_Collider_underInvoiceTape; // 직렬화를 해둬서 public 처럼 보임
-    //[SerializeField] protected GameObject object_InBoxObject;
-    //protected SpriteRenderer inBoxObjectSpriteR;
-    //[SerializeField] protected GameObject object_Invoice_Cover;
-    //[SerializeField] protected GameObject object_Invoice;
-    //[SerializeField] protected GameObject object_Cube;
-    //[SerializeField] private GameObject object_Portal;  // 직렬화를 해둬서 public 처럼 보임
-    //[SerializeField] protected GameObject object_CubeSticker;
+    [Header("Objects linking")]
+    [SerializeField] protected GameObject object_InBoxObject;
+    protected InBoxImageManager inBoxObjectImageManager;
+    [SerializeField] protected GameObject object_Invoice_Cover;
+    [SerializeField] protected GameObject object_Invoice;
+    [SerializeField] protected GameObject object_CubeButton;
 
-    //protected SpriteRenderer m_sprR;
+    protected SpriteRenderer m_sprR;
 
     [Header("Other Object linking(origin: Sub Event Manager)")]
     [SerializeField] private GameObject[] activeObjects_least_1;
@@ -56,23 +50,22 @@ public class ListSceneBoxMain : BoxMain
             m_instance = null;
     }
 
-    protected override void Start()
+    protected void Start()
     {
         //이하 2줄 base
-        //m_sprR = GetComponent<SpriteRenderer>();
-        //inBoxObjectSpriteR = object_InBoxObject.GetComponent<SpriteRenderer>();
+        m_sprR = GetComponent<SpriteRenderer>();
+        inBoxObjectImageManager = object_InBoxObject.GetComponent<InBoxImageManager>();
 
-        base.Start();
         cnt_end = EventManager.instance.CheckDoneEndingCount_all();
         OnReset();
     }
 
-    protected override void OnEnable()
+    protected void OnEnable()
     {
         ev_endingListReset += OnReset;
     }
 
-    protected override void OnDisable()
+    protected void OnDisable()
     {
         ev_endingListReset -= OnReset;
     }
@@ -98,7 +91,7 @@ public class ListSceneBoxMain : BoxMain
             case MyEndings.EndingIndex.first:
                 UnBoxing();
                 UnSetCube();
-                inBoxObjectSpriteR.sprite = null; // 아직 리소스 없음.
+                inBoxObjectImageManager.SetEnding(MyEndings.UnboxingType.first);
                 break;
             case MyEndings.EndingIndex.second:
                 UnSetCube();
@@ -108,11 +101,11 @@ public class ListSceneBoxMain : BoxMain
                 UnBoxing();
                 UnSetCube();
                 knifeObject.SetActive(false);
-                inBoxObjectSpriteR.sprite = end03_ObjectSprite;
+                inBoxObjectImageManager.SetEnding(MyEndings.UnboxingType.third);
                 break;
             case MyEndings.EndingIndex.fourth:
                 UnBoxing();
-                inBoxObjectSpriteR.sprite = null; // 아직 리소스 없음.
+                inBoxObjectImageManager.SetEnding(MyEndings.UnboxingType.fourth);
                 break;
         }
 
@@ -126,9 +119,7 @@ public class ListSceneBoxMain : BoxMain
 
         void UnSetCube()
         {
-            object_Cube.SetActive(false);
-            object_CubeSticker.SetActive(false);
-            object_Portal.SetActive(false);
+            object_CubeButton.SetActive(false);
         }
     }
 

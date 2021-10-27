@@ -44,7 +44,6 @@ public class MouseEventManager : MonoBehaviour
                 {
                     if (hit.collider.tag == "EventObjectCol")
                     {
-                        Debug.Log($"ºÎµúÄ£ ¹°Ã¼: {hit.transform.gameObject}");
                         if (ReferenceEquals(hitTarget, hit.transform.gameObject) && !ReferenceEquals(hitTarget, null))
                         {
                             hitTarget.GetComponent<IEventObject>().Execute();

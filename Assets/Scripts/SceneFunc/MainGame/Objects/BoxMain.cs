@@ -7,15 +7,20 @@ namespace MyEndings
     public enum UnboxingType
     {
         first,
-        third
+        third,
+        fourth
     }
 
     public enum EndingIndex
     {
-        first,
-        second,
-        third,
-        fourth
+        first = 0,
+        second = 1,
+        third = 2,
+        fourth = 3,
+        fifth = 4,
+        sixth = 5,
+        seventh = 6,
+        eighth = 7
     }
 }
 
@@ -36,14 +41,14 @@ public partial class BoxMain : MonoBehaviour
     [SerializeField] protected Sprite boxingSprite;
     [SerializeField] protected Sprite untapingSprite;
     [SerializeField] protected Sprite unboxingSprite;
-    [SerializeField] protected Sprite end03_ObjectSprite;
+
 
     [Header("Box Objects linking")]
     [SerializeField] private GameObject object_Collider_Tape;
     [SerializeField] private GameObject object_Collider_underInvoiceTape;
     [SerializeField] private GameObject object_BoxCol;
     [SerializeField] protected GameObject object_InBoxObject;
-    protected SpriteRenderer inBoxObjectSpriteR;
+    protected InBoxImageManager inBoxObjectImageManager;
     [SerializeField] protected GameObject object_Invoice_Cover;
     [SerializeField] protected GameObject object_Invoice;
     [SerializeField] protected GameObject object_Cube;
@@ -61,6 +66,8 @@ public partial class BoxMain : MonoBehaviour
     //엔딩4
     private bool m_isCubeMoved;
     public bool isCubeMoved { get { return m_isCubeMoved; } set { m_isCubeMoved = value; } }
+    private bool m_isCubeTape_Untaped;
+    public bool isCubeTape_Untaped { get { return m_isCubeTape_Untaped; } set { m_isCubeTape_Untaped = value; } }
     
 
     private void Awake()
@@ -93,7 +100,7 @@ public partial class BoxMain : MonoBehaviour
     protected virtual void Start()
     {
         m_sprR = GetComponent<SpriteRenderer>();
-        inBoxObjectSpriteR = object_InBoxObject.GetComponent<SpriteRenderer>();
+        inBoxObjectImageManager = object_InBoxObject.GetComponent<InBoxImageManager>();
     }
 
     // Update is called once per frame
@@ -124,6 +131,7 @@ public partial class BoxMain : MonoBehaviour
         m_sprR.sprite = boxingSprite;
 
         isCubeMoved = false;
+        isCubeTape_Untaped = false;
     }
 
     private void OnResetEvent_depth_1()
@@ -176,6 +184,7 @@ public partial class BoxMain : MonoBehaviour
         object_Portal.SetActive(false);
 
         object_InBoxObject.SetActive(true);
+        inBoxObjectImageManager.SetEnding(_type);
 
         switch (_type)
         {
@@ -183,15 +192,20 @@ public partial class BoxMain : MonoBehaviour
                 DataRWManager.instance.InputDataValue("end01", 1, DataRWManager.instance.mySaveData_event);
                 EventManager.instance.OnEvent_EndingOpen();
                 EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.first);
-                inBoxObjectSpriteR.sprite = null;
                 Debug.Log("1번째 엔딩");
                 break;
             case MyEndings.UnboxingType.third:
                 DataRWManager.instance.InputDataValue("end03", 1, DataRWManager.instance.mySaveData_event);
                 EventManager.instance.OnEvent_EndingOpen();
                 EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third);
-                inBoxObjectSpriteR.sprite = end03_ObjectSprite;
                 Debug.Log("3번째 엔딩");
+                break;
+            case MyEndings.UnboxingType.fourth:
+                //object_CubeSticker.SetActive(false);
+                DataRWManager.instance.InputDataValue("end04", 1, DataRWManager.instance.mySaveData_event);
+                EventManager.instance.OnEvent_EndingOpen();
+                EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.fourth);
+                Debug.Log("4번째 엔딩");
                 break;
         }
     }
@@ -212,14 +226,5 @@ public partial class BoxMain : MonoBehaviour
         object_Cube.SetActive(false);
         object_Portal.SetActive(false);
         object_CubeSticker.SetActive(true);
-    }
-
-    public void RemoveCubeSticker()
-    {
-        object_CubeSticker.SetActive(false);
-        DataRWManager.instance.InputDataValue("end04", 1, DataRWManager.instance.mySaveData_event);
-        EventManager.instance.OnEvent_EndingOpen();
-        EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.fourth);
-        Debug.Log("4번째 엔딩");
     }
 }
