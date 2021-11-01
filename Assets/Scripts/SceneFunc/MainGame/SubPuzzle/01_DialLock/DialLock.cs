@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TMPro;
+using UnityEngine.UI;
 
 public class DialLock : MonoBehaviour
 {
     [Header("Component Link")]
-    [SerializeField] private TextMeshProUGUI m_Text;
+    [SerializeField] private Text m_Text;
 
     public enum DialOrder
     {

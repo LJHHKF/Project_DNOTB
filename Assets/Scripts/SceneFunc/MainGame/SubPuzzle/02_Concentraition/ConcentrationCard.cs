@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class ConcentrationCard : MonoBehaviour
 {
     [Header("Object Link")]
-    [SerializeField] private TextMeshProUGUI m_Text;
+    [SerializeField] private Text m_Text;
 
     private int m_curValue;
     public int curValue

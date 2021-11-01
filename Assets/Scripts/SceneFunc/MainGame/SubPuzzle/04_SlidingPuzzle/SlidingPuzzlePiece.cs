@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class SlidingPuzzlePiece : MonoBehaviour
 {
     [SerializeField] private GameObject obj_SelectHighright;
-    [SerializeField] private TextMeshProUGUI m_Text;
+    [SerializeField] private Text m_Text;
     [SerializeField] private ObjectShaking shakeManager;
     private SlidingPuzzleSpace m_spaceManager;
     private RectTransform m_rect;
@@ -97,7 +97,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
             isMoved = true;
             while (true)
             {
-                transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector2.zero , 0.1f);
+                transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector2.zero , 1f);
                 if ((transform.localPosition).sqrMagnitude < 0.000001)
                     break;
                 else

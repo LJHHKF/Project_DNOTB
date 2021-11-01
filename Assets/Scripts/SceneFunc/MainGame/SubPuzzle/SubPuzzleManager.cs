@@ -24,9 +24,9 @@ public partial class SubPuzzleManager : MonoBehaviour
     }
 
     [Header("Screen Border Setting")]
-    [SerializeField] private Transform pos_LeftTop;
+    [SerializeField] private RectTransform pos_LeftTop;
     private Vector2 m_pos_LeftTop;
-    [SerializeField] private Transform pos_RightBottom;
+    [SerializeField] private RectTransform pos_RightBottom;
     private Vector2 m_pos_RightBottom;
     private Camera cam_main;
 
@@ -102,11 +102,13 @@ public partial class SubPuzzleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.transform.position = initPos_xy;
+        //gameObject.transform.position = initPos_xy;
 
         cam_main = Camera.main;
-        m_pos_LeftTop = cam_main.WorldToScreenPoint(pos_LeftTop.position);
-        m_pos_RightBottom = cam_main.WorldToScreenPoint(pos_RightBottom.position);
+        //m_pos_LeftTop = cam_main.WorldToScreenPoint(pos_LeftTop.position);
+        //m_pos_RightBottom = cam_main.WorldToScreenPoint(pos_RightBottom.position);
+        m_pos_LeftTop = pos_LeftTop.position;
+        m_pos_RightBottom = pos_RightBottom.position;
 
         EventManager.instance.ev_Reset += ResetEvent;
     }
@@ -124,9 +126,15 @@ public partial class SubPuzzleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePos = Input.mousePosition;
+
+            Debug.Log($"mouse: {mousePos}");
+            Debug.Log($"m_pos leftTop: {m_pos_LeftTop}");
+            Debug.Log($"m_pos rightBottom: {m_pos_RightBottom}");
+
+            Debug.Log($"obj_pivoit: {gameObject.GetComponent<RectTransform>().anchoredPosition}");
 
             //마우스 포지션이 스크린 범위 밖이라면
             if(mousePos.x < m_pos_LeftTop.x ||
