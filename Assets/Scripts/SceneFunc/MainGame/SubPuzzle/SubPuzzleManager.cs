@@ -15,7 +15,6 @@ public partial class SubPuzzleManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private Vector2 initPos_xy; // 작업 편의용도. 작업 후 비활성화해두면 버튼을 처음에 두번 눌러야 활성화됨.
     private bool m_isSubPuzzleOn = false;
     public bool isSubPuzzleOn
     {
@@ -102,8 +101,6 @@ public partial class SubPuzzleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //gameObject.transform.position = initPos_xy;
-
         cam_main = Camera.main;
         //m_pos_LeftTop = cam_main.WorldToScreenPoint(pos_LeftTop.position);
         //m_pos_RightBottom = cam_main.WorldToScreenPoint(pos_RightBottom.position);

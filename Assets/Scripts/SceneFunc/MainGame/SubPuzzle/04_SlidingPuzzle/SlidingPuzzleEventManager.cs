@@ -42,6 +42,7 @@ public class SlidingPuzzleEventManager : MonoBehaviour
     private bool[] array_PieceCorrect = new bool[8];
     private GameObject[] array_Pieces = new GameObject[8];
     private int[] array_correctNum = new int[8];
+    private int endCnt;
 
 
     private void Awake()
@@ -83,12 +84,27 @@ public class SlidingPuzzleEventManager : MonoBehaviour
     public void SetCorrectValue(int _index, bool _value)
     {
         array_PieceCorrect[_index - 1] = _value;
-        for(int i = 0; i < array_PieceCorrect.Length; i++)
+        for (int i = 0; i < array_PieceCorrect.Length; i++)
         {
             if (!array_PieceCorrect[i])
                 return;
         }
-        SubPuzzleManager.instance.isSlidingPuzzleClear = true;
+        StartCoroutine(EndMove());
+        IEnumerator EndMove()
+        {
+            endCnt = 0;
+            for (int i = 0; i < array_Pieces.Length; i++)
+                array_Pieces[i].GetComponent<SlidingPuzzlePiece>().moveEndPos();
+            while(true)
+            {
+                if (endCnt >= array_Pieces.Length)
+                    break;
+                else
+                    yield return null;
+            }
+            SubPuzzleManager.instance.isSlidingPuzzleClear = true;
+            yield break;
+        }
     }
 
     private void InitSetPieces()
@@ -96,7 +112,7 @@ public class SlidingPuzzleEventManager : MonoBehaviour
         if (array_Pieces[0] == null)
         {
             for (int i = 0; i < array_Pieces.Length; i++)
-                array_Pieces[i] = Instantiate(piecePrefab, gameObject.transform) as GameObject;
+                array_Pieces[i] = Instantiate(piecePrefab, gameObject.transform);
         }
 
         SetList();
@@ -124,8 +140,13 @@ public class SlidingPuzzleEventManager : MonoBehaviour
         }
     }
 
-    public void GetInitPiecesSetting(int _index, out int _spaceIndex)
+    //public void GetInitPiecesSetting(int _index, out int _spaceIndex)
+    //{
+    //    _spaceIndex = array_correctNum[_index];
+    //}
+
+    public void EndingMoveCompleteCountUp()
     {
-        _spaceIndex = array_correctNum[_index];
+        endCnt++;
     }
 }

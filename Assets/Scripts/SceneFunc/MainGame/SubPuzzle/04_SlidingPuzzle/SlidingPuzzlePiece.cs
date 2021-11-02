@@ -23,6 +23,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
     private int curSpaceIndex;
     private bool isMoved = false;
     private float shakingDelay = 0.0f;
+    private float moveSpeed = 1.0f;
 
     private void OnEnable()
     {
@@ -97,7 +98,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
             isMoved = true;
             while (true)
             {
-                transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector2.zero , 1f);
+                transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector2.zero , moveSpeed);
                 if ((transform.localPosition).sqrMagnitude < 0.000001)
                     break;
                 else
@@ -144,6 +145,35 @@ public class SlidingPuzzlePiece : MonoBehaviour
         {
             PieceMoveTo(SlidingPuzzle.MoveTo.Down);
             isSelected = false;
+        }
+    }
+
+    public void moveEndPos()
+    {
+        if (m_spaceManager == null)
+        {
+            m_spaceManager = transform.GetComponentInParent<SlidingPuzzleSpace>();
+        }
+
+        Vector2 _targetPos = m_spaceManager.GetEndLocalPos();
+        StartCoroutine(move());
+
+        IEnumerator move()
+        {
+            isMoved = true;
+            while(true)
+            {
+                transform.localPosition = Vector2.MoveTowards(transform.localPosition, _targetPos, moveSpeed);
+                if (Mathf.Abs(((Vector2)transform.localPosition - _targetPos).sqrMagnitude) < 0.000001)
+                    break;
+                else
+                    yield return null;
+            }
+            yield return new WaitForSeconds(1.0f);
+            isMoved = false;
+            // 로컬 함수 안에서의 ref 처리가 안되다보니 그냥 별도 변수와 public 함수 방식을 사용함.
+            SlidingPuzzleEventManager.instance.EndingMoveCompleteCountUp();
+            yield break;
         }
     }
 

@@ -10,6 +10,7 @@ public class SlidingPuzzleSpace : MonoBehaviour
     [SerializeField] private Transform t_down;
     [SerializeField] private Transform t_left;
     [SerializeField] private Transform t_right;
+    [SerializeField] private Vector2 endLocalPos;
 
     private bool m_isHad = false;
     public bool isHad
@@ -81,5 +82,10 @@ public class SlidingPuzzleSpace : MonoBehaviour
                 break;
         }
         return null;
+    }
+
+    public Vector2 GetEndLocalPos()
+    {
+        return endLocalPos;
     }
 }
