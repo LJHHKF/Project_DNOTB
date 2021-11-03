@@ -127,12 +127,6 @@ public partial class SubPuzzleManager : MonoBehaviour
         {
             Vector2 mousePos = Input.mousePosition;
 
-            Debug.Log($"mouse: {mousePos}");
-            Debug.Log($"m_pos leftTop: {m_pos_LeftTop}");
-            Debug.Log($"m_pos rightBottom: {m_pos_RightBottom}");
-
-            Debug.Log($"obj_pivoit: {gameObject.GetComponent<RectTransform>().anchoredPosition}");
-
             //마우스 포지션이 스크린 범위 밖이라면
             if(mousePos.x < m_pos_LeftTop.x ||
                mousePos.x > m_pos_RightBottom.x ||

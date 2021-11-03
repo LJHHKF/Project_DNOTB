@@ -33,7 +33,7 @@ public class ConcentrationEventManager : MonoBehaviour
     }
     [Header("Match Set Setting")] // 인스펙터 뷰에 제대로 나오지 않아서 이 위치로 옮김.
     [SerializeField] private int firstSetValue;
-
+    [SerializeField] private Sprite firstSetImage;
     private bool m_secondSet = false;
     public bool secondSet
     {
@@ -46,7 +46,7 @@ public class ConcentrationEventManager : MonoBehaviour
         }
     }
     [SerializeField] private int secondSetValue;
-
+    [SerializeField] private Sprite secondSetImage;
     private bool m_thirdSet = false;
     public bool thirdSet
     {
@@ -59,7 +59,7 @@ public class ConcentrationEventManager : MonoBehaviour
         }
     }
     [SerializeField] private int thirdSetValue;
-
+    [SerializeField] private Sprite thirdSetImage;
     private bool m_fourthSet = false;
     public bool fourthSet
     {
@@ -72,7 +72,7 @@ public class ConcentrationEventManager : MonoBehaviour
         }
     }
     [SerializeField] private int fourthSetValue;
-
+    [SerializeField] private Sprite fourthSetImage;
     private bool m_fifthSet = false;
     public bool fifthSet
     {
@@ -85,7 +85,7 @@ public class ConcentrationEventManager : MonoBehaviour
         }
     }
     [SerializeField] private int fifthSetValue;
-
+    [SerializeField] private Sprite fifthSetImage;
     private bool m_isFirstSelected = false;
     public bool isFirstSelected
     {
@@ -227,28 +227,33 @@ public class ConcentrationEventManager : MonoBehaviour
             {
                 case 1:
                     cards_up[_i].curValue = firstSetValue;
+                    cards_up[_i].curImage = firstSetImage;
                     //if (++array_SettedCount[0] >= 2)
-                    DeleteIntList_byValue(ref list_SettedOrder, 1);
+                    DeleteIntList_byValue(ref list_SettedOrder, firstValueSetted_order);
                     break;
                 case 2:
                     cards_up[_i].curValue = secondSetValue;
+                    cards_up[_i].curImage = secondSetImage;
                     //if (++array_SettedCount[1] >= 2)
-                    DeleteIntList_byValue(ref list_SettedOrder, 2);
+                    DeleteIntList_byValue(ref list_SettedOrder, secondValueSetted_order);
                     break;
                 case 3:
                     cards_up[_i].curValue = thirdSetValue;
+                    cards_up[_i].curImage = thirdSetImage;
                     //if (++array_SettedCount[2] >= 2)
-                    DeleteIntList_byValue(ref list_SettedOrder, 3);
+                    DeleteIntList_byValue(ref list_SettedOrder, thirdValueSetted_order);
                     break;
                 case 4:
                     cards_up[_i].curValue = fourthSetValue;
+                    cards_up[_i].curImage = fourthSetImage;
                     //if (++array_SettedCount[3] >= 2)
-                    DeleteIntList_byValue(ref list_SettedOrder, 4);
+                    DeleteIntList_byValue(ref list_SettedOrder, fourthValueSetted_order);
                     break;
                 case 5:
                     cards_up[_i].curValue = fifthSetValue;
+                    cards_up[_i].curImage = fifthSetImage;
                     //if (++array_SettedCount[4] >= 2)
-                    DeleteIntList_byValue(ref list_SettedOrder, 5);
+                    DeleteIntList_byValue(ref list_SettedOrder, fifthValueSetted_order);
                     break;
             }
         }
@@ -262,23 +267,28 @@ public class ConcentrationEventManager : MonoBehaviour
             {
                 case 1:
                     cards_down[_i].curValue = firstSetValue;
-                    DeleteIntList_byValue(ref list_SettedOrder, 1);
+                    cards_down[_i].curImage = firstSetImage;
+                    DeleteIntList_byValue(ref list_SettedOrder, firstValueSetted_order);
                     break;
                 case 2:
                     cards_down[_i].curValue = secondSetValue;
-                    DeleteIntList_byValue(ref list_SettedOrder, 2);
+                    cards_down[_i].curImage = secondSetImage;
+                    DeleteIntList_byValue(ref list_SettedOrder, secondValueSetted_order);
                     break;
                 case 3:
                     cards_down[_i].curValue = thirdSetValue;
-                    DeleteIntList_byValue(ref list_SettedOrder, 3);
+                    cards_down[_i].curImage = thirdSetImage;
+                    DeleteIntList_byValue(ref list_SettedOrder, thirdValueSetted_order);
                     break;
                 case 4:
                     cards_down[_i].curValue = fourthSetValue;
-                    DeleteIntList_byValue(ref list_SettedOrder, 4);
+                    cards_down[_i].curImage = fourthSetImage;
+                    DeleteIntList_byValue(ref list_SettedOrder, fourthValueSetted_order);
                     break;
                 case 5:
                     cards_down[_i].curValue = fifthSetValue;
-                    DeleteIntList_byValue(ref list_SettedOrder, 5);
+                    cards_down[_i].curImage = fifthSetImage;
+                    DeleteIntList_byValue(ref list_SettedOrder, fifthValueSetted_order);
                     break;
             }
         }

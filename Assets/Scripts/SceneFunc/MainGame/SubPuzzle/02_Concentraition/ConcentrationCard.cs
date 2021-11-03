@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ConcentrationCard : MonoBehaviour
 {
-    [Header("Object Link")]
-    [SerializeField] private Text m_Text;
+    [Header("Images")]
+    [SerializeField] private Sprite backFaceImage;
 
     private int m_curValue;
     public int curValue
@@ -14,9 +14,10 @@ public class ConcentrationCard : MonoBehaviour
         get { return m_curValue; }
         set { m_curValue = value; }
     }
-    private readonly string backString = "(µÞ¸é)";
-    private readonly string flipString = "(È¸Àü)";
+    private Sprite m_curImage;
+    public Sprite curImage { set { m_curImage = value; } }
     private float cardFlipTime;
+    private Image m_Image;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +27,14 @@ public class ConcentrationCard : MonoBehaviour
 
     private void OnEnable()
     {
-        m_Text.text = backString;
+        ChkAndGetImage();
+        m_Image.sprite = backFaceImage;
+    }
+
+    private void ChkAndGetImage()
+    {
+        if (m_Image == null)
+            m_Image = GetComponent<Image>();
     }
 
     public void CardClicked()
@@ -45,27 +53,31 @@ public class ConcentrationCard : MonoBehaviour
 
     public void Matched()
     {
-        m_Text.text = curValue.ToString();
+        ChkAndGetImage();
+        m_Image.sprite = m_curImage;
     }
 
     public void ResetCardToBackFace()
     {
-        m_Text.text = backString;
+        ChkAndGetImage();
+        m_Image.sprite = backFaceImage;
     }
 
     private IEnumerator FlipCard()
     {
-        m_Text.text = flipString;
-        yield return new WaitForSeconds(cardFlipTime);
-        m_Text.text = curValue.ToString();
+        ChkAndGetImage();
+        //m_text.text = flipString;
+        //yield return new WaitForSeconds(cardFlipTime);
+        m_Image.sprite = m_curImage;
         yield break;
     }
 
     private IEnumerator UnSetFlipCard()
     {
-        m_Text.text = flipString;
+        ChkAndGetImage();
+        //m_Text.text = flipString;
         yield return new WaitForSeconds(cardFlipTime);
-        m_Text.text = backString;
+        m_Image.sprite = backFaceImage;
         yield break;
     }
 }

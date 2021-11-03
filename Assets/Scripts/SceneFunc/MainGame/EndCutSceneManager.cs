@@ -56,6 +56,7 @@ public class EndCutSceneManager : MonoBehaviour
             obj_dialogues[i] = p_dialogues.transform.Find(name.ToString()).gameObject;
             img_dialogues[i] = obj_dialogues[i].GetComponent<Image>();
             text_dialogues[i] = obj_dialogues[i].transform.Find("Text").GetComponent<Text>();
+            obj_dialogues[i].SetActive(false);
         }
     }
 
