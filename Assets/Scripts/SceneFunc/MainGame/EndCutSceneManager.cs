@@ -25,11 +25,12 @@ public class EndCutSceneManager : MonoBehaviour
     private Text[] text_dialogues = new Text[3];
     private Image[] img_dialogues = new Image[3];
     private Image dialogues_BG;
-    
     private float curAlpha = 0;
 
     [Header("Other Setting")]
     [SerializeField] private bool isListScene = false;
+    private bool m_isEndingOn = false;
+    public bool isEndingOn { get { return m_isEndingOn; } private set { m_isEndingOn = value; } }
 
     private void Awake()
     {
@@ -74,9 +75,11 @@ public class EndCutSceneManager : MonoBehaviour
             ListSceneBoxMain.child_instance.ev_endingListReset -= OffCutScene;
     }
 
+    //ev_Reset에 등록되어 있으므로 OnReset 기능을 포함시킬 수 있음.
     private void OffCutScene()
     {
         StopAllCoroutines();
+        isEndingOn = false; // OnReset 것.
 
         curAlpha = 0;
         cutScene_frame.SetActive(false);
@@ -110,6 +113,7 @@ public class EndCutSceneManager : MonoBehaviour
 
     IEnumerator DelayedCutSceneOpen(float _startTime, float _endTime,Sprite _spr)
     {
+        isEndingOn = true;
         yield return new WaitForSeconds(_startTime);
         cutScene_frame.SetActive(true);
         cutScene_img.sprite = _spr;
@@ -126,6 +130,7 @@ public class EndCutSceneManager : MonoBehaviour
 
     IEnumerator DialoguesOn(MyEndings.EndingIndex _index)
     {
+        isEndingOn = true;
         if (_index == MyEndings.EndingIndex.second)
         {
             p_dialogues.SetActive(true);

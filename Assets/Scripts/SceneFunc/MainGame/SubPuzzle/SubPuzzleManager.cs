@@ -158,9 +158,13 @@ public partial class SubPuzzleManager : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void OffWindow()
+    public void OffWindow()
     {
         gameObject.SetActive(false);
+        dialLockObjects.SetActive(false);
+        concentrationObjects.SetActive(false);
+        slidingPuzzleObjects.SetActive(false);
+        pipelinePuzzleObjects.SetActive(false);
     }
 }
 

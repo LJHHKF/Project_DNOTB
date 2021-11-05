@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace MyEndings
 {
@@ -68,7 +69,8 @@ public partial class BoxMain : MonoBehaviour
     public bool isCubeMoved { get { return m_isCubeMoved; } set { m_isCubeMoved = value; } }
     private bool m_isCubeTape_Untaped;
     public bool isCubeTape_Untaped { get { return m_isCubeTape_Untaped; } set { m_isCubeTape_Untaped = value; } }
-    
+
+    private Queue<Action> ev_queue = new Queue<Action>(); //언박싱 처리 중인데 리셋 불려서 '박스는 열린', '송장은 다시 붙어있는' 오류가 발생하는 것 방지용도.
 
     private void Awake()
     {
@@ -106,7 +108,9 @@ public partial class BoxMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isUntaped && !SubPuzzleManager.instance.isSubPuzzleOn)
+        if (ev_queue.Count > 0)
+            ev_queue.Dequeue().Invoke();
+        if (!isUntaped && !SubPuzzleManager.instance.isSubPuzzleOn && !EndCutSceneManager.instance.isEndingOn)
         {
             if (wastedTime < timeForSecondEnd)
                 wastedTime += Time.deltaTime;
@@ -116,6 +120,7 @@ public partial class BoxMain : MonoBehaviour
                 DataRWManager.instance.InputDataValue("end02", 1, DataRWManager.instance.mySaveData_event);
                 EventManager.instance.OnEvent_EndingOpen();
                 EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.second);
+                SubPuzzleManager.instance.OffWindow();
                 Debug.Log("2번째 엔딩");
             }
         }
@@ -123,35 +128,47 @@ public partial class BoxMain : MonoBehaviour
 
     private void OnResetEvent()
     {
-        isUntaped = false;
-        wastedTime = 0.0f;
-        object_Collider_Tape?.SetActive(true);
-        object_BoxCol?.SetActive(false);
-        object_InBoxObject.SetActive(false);
-        m_sprR.sprite = boxingSprite;
+        ev_queue.Enqueue(Execute);
+        void Execute()
+        {
+            isUntaped = false;
+            wastedTime = 0.0f;
+            object_Collider_Tape?.SetActive(true);
+            object_BoxCol?.SetActive(false);
+            object_InBoxObject.SetActive(false);
+            m_sprR.sprite = boxingSprite;
 
-        isCubeMoved = false;
-        isCubeTape_Untaped = false;
+            isCubeMoved = false;
+            isCubeTape_Untaped = false;
+        }
     }
 
     private void OnResetEvent_depth_1()
     {
-        object_Invoice_Cover.SetActive(true);
-        object_Collider_underInvoiceTape?.SetActive(false);
-        object_Invoice.SetActive(false);
-        object_Cube.SetActive(false);
-        object_Portal.SetActive(false);
-        object_CubeSticker.SetActive(false);
+        ev_queue.Enqueue(Execute);
+        void Execute()
+        {
+            object_Invoice_Cover.SetActive(true);
+            object_Collider_underInvoiceTape?.SetActive(false);
+            object_Invoice.SetActive(false);
+            object_Cube.SetActive(false);
+            object_Portal.SetActive(false);
+            object_CubeSticker.SetActive(false);
+        }
     }
 
     private void OnUnsetEvent_depth_1()
     {
-        object_Invoice_Cover.SetActive(false);
-        object_Collider_underInvoiceTape?.SetActive(true);
-        object_Invoice.SetActive(false);
-        object_Cube.SetActive(false);
-        object_Portal.SetActive(false);
-        object_CubeSticker.SetActive(false);
+        ev_queue.Enqueue(Execute);
+        void Execute()
+        {
+            object_Invoice_Cover.SetActive(false);
+            object_Collider_underInvoiceTape?.SetActive(true);
+            object_Invoice.SetActive(false);
+            object_Cube.SetActive(false);
+            object_Portal.SetActive(false);
+            object_CubeSticker.SetActive(false);
+        }
     }
 }
 
@@ -159,72 +176,93 @@ public partial class BoxMain : MonoBehaviour
 {
     public void DoUntaping()
     {
-        isUntaped = true;
-        if (isCubeMoved)
+        ev_queue.Enqueue(Execute);
+        void Execute()
         {
-            object_Collider_Tape?.SetActive(false);
-            m_sprR.sprite = untapingSprite;
-            object_Portal.SetActive(true);
-        }
-        else
-        {
-            object_Collider_Tape?.SetActive(false);
-            m_sprR.sprite = untapingSprite;
-            object_BoxCol?.SetActive(true);
+            isUntaped = true;
+            if (isCubeMoved)
+            {
+                object_Collider_Tape?.SetActive(false);
+                m_sprR.sprite = untapingSprite;
+                object_Portal.SetActive(true);
+            }
+            else
+            {
+                object_Collider_Tape?.SetActive(false);
+                m_sprR.sprite = untapingSprite;
+                object_BoxCol?.SetActive(true);
+            }
         }
     }
 
     public void DoUnBoxing(MyEndings.UnboxingType _type)
     {
-        m_sprR.sprite = unboxingSprite;
-        object_Collider_Tape?.SetActive(false);  // 기존엔 if(object_Tape.activeSelf)를 체크해서 했었으나 뻘짓임을 깨닫고 수정
-        object_Invoice_Cover.SetActive(false);
-        object_Invoice.SetActive(false);
-        object_Cube.SetActive(false);
-        object_Portal.SetActive(false);
-
-        object_InBoxObject.SetActive(true);
-        inBoxObjectImageManager.SetEnding(_type);
-
-        switch (_type)
+        ev_queue.Enqueue(Execute);
+        void Execute()
         {
-            case MyEndings.UnboxingType.first:
-                DataRWManager.instance.InputDataValue("end01", 1, DataRWManager.instance.mySaveData_event);
-                EventManager.instance.OnEvent_EndingOpen();
-                EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.first);
-                Debug.Log("1번째 엔딩");
-                break;
-            case MyEndings.UnboxingType.third:
-                DataRWManager.instance.InputDataValue("end03", 1, DataRWManager.instance.mySaveData_event);
-                EventManager.instance.OnEvent_EndingOpen();
-                EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third);
-                Debug.Log("3번째 엔딩");
-                break;
-            case MyEndings.UnboxingType.fourth:
-                //object_CubeSticker.SetActive(false);
-                DataRWManager.instance.InputDataValue("end04", 1, DataRWManager.instance.mySaveData_event);
-                EventManager.instance.OnEvent_EndingOpen();
-                EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.fourth);
-                Debug.Log("4번째 엔딩");
-                break;
+            m_sprR.sprite = unboxingSprite;
+            object_Collider_Tape?.SetActive(false);  // 기존엔 if(object_Tape.activeSelf)를 체크해서 했었으나 뻘짓임을 깨닫고 수정
+            object_Invoice_Cover.SetActive(false);
+            object_Invoice.SetActive(false);
+            object_Cube.SetActive(false);
+            object_Portal.SetActive(false);
+            SubPuzzleManager.instance.OffWindow();
+
+            object_InBoxObject.SetActive(true);
+            inBoxObjectImageManager.SetEnding(_type);
+
+            switch (_type)
+            {
+                case MyEndings.UnboxingType.first:
+                    DataRWManager.instance.InputDataValue("end01", 1, DataRWManager.instance.mySaveData_event);
+                    EventManager.instance.OnEvent_EndingOpen();
+                    EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.first);
+                    Debug.Log("1번째 엔딩");
+                    break;
+                case MyEndings.UnboxingType.third:
+                    DataRWManager.instance.InputDataValue("end03", 1, DataRWManager.instance.mySaveData_event);
+                    EventManager.instance.OnEvent_EndingOpen();
+                    EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third);
+                    Debug.Log("3번째 엔딩");
+                    break;
+                case MyEndings.UnboxingType.fourth:
+                    //object_CubeSticker.SetActive(false);
+                    DataRWManager.instance.InputDataValue("end04", 1, DataRWManager.instance.mySaveData_event);
+                    EventManager.instance.OnEvent_EndingOpen();
+                    EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.fourth);
+                    Debug.Log("4번째 엔딩");
+                    break;
+            }
         }
     }
 
     public void RemoveSticker()
     {
-        object_Invoice_Cover.SetActive(false);
-        object_Invoice.SetActive(true);
+        ev_queue.Enqueue(Execute);
+        void Execute()
+        {
+            object_Invoice_Cover.SetActive(false);
+            object_Invoice.SetActive(true);
+        }
     }
 
     public void CubeSetActive()
-    {
-        object_Cube.SetActive(true);
+    {   
+        ev_queue.Enqueue(Execute);
+        void Execute()
+        {
+            object_Cube.SetActive(true);
+        }
     }
 
     public void DoCubePassPortal()
     {
-        object_Cube.SetActive(false);
-        object_Portal.SetActive(false);
-        object_CubeSticker.SetActive(true);
+        ev_queue.Enqueue(Execute);
+        void Execute()
+        {
+            object_Cube.SetActive(false);
+            object_Portal.SetActive(false);
+            object_CubeSticker.SetActive(true);
+        }
     }
 }

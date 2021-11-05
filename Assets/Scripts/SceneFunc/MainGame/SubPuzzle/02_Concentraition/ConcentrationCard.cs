@@ -18,23 +18,41 @@ public class ConcentrationCard : MonoBehaviour
     public Sprite curImage { set { m_curImage = value; } }
     private float cardFlipTime;
     private Image m_Image;
+    private Button m_Button;
+    //private bool isMataced = false;
 
     // Start is called before the first frame update
     void Start()
     {
         cardFlipTime = ConcentrationEventManager.instance.cardFlipTime;
+        EventManager.instance.ev_Reset += OnResetEvent;
+        OnResetEvent();
     }
 
-    private void OnEnable()
+    private void OnDestroy()
+    {
+        EventManager.instance.ev_Reset -= OnResetEvent;
+    }
+
+    private void OnResetEvent()
     {
         ChkAndGetImage();
+        ChkAndGetButton();
         m_Image.sprite = backFaceImage;
+        m_Button.enabled = true;
+        //isMataced = false;
     }
 
     private void ChkAndGetImage()
     {
         if (m_Image == null)
             m_Image = GetComponent<Image>();
+    }
+
+    private void ChkAndGetButton()
+    {
+        if (m_Button == null)
+            m_Button = GetComponent<Button>();
     }
 
     public void CardClicked()
@@ -54,7 +72,10 @@ public class ConcentrationCard : MonoBehaviour
     public void Matched()
     {
         ChkAndGetImage();
+        ChkAndGetButton();
         m_Image.sprite = m_curImage;
+        m_Button.enabled = false;
+        //isMataced = true;
     }
 
     public void ResetCardToBackFace()
