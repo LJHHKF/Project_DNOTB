@@ -5728,15 +5728,15 @@ MonoBehaviour:
   - {fileID: 514958774}
   - {fileID: 185502527}
   firstSetValue: 0
-  firstSetImage: {fileID: 21300000, guid: eb8c5d456bc3ecc46a28eae4835ddfb6, type: 3}
+  firstSetImage: {fileID: 21300000, guid: fe1894e61047073469e070a0bbc94b2b, type: 3}
   secondSetValue: 1
-  secondSetImage: {fileID: 21300000, guid: 0e7db3a97b0d7f644a20ac3a5f78750a, type: 3}
+  secondSetImage: {fileID: 21300000, guid: e898b28d751865647a1e7c64e27e51d1, type: 3}
   thirdSetValue: 2
-  thirdSetImage: {fileID: 21300000, guid: 4d647f5f6c0ca6d4d92164f905f363c6, type: 3}
+  thirdSetImage: {fileID: 21300000, guid: bfda338b5f2e182488df8162f3c930fd, type: 3}
   fourthSetValue: 3
-  fourthSetImage: {fileID: 21300000, guid: 1f6014e6895d42943ba675caf048b222, type: 3}
+  fourthSetImage: {fileID: 21300000, guid: 023d43deae520f34c99fc33d1fc076c9, type: 3}
   fifthSetValue: 4
-  fifthSetImage: {fileID: 21300000, guid: 037cc204b1faedb47bbfb68cfc6cde90, type: 3}
+  fifthSetImage: {fileID: 21300000, guid: 348e0bdab7fa725439ac1ab3945eac0a, type: 3}
   m_CardFlipTime: 0.5
 --- !u!1 &1228336004
 GameObject:

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ConcentrationEventManager : MonoBehaviour
 {
@@ -112,6 +113,9 @@ public class ConcentrationEventManager : MonoBehaviour
     private readonly int thirdValueSetted_order = 3;
     private readonly int fourthValueSetted_order = 4;
     private readonly int fifthValueSetted_order = 5;
+
+    public event Action ev_cardBtnOff;
+    public event Action ev_cardBtnOn;
 
     //private int[] array_SettedCount = new int[5];
 
@@ -362,6 +366,7 @@ public class ConcentrationEventManager : MonoBehaviour
         }
         else
         {
+            OnEvCardBtnOff();
             for (int i = 0; i < selectedCards.Length; i++)
                 selectedCards[i].UnMatched();
         }
@@ -378,5 +383,15 @@ public class ConcentrationEventManager : MonoBehaviour
         {
             SubPuzzleManager.instance.isConcentrationClear = true;
         }
+    }
+
+    private void OnEvCardBtnOff()
+    {
+        ev_cardBtnOff?.Invoke();
+    }
+
+    public void OnEvCardBtnOn()
+    {
+        ev_cardBtnOn?.Invoke();
     }
 }

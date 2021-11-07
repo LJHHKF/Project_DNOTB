@@ -8,6 +8,10 @@ public class ConcentrationCard : MonoBehaviour
     [Header("Images")]
     [SerializeField] private Sprite backFaceImage;
 
+    [Header("Set Self Components")]
+    [SerializeField]private Image m_Image;
+    [SerializeField]private Button m_Button;
+
     private int m_curValue;
     public int curValue
     {
@@ -17,8 +21,8 @@ public class ConcentrationCard : MonoBehaviour
     private Sprite m_curImage;
     public Sprite curImage { set { m_curImage = value; } }
     private float cardFlipTime;
-    private Image m_Image;
-    private Button m_Button;
+    private bool isEvSet = false;
+
     //private bool isMataced = false;
 
     // Start is called before the first frame update
@@ -26,6 +30,7 @@ public class ConcentrationCard : MonoBehaviour
     {
         cardFlipTime = ConcentrationEventManager.instance.cardFlipTime;
         EventManager.instance.ev_Reset += OnResetEvent;
+        isEvSet = false;
         OnResetEvent();
     }
 
@@ -36,24 +41,30 @@ public class ConcentrationCard : MonoBehaviour
 
     private void OnResetEvent()
     {
-        ChkAndGetImage();
-        ChkAndGetButton();
+        //ChkAndGetImage();
+        //ChkAndGetButton();
         m_Image.sprite = backFaceImage;
         m_Button.enabled = true;
+        if (!isEvSet)
+        {
+            ConcentrationEventManager.instance.ev_cardBtnOff += SelfButtonOff;
+            ConcentrationEventManager.instance.ev_cardBtnOn += SelfButtonOn;
+            isEvSet = true;
+        }
         //isMataced = false;
     }
 
-    private void ChkAndGetImage()
-    {
-        if (m_Image == null)
-            m_Image = GetComponent<Image>();
-    }
+    //private void ChkAndGetImage()
+    //{
+    //    if (m_Image == null)
+    //        m_Image = GetComponent<Image>();
+    //}
 
-    private void ChkAndGetButton()
-    {
-        if (m_Button == null)
-            m_Button = GetComponent<Button>();
-    }
+    //private void ChkAndGetButton()
+    //{
+    //    if (m_Button == null)
+    //        m_Button = GetComponent<Button>();
+    //}
 
     public void CardClicked()
     {
@@ -71,34 +82,49 @@ public class ConcentrationCard : MonoBehaviour
 
     public void Matched()
     {
-        ChkAndGetImage();
-        ChkAndGetButton();
+        //ChkAndGetImage();
+        //ChkAndGetButton();
         m_Image.sprite = m_curImage;
         m_Button.enabled = false;
+        isEvSet = false;
+        ConcentrationEventManager.instance.ev_cardBtnOff -= SelfButtonOff;
+        ConcentrationEventManager.instance.ev_cardBtnOn -= SelfButtonOn;
         //isMataced = true;
     }
 
     public void ResetCardToBackFace()
     {
-        ChkAndGetImage();
+        //ChkAndGetImage();
         m_Image.sprite = backFaceImage;
     }
 
     private IEnumerator FlipCard()
     {
-        ChkAndGetImage();
+        //ChkAndGetImage();
         //m_text.text = flipString;
         //yield return new WaitForSeconds(cardFlipTime);
         m_Image.sprite = m_curImage;
+        m_Button.enabled = false;
         yield break;
     }
 
     private IEnumerator UnSetFlipCard()
     {
-        ChkAndGetImage();
+        //ChkAndGetImage();
         //m_Text.text = flipString;
         yield return new WaitForSeconds(cardFlipTime);
         m_Image.sprite = backFaceImage;
+        ConcentrationEventManager.instance.OnEvCardBtnOn();
         yield break;
+    }
+
+    private void SelfButtonOff()
+    {
+        m_Button.enabled = false;
+    }
+
+    private void SelfButtonOn()
+    {
+        m_Button.enabled = true;
     }
 }
