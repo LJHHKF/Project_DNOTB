@@ -239,20 +239,34 @@ MonoBehaviour:
   cs_spr_end02: {fileID: 21300000, guid: b6d80e0c334b6f44bbd0e69ea8067cb8, type: 3}
   cs_spr_end03: {fileID: 21300000, guid: 543fbfbbb82fa6c48a9174078adff0fe, type: 3}
   cs_spr_end04: {fileID: 21300000, guid: 473829bec127a894fb9e83990e0e9866, type: 3}
-  dialogue_spr_left: {fileID: 21300000, guid: e9b6705e3ed38c743839a9a1864d3bda, type: 3}
-  dialogue_spr_right: {fileID: 21300000, guid: e9b6705e3ed38c743839a9a1864d3bda, type: 3}
   dialogueDelay: 1
   fadeOut_max_alpha: 0.6
   fadeOut_max_second: 1
   dialogue_end02:
-  - isLeft: 1
-    dialogue: "\uC608\uC2DC1, \uC67C\uCABD"
-  - isLeft: 0
-    dialogue: "\uC608\uC2DC2, \uC624\uB978\uCABD"
-  - isLeft: 1
-    dialogue: "\uC608\uC2DC3, \uC67C\uCABD"
-  - isLeft: 0
-    dialogue: "\uC608\uC2DC4, \uC624\uB978\uCABD"
+  - speaker: ???
+    dialogue: "\uC548\uC5D0 \uACC4\uC2ED\uB2C8\uAE4C? \uC5EC\uAE30\uC5D0 \uB480\uB358
+      \uD0DD\uBC30\uB97C \uAC00\uC838\uAC00\uB824\uB294\uB370\uC694."
+  - speaker: "\uB098"
+    dialogue: "\uC544, \uC5EC\uAE30 \uC788\uC2B5\uB2C8\uB2E4. \uB9C8\uCE68 \uACE4\uB780\uD558\uB358
+      \uCC28\uC5D0."
+  - speaker: "\uB098"
+    dialogue: "\uADF8\uB7F0\uB370 \uB204\uAD6C\uC758 \uD0DD\uBC30\uC8E0? \uB0B4\uC6A9\uBB3C
+      \uC815\uBCF4\uB3C4 \uC5C6\uB294\uB370."
+  - speaker: "\uD0DD\uBC30\uC6D0"
+    dialogue: "\uC800\uD76C\uB3C4 \uC798 \uBAA8\uB974\uACA0\uC2B5\uB2C8\uB2E4. \uB2E4\uB9CC
+      \uC774\uB7F0 \uC815\uBCF4 \uC5C6\uB294 \uD0DD\uBC30\uAC00 \uACF3\uACF3\uC5D0
+      \uBC30\uB2EC\uB41C\uB2E4\uACE0 \uD558\uB354\uB77C\uAD6C\uC694."
+  - speaker: "\uD0DD\uBC30\uC6D0"
+    dialogue: "\uADF8\uB798\uB3C4 \uC0DD\uCCB4 \uD654\uD559\uBB3C\uC774 \uC544\uB2CC
+      \uAC83 \uAC19\uB354\uB77C\uACE0\uC694. \uC880 \uB354 \uC870\uC0AC\uD574\uBD10\uC57C\uACA0\uC9C0\uB9CC."
+  dialogue_end03:
+  - speaker: "\uB098"
+    dialogue: "\uBBF8\uB798\uC758 \uB098\uC5D0\uAC8C \uBCF4\uB0B4\uB294 \uD3B8\uC9C0...."
+  - speaker: "\uB098"
+    dialogue: "\uC774 \uD3B8\uC9C0\uB294 1902\uC5D0 \uC791\uC131\uD55C\uB2E4..."
+  - speaker: "\uB098"
+    dialogue: "\uC774 \uD0C0\uC785 \uCEA1\uC290\uC5D0\uB294 \uC138\uACC4\uC5D0 \uB4DC\uB7EC\uB0B4\uC11C\uB294
+      \uC548\uB420 \uBB3C\uAC74\uC774 \uB4E4\uC5B4\uC788\uB2E4..."
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +278,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -279,6 +294,39 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
