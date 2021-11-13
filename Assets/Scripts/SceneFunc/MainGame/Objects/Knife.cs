@@ -5,10 +5,16 @@ using UnityEngine;
 public class Knife : MonoBehaviour, IEventObject
 {
     [SerializeField] private GameObject imageObject;
+    [SerializeField] private GameObject shadowLight_full;
+    [SerializeField] private GameObject shadowLight_down;
 
     private void OnEnable()
     {
         imageObject.SetActive(true);
+        shadowLight_full.SetActive(true);
+        shadowLight_down.SetActive(false);
+        EventManager.instance.ev_Reset += BoxClosed;
+        BoxMain.instance.ev_BoxOpend += BoxOpen;
     }
 
     public void Execute()
@@ -25,5 +31,17 @@ public class Knife : MonoBehaviour, IEventObject
             CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
             imageObject.SetActive(true);
         }
+    }
+
+    private void BoxClosed()
+    {
+        shadowLight_full.SetActive(true);
+        shadowLight_down.SetActive(false);
+    }
+
+    private void BoxOpen()
+    {
+        shadowLight_full.SetActive(false);
+        shadowLight_down.SetActive(true);
     }
 }

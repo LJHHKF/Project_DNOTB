@@ -45,6 +45,7 @@ public partial class BoxMain : MonoBehaviour
 
 
     [Header("Box Objects linking")]
+    [SerializeField] private GameObject object_ShadowLight;
     [SerializeField] private GameObject object_Collider_Tape;
     [SerializeField] private GameObject object_Collider_underInvoiceTape;
     [SerializeField] private GameObject object_BoxCol;
@@ -71,6 +72,7 @@ public partial class BoxMain : MonoBehaviour
     public bool isCubeTape_Untaped { get { return m_isCubeTape_Untaped; } set { m_isCubeTape_Untaped = value; } }
 
     private Queue<Action> ev_queue = new Queue<Action>(); //언박싱 처리 중인데 리셋 불려서 '박스는 열린', '송장은 다시 붙어있는' 오류가 발생하는 것 방지용도.
+    public event Action ev_BoxOpend;
 
     private void Awake()
     {
@@ -137,6 +139,7 @@ public partial class BoxMain : MonoBehaviour
             object_BoxCol?.SetActive(false);
             object_InBoxObject.SetActive(false);
             m_sprR.sprite = boxingSprite;
+            object_ShadowLight.SetActive(true);
 
             isCubeMoved = false;
             isCubeTape_Untaped = false;
@@ -206,10 +209,12 @@ public partial class BoxMain : MonoBehaviour
             object_Invoice.SetActive(false);
             object_Cube.SetActive(false);
             object_Portal.SetActive(false);
+            object_ShadowLight.SetActive(false);
             SubPuzzleManager.instance.OffWindow();
 
             object_InBoxObject.SetActive(true);
             inBoxObjectImageManager.SetEnding(_type);
+            ev_BoxOpend?.Invoke();
 
             switch (_type)
             {

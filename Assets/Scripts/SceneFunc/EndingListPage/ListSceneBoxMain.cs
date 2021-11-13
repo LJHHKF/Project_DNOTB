@@ -17,18 +17,21 @@ public class ListSceneBoxMain : MonoBehaviour
     }
 
     [Header("Resource Setting")]
-    [SerializeField] protected Sprite boxingSprite;
-    [SerializeField] protected Sprite untapingSprite;
-    [SerializeField] protected Sprite unboxingSprite;
+    [SerializeField] private Sprite boxingSprite;
+    [SerializeField] private Sprite untapingSprite;
+    [SerializeField] private Sprite unboxingSprite;
 
     [Header("Objects linking")]
-    [SerializeField] protected GameObject object_InBoxObject;
-    protected InBoxImageManager inBoxObjectImageManager;
-    [SerializeField] protected GameObject object_Invoice_Cover;
-    [SerializeField] protected GameObject object_Invoice;
-    [SerializeField] protected GameObject object_CubeButton;
+    [SerializeField] private GameObject object_ShadowLight;
+    [SerializeField] private GameObject object_ShadowLight_knife_full;
+    [SerializeField] private GameObject object_ShadowLight_knife_down;
+    [SerializeField] private GameObject object_InBoxObject;
+    private InBoxImageManager inBoxObjectImageManager;
+    [SerializeField] private GameObject object_Invoice_Cover;
+    [SerializeField] private GameObject object_Invoice;
+    [SerializeField] private GameObject object_CubeButton;
 
-    protected SpriteRenderer m_sprR;
+    private SpriteRenderer m_sprR;
 
     [Header("Other Object linking(origin: Sub Event Manager)")]
     [SerializeField] private GameObject[] activeObjects_least_1;
@@ -50,7 +53,7 @@ public class ListSceneBoxMain : MonoBehaviour
             m_instance = null;
     }
 
-    protected void Start()
+    private void Start()
     {
         //¿Ã«œ 2¡Ÿ base
         m_sprR = GetComponent<SpriteRenderer>();
@@ -60,12 +63,12 @@ public class ListSceneBoxMain : MonoBehaviour
         OnReset();
     }
 
-    protected void OnEnable()
+    private void OnEnable()
     {
         ev_endingListReset += OnReset;
     }
 
-    protected void OnDisable()
+    private void OnDisable()
     {
         ev_endingListReset -= OnReset;
     }
@@ -73,6 +76,9 @@ public class ListSceneBoxMain : MonoBehaviour
     private void OnReset()
     {
         object_InBoxObject.SetActive(false);
+        object_ShadowLight.SetActive(true);
+        object_ShadowLight_knife_full.SetActive(true);
+        object_ShadowLight_knife_down.SetActive(false);
         m_sprR.sprite = boxingSprite;
         if(cnt_end > 0)
         {
@@ -112,6 +118,9 @@ public class ListSceneBoxMain : MonoBehaviour
         void UnBoxing()
         {
             m_sprR.sprite = unboxingSprite;
+            object_ShadowLight.SetActive(false);
+            object_ShadowLight_knife_full.SetActive(false);
+            object_ShadowLight_knife_down.SetActive(true);
             object_InBoxObject.SetActive(true);
             object_Invoice_Cover.SetActive(false);
             object_Invoice.SetActive(false);
