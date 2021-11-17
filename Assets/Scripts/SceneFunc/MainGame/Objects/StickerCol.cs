@@ -8,9 +8,21 @@ public class StickerCol : MonoBehaviour, IEventObject
     private readonly int clickMax_withKnife = 5;
     private int clickedCnt_none = 0;
     private readonly int clickMax_none = 3;
+    private Animator m_anim;
+    private SpriteRenderer m_sprR;
+    [SerializeField] private float animPlayTime = 1.0f;
+    [SerializeField] private Sprite spr_defualt;
 
     private void OnEnable()
     {
+        if (m_anim == null)
+            m_anim = GetComponent<Animator>();
+        if (m_sprR == null)
+            m_sprR = GetComponent<SpriteRenderer>();
+        m_anim.enabled = false;
+        m_sprR.sprite = spr_defualt;
+        
+
         CountReset();
         EventManager.instance.ev_Reset += CountReset;
     }
@@ -28,16 +40,27 @@ public class StickerCol : MonoBehaviour, IEventObject
 
     public void Execute()
     {
-        MyCursor.CursorType _type = CursorManager.instnace.GetCurrentCursorType();
-        if (_type == MyCursor.CursorType.Knife)
+        if (!m_anim.enabled)
         {
-            if (clickMax_withKnife <= ++clickedCnt_withKnife)
-                BoxMain.instance.RemoveSticker();
+            MyCursor.CursorType _type = CursorManager.instnace.GetCurrentCursorType();
+            if (_type == MyCursor.CursorType.Knife)
+            {
+                if (clickMax_withKnife <= ++clickedCnt_withKnife)
+                    StartCoroutine(DelayedRemoveSticker());
+            }
+            else if (_type == MyCursor.CursorType.Normal)
+            {
+                if (clickMax_none <= ++clickedCnt_none)
+                    BoxMain.instance.CubeSetActive();
+            }
         }
-        else if (_type == MyCursor.CursorType.Normal)
-        {
-            if (clickMax_none <= ++clickedCnt_none)
-                BoxMain.instance.CubeSetActive();
-        }
+    }
+    private IEnumerator DelayedRemoveSticker()
+    {
+        m_anim.enabled = true;
+        yield return new WaitForSeconds(animPlayTime);
+        m_anim.enabled = false;
+        BoxMain.instance.RemoveSticker();
+        yield break;
     }
 }

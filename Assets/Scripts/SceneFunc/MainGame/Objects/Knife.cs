@@ -25,23 +25,33 @@ public class Knife : MonoBehaviour, IEventObject
         {
             CursorManager.instnace.MySetCursor(MyCursor.CursorType.Knife);
             imageObject.SetActive(false);
+            shadowLight_full.SetActive(false);
         }
         else if(_type == MyCursor.CursorType.Knife)
         {
             CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
             imageObject.SetActive(true);
+            shadowLight_full.SetActive(true);
         }
     }
 
     private void BoxClosed()
     {
+        CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
+        imageObject.SetActive(true);
+
         shadowLight_full.SetActive(true);
         shadowLight_down.SetActive(false);
     }
 
     private void BoxOpen()
     {
-        shadowLight_full.SetActive(false);
-        shadowLight_down.SetActive(true);
+        if (imageObject.activeSelf)
+        {
+            shadowLight_full.SetActive(false);
+            shadowLight_down.SetActive(true);
+        }
+        else
+            CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
     }
 }

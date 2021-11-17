@@ -61,6 +61,7 @@ public class EndCutSceneManager : MonoBehaviour
             text_head[i] = obj_dialogues[i].transform.Find("Text_Head").GetComponent<Text>();
             obj_dialogues[i].SetActive(false);
         }
+        OffCutScene();
     }
 
     private void OnEnable()

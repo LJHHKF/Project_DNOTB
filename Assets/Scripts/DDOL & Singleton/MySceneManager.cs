@@ -59,7 +59,6 @@ public class MySceneManager : MonoBehaviour
             default:
                 Debug.LogError("잘못된 씬 이름 지정으로 씬을 넘어가지 못했습니다.");
                 break;
-
         }
     }
 }
