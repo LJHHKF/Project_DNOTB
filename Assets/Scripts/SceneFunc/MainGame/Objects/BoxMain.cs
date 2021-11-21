@@ -39,25 +39,28 @@ public partial class BoxMain : MonoBehaviour
     }
 
     [Header("Resource Setting")]
-    [SerializeField] protected Sprite boxingSprite;
-    [SerializeField] protected Sprite untapingSprite;
-    [SerializeField] protected Sprite unboxingSprite;
-
+    [SerializeField] private Sprite boxingSprite;
+    [SerializeField] private Sprite untapingSprite;
+    [SerializeField] private Sprite unboxingSprite;
 
     [Header("Box Objects linking")]
     [SerializeField] private GameObject object_ShadowLight;
     [SerializeField] private GameObject object_Collider_Tape;
     [SerializeField] private GameObject object_Collider_underInvoiceTape;
     [SerializeField] private GameObject object_BoxCol;
-    [SerializeField] protected GameObject object_InBoxObject;
-    protected InBoxImageManager inBoxObjectImageManager;
-    [SerializeField] protected GameObject object_Invoice_Cover;
-    [SerializeField] protected GameObject object_Invoice;
-    [SerializeField] protected GameObject object_Cube;
-    [SerializeField] protected GameObject object_Portal;
-    [SerializeField] protected GameObject object_CubeSticker;
+    [SerializeField] private GameObject object_InBoxObject;
+    private InBoxImageManager inBoxObjectImageManager;
+    [SerializeField] private GameObject object_Invoice_Cover;
+    [SerializeField] private GameObject object_Invoice;
+    [SerializeField] private GameObject object_Cube;
+    [SerializeField] private GameObject object_Portal;
+    [SerializeField] private GameObject object_CubeSticker;
 
-    protected SpriteRenderer m_sprR;
+    [Header("Other")]
+    [SerializeField] private int sOrder_default;
+    [SerializeField] private int sOrder_open;
+
+    private SpriteRenderer m_sprR;
 
     //엔딩2
     private bool m_isUntaped;
@@ -86,14 +89,14 @@ public partial class BoxMain : MonoBehaviour
             m_instance = null;
     }
 
-    protected virtual void OnEnable()
+    private void OnEnable()
     {
         EventManager.instance.ev_Reset += OnResetEvent;
         SubEventManager.instance.ev_Endleast_Set_1 += OnResetEvent_depth_1;
         SubEventManager.instance.ev_Endleast_UnSet_1 += OnUnsetEvent_depth_1;
     }
 
-    protected virtual void OnDisable()
+    private void OnDisable()
     {
         EventManager.instance.ev_Reset -= OnResetEvent;
         SubEventManager.instance.ev_Endleast_Set_1 -= OnResetEvent_depth_1;
@@ -101,7 +104,7 @@ public partial class BoxMain : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    private void Start()
     {
         m_sprR = GetComponent<SpriteRenderer>();
         inBoxObjectImageManager = object_InBoxObject.GetComponent<InBoxImageManager>();
@@ -139,6 +142,7 @@ public partial class BoxMain : MonoBehaviour
             object_BoxCol?.SetActive(false);
             object_InBoxObject.SetActive(false);
             m_sprR.sprite = boxingSprite;
+            m_sprR.sortingOrder = sOrder_default;
             object_ShadowLight.SetActive(true);
 
             isCubeMoved = false;
@@ -204,6 +208,7 @@ public partial class BoxMain : MonoBehaviour
         void Execute()
         {
             m_sprR.sprite = unboxingSprite;
+            m_sprR.sortingOrder = sOrder_open;
             object_Collider_Tape?.SetActive(false);  // 기존엔 if(object_Tape.activeSelf)를 체크해서 했었으나 뻘짓임을 깨닫고 수정
             object_Invoice_Cover.SetActive(false);
             object_Invoice.SetActive(false);

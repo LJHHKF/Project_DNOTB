@@ -36,6 +36,8 @@ public class SlidingPuzzleEventManager : MonoBehaviour
 
     [SerializeField] private GameObject[] spaces;
     [SerializeField] private PieceInfo[] piecesInfo;
+    [SerializeField] private GameObject completeImage;
+    [SerializeField] private float completeDelay = 1.0f;
     [SerializeField] private GameObject piecePrefab;
 
     private List<int> list_CorrectSpaceIndex = new List<int>();
@@ -102,6 +104,9 @@ public class SlidingPuzzleEventManager : MonoBehaviour
                 else
                     yield return null;
             }
+            completeImage.SetActive(true);
+            yield return new WaitForSeconds(completeDelay);
+            completeImage.SetActive(false);
             SubPuzzleManager.instance.isSlidingPuzzleClear = true;
             yield break;
         }
@@ -115,6 +120,7 @@ public class SlidingPuzzleEventManager : MonoBehaviour
                 array_Pieces[i] = Instantiate(piecePrefab, gameObject.transform);
         }
 
+        completeImage.SetActive(false);
         SetList();
         int rand;
         int cnt = 0;
@@ -132,7 +138,8 @@ public class SlidingPuzzleEventManager : MonoBehaviour
                 array_correctNum[cnt] = piecesInfo[list_CorrectSpaceIndex[rand] - 1].correctSpaceIndex;
                 array_Pieces[cnt].GetComponent<SlidingPuzzlePiece>().InitSetting
                     (spaces[i],
-                    piecesInfo[list_CorrectSpaceIndex[rand] - 1].correctSpaceIndex
+                    piecesInfo[list_CorrectSpaceIndex[rand] - 1].correctSpaceIndex,
+                    piecesInfo[list_CorrectSpaceIndex[rand] - 1].sprite
                     ); // InitSetting 함수는 추후 스프라이트도 넣고 해야함. 
                 list_CorrectSpaceIndex.RemoveAt(rand);
                 cnt++;

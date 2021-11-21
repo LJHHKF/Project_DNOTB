@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class SlidingPuzzlePiece : MonoBehaviour
 {
     [SerializeField] private GameObject obj_SelectHighright;
-    [SerializeField] private Text m_Text;
+    //[SerializeField] private Text m_Text;
     [SerializeField] private ObjectShaking shakeManager;
+    [SerializeField] private Image m_sprR;
     private SlidingPuzzleSpace m_spaceManager;
-    private RectTransform m_rect;
     private bool m_isSelected = false;
     private bool isSelected {
         get { return m_isSelected; } 
@@ -42,7 +42,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
             shakingDelay -= Time.deltaTime;
     }
 
-    public void InitSetting(GameObject _space, int _correctIndex)
+    public void InitSetting(GameObject _space, int _correctIndex, Sprite _spr)
     {
         m_spaceManager = _space.GetComponent<SlidingPuzzleSpace>();
         if (m_spaceManager == null)
@@ -52,8 +52,9 @@ public class SlidingPuzzlePiece : MonoBehaviour
         }
         isSelected = false;
         correctSpaceIndex = _correctIndex;
-        m_Text.text = _correctIndex.ToString();
+        //m_Text.text = _correctIndex.ToString();
         gameObject.transform.SetParent(_space.transform);
+        m_sprR.sprite = _spr;
     }
 
     public void PieceSelected()
@@ -61,8 +62,6 @@ public class SlidingPuzzlePiece : MonoBehaviour
         if (shakingDelay <= 0.0f)
         {
             isSelected = true;
-            if (m_rect == null)
-                m_rect = GetComponent<RectTransform>();
         }
     }
 
@@ -169,7 +168,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
                 else
                     yield return null;
             }
-            yield return new WaitForSeconds(1.0f);
+            //yield return new WaitForSeconds(1.0f);
             isMoved = false;
             // 로컬 함수 안에서의 ref 처리가 안되다보니 그냥 별도 변수와 public 함수 방식을 사용함.
             SlidingPuzzleEventManager.instance.EndingMoveCompleteCountUp();

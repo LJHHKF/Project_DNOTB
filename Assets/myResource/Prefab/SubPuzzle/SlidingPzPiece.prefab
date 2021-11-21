@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &764147042735977961
 RectTransform:
   m_ObjectHideFlags: 0
@@ -611,8 +611,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj_SelectHighright: {fileID: 4999946910037185673}
-  m_Text: {fileID: 3569820034644740324}
   shakeManager: {fileID: 3247053895352159094}
+  m_sprR: {fileID: 5313333006189365274}
 --- !u!114 &3796135711516811749
 MonoBehaviour:
   m_ObjectHideFlags: 0

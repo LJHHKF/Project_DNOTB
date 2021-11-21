@@ -23,8 +23,6 @@ public class ListSceneBoxMain : MonoBehaviour
 
     [Header("Objects linking")]
     [SerializeField] private GameObject object_ShadowLight;
-    [SerializeField] private GameObject object_ShadowLight_knife_full;
-    [SerializeField] private GameObject object_ShadowLight_knife_down;
     [SerializeField] private GameObject object_InBoxObject;
     private InBoxImageManager inBoxObjectImageManager;
     [SerializeField] private GameObject object_Invoice_Cover;
@@ -36,6 +34,8 @@ public class ListSceneBoxMain : MonoBehaviour
     [Header("Other Object linking(origin: Sub Event Manager)")]
     [SerializeField] private GameObject[] activeObjects_least_1;
     [SerializeField] private GameObject knifeObject;
+    [SerializeField] private int sOrder_default;
+    [SerializeField] private int sOrder_open;
 
     private int cnt_end;
 
@@ -77,9 +77,10 @@ public class ListSceneBoxMain : MonoBehaviour
     {
         object_InBoxObject.SetActive(false);
         object_ShadowLight.SetActive(true);
-        object_ShadowLight_knife_full.SetActive(true);
-        object_ShadowLight_knife_down.SetActive(false);
+        //object_ShadowLight_knife_full.SetActive(true);
+        //object_ShadowLight_knife_down.SetActive(false);
         m_sprR.sprite = boxingSprite;
+        m_sprR.sortingOrder = sOrder_default;
         if(cnt_end > 0)
         {
             for (int i = 0; i < activeObjects_least_1.Length; i++)
@@ -118,9 +119,10 @@ public class ListSceneBoxMain : MonoBehaviour
         void UnBoxing()
         {
             m_sprR.sprite = unboxingSprite;
+            m_sprR.sortingOrder = sOrder_open;
             object_ShadowLight.SetActive(false);
-            object_ShadowLight_knife_full.SetActive(false);
-            object_ShadowLight_knife_down.SetActive(true);
+            //object_ShadowLight_knife_full.SetActive(false);
+            //object_ShadowLight_knife_down.SetActive(true);
             object_InBoxObject.SetActive(true);
             object_Invoice_Cover.SetActive(false);
             object_Invoice.SetActive(false);
