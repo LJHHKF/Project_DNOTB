@@ -31,7 +31,7 @@ public class PipelinePiece : MonoBehaviour
     void Start()
     {
         ResetEvent();
-        EventManager.instance.ev_Reset += ResetEvent;
+        MainEventManager.instance.ev_Reset += ResetEvent;
     }
 
     private void ResetEvent()

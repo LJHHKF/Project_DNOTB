@@ -29,14 +29,14 @@ public class ConcentrationCard : MonoBehaviour
     void Start()
     {
         cardFlipTime = ConcentrationEventManager.instance.cardFlipTime;
-        EventManager.instance.ev_Reset += OnResetEvent;
+        MainEventManager.instance.ev_Reset += OnResetEvent;
         isEvSet = false;
         OnResetEvent();
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.ev_Reset -= OnResetEvent;
+        MainEventManager.instance.ev_Reset -= OnResetEvent;
     }
 
     private void OnResetEvent()

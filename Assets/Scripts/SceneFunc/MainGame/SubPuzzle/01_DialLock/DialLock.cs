@@ -43,7 +43,7 @@ public class DialLock : MonoBehaviour
     {
         rollTime = DialLockEventManager.instance.prop_dialRollTime;
         SetRandomValue();
-        EventManager.instance.ev_Reset += SetRandomValue;
+        MainEventManager.instance.ev_Reset += SetRandomValue;
     }
 
     private void OnEnable()
@@ -55,7 +55,7 @@ public class DialLock : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.instance.ev_Reset -= SetRandomValue;
+        MainEventManager.instance.ev_Reset -= SetRandomValue;
     }
 
     private void SetRandomValue()

@@ -134,7 +134,7 @@ public class ConcentrationEventManager : MonoBehaviour
         valueArray[4] = fifthSetValue;
 
 
-        EventManager.instance.ev_Reset += ResetEvent;
+        MainEventManager.instance.ev_Reset += ResetEvent;
         ResetEvent();
     }
 
@@ -148,7 +148,7 @@ public class ConcentrationEventManager : MonoBehaviour
         if (m_instance == this)
         {
             m_instance = null;
-            EventManager.instance.ev_Reset -= ResetEvent;
+            MainEventManager.instance.ev_Reset -= ResetEvent;
         }
     }
 

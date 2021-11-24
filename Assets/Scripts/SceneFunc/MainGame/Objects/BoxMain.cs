@@ -44,7 +44,8 @@ public partial class BoxMain : MonoBehaviour
     [SerializeField] private Sprite unboxingSprite;
 
     [Header("Box Objects linking")]
-    [SerializeField] private GameObject object_ShadowLight;
+    [SerializeField] private GameObject object_ClosedBoxShadow;
+    [SerializeField] private GameObject object_OpendBoxShadow;
     [SerializeField] private GameObject object_Collider_Tape;
     [SerializeField] private GameObject object_Collider_underInvoiceTape;
     [SerializeField] private GameObject object_BoxCol;
@@ -91,16 +92,16 @@ public partial class BoxMain : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.instance.ev_Reset += OnResetEvent;
-        SubEventManager.instance.ev_Endleast_Set_1 += OnResetEvent_depth_1;
-        SubEventManager.instance.ev_Endleast_UnSet_1 += OnUnsetEvent_depth_1;
+        MainEventManager.instance.ev_Reset += OnResetEvent;
+        MainEventManager.instance.ev_Endleast_Set_1 += OnResetEvent_depth_1;
+        MainEventManager.instance.ev_Endleast_UnSet_1 += OnUnsetEvent_depth_1;
     }
 
     private void OnDisable()
     {
-        EventManager.instance.ev_Reset -= OnResetEvent;
-        SubEventManager.instance.ev_Endleast_Set_1 -= OnResetEvent_depth_1;
-        SubEventManager.instance.ev_Endleast_UnSet_1 -= OnUnsetEvent_depth_1;
+        MainEventManager.instance.ev_Reset -= OnResetEvent;
+        MainEventManager.instance.ev_Endleast_Set_1 -= OnResetEvent_depth_1;
+        MainEventManager.instance.ev_Endleast_UnSet_1 -= OnUnsetEvent_depth_1;
     }
 
     // Start is called before the first frame update
@@ -123,7 +124,7 @@ public partial class BoxMain : MonoBehaviour
             {
                 isUntaped = true;
                 DataRWManager.instance.InputDataValue("end02", 1, DataRWManager.instance.mySaveData_event);
-                EventManager.instance.OnEvent_EndingOpen();
+                MainEventManager.instance.OnEvent_EndingOpen();
                 EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.second);
                 SubPuzzleManager.instance.OffWindow();
                 Debug.Log("2번째 엔딩");
@@ -143,7 +144,8 @@ public partial class BoxMain : MonoBehaviour
             object_InBoxObject.SetActive(false);
             m_sprR.sprite = boxingSprite;
             m_sprR.sortingOrder = sOrder_default;
-            object_ShadowLight.SetActive(true);
+            object_ClosedBoxShadow.SetActive(true);
+            object_OpendBoxShadow.SetActive(false);
 
             isCubeMoved = false;
             isCubeTape_Untaped = false;
@@ -214,7 +216,8 @@ public partial class BoxMain : MonoBehaviour
             object_Invoice.SetActive(false);
             object_Cube.SetActive(false);
             object_Portal.SetActive(false);
-            object_ShadowLight.SetActive(false);
+            object_ClosedBoxShadow.SetActive(false);
+            object_OpendBoxShadow.SetActive(true);
             SubPuzzleManager.instance.OffWindow();
 
             object_InBoxObject.SetActive(true);
@@ -225,20 +228,20 @@ public partial class BoxMain : MonoBehaviour
             {
                 case MyEndings.UnboxingType.first:
                     DataRWManager.instance.InputDataValue("end01", 1, DataRWManager.instance.mySaveData_event);
-                    EventManager.instance.OnEvent_EndingOpen();
+                    MainEventManager.instance.OnEvent_EndingOpen();
                     EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.first);
                     Debug.Log("1번째 엔딩");
                     break;
                 case MyEndings.UnboxingType.third:
                     DataRWManager.instance.InputDataValue("end03", 1, DataRWManager.instance.mySaveData_event);
-                    EventManager.instance.OnEvent_EndingOpen();
+                    MainEventManager.instance.OnEvent_EndingOpen();
                     EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third);
                     Debug.Log("3번째 엔딩");
                     break;
                 case MyEndings.UnboxingType.fourth:
                     //object_CubeSticker.SetActive(false);
                     DataRWManager.instance.InputDataValue("end04", 1, DataRWManager.instance.mySaveData_event);
-                    EventManager.instance.OnEvent_EndingOpen();
+                    MainEventManager.instance.OnEvent_EndingOpen();
                     EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.fourth);
                     Debug.Log("4번째 엔딩");
                     break;

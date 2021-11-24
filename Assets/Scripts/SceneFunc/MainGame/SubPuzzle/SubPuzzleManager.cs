@@ -94,7 +94,7 @@ public partial class SubPuzzleManager : MonoBehaviour
         if (m_instance == this)
         {
             m_instance = null;
-            EventManager.instance.ev_Reset -= ResetEvent;
+            MainEventManager.instance.ev_Reset -= ResetEvent;
         }
     }
 
@@ -107,7 +107,7 @@ public partial class SubPuzzleManager : MonoBehaviour
         m_pos_LeftTop = pos_LeftTop.position;
         m_pos_RightBottom = pos_RightBottom.position;
 
-        EventManager.instance.ev_Reset += ResetEvent;
+        MainEventManager.instance.ev_Reset += ResetEvent;
     }
 
     private void OnEnable()

@@ -57,7 +57,7 @@ public class SlidingPuzzleEventManager : MonoBehaviour
     {
         list_CorrectSpaceIndex.Capacity = 9;
         InitSetPieces();
-        EventManager.instance.ev_Reset += InitSetPieces;
+        MainEventManager.instance.ev_Reset += InitSetPieces;
     }
 
     private void OnDestroy()
@@ -65,8 +65,14 @@ public class SlidingPuzzleEventManager : MonoBehaviour
         if (m_instance == this)
         {
             m_instance = null;
-            EventManager.instance.ev_Reset -= InitSetPieces;
+            MainEventManager.instance.ev_Reset -= InitSetPieces;
         }
+    }
+
+    private void OnEnable()
+    {
+        if (completeImage.activeSelf)
+            SubPuzzleManager.instance.isSlidingPuzzleClear = true;
     }
 
     private void SetList()

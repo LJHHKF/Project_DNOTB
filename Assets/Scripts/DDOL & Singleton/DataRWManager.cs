@@ -140,4 +140,30 @@ public partial class DataRWManager : MonoBehaviour
         else
             _writeData.Add(_key, _value);
     }
+
+    public bool CheckDoneEndingCount_each(int _min)
+    {
+        int hit = 0;
+        bool result = false;
+        foreach (KeyValuePair<string, int> items in mySaveData_event)
+        {
+            if (items.Value > 0) hit += 1;
+            if (hit >= _min)
+            {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public int CheckDoneEndingCount_all()
+    {
+        int hit = 0;
+        foreach (KeyValuePair<string, int> items in mySaveData_event)
+        {
+            if (items.Value > 0) hit += 1;
+        }
+        return hit;
+    }
 }

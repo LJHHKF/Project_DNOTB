@@ -25,7 +25,7 @@ public class ListSceneBTN : MonoBehaviour
     public void OnClick()
     {
         EndingListPageScene.instance.EndingRepeatWindowSetActive(true);
-        ListSceneBoxMain.child_instance.SetEndingState(endingIndex);
+        ListSceneBoxMain.instance.SetEndingState(endingIndex);
     }
 
     private void MatchingUpdate()

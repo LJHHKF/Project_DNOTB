@@ -28,6 +28,10 @@ public class MySceneManager : MonoBehaviour
         }
     }
 
+    private MySceneName.SceneName curSceneName;
+    private bool m_isSpecialLobbyReturn = false;
+    public bool isSpecialLobbyReturn { get { return m_isSpecialLobbyReturn; } set { m_isSpecialLobbyReturn = value; } }
+
     private void Awake()
     {
         if (instance != this)
@@ -40,9 +44,10 @@ public class MySceneManager : MonoBehaviour
             m_instance = null;
     }
 
-    public void LoadScene(MySceneName.SceneName name)
+    public void LoadScene(MySceneName.SceneName _name)
     {
-        switch (name)
+        curSceneName = _name;
+        switch (_name)
         {
             case SceneName.GameEnd:
                 Application.Quit();
@@ -60,5 +65,10 @@ public class MySceneManager : MonoBehaviour
                 Debug.LogError("잘못된 씬 이름 지정으로 씬을 넘어가지 못했습니다.");
                 break;
         }
+    }
+
+    public MySceneName.SceneName GetCurrentSceneName()
+    {
+        return curSceneName;
     }
 }

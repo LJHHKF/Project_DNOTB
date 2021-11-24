@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MyCursor;
 
 namespace MyCursor
 {
@@ -26,7 +25,7 @@ public class CursorManager : MonoBehaviour
         }
     }
 
-    private CursorType current_type = CursorType.None;
+    private MyCursor.CursorType current_type = MyCursor.CursorType.None;
 
     [SerializeField] private Texture2D normalCursorImg;
     [SerializeField] private Vector2 normalCImagePivot;
@@ -62,21 +61,21 @@ public class CursorManager : MonoBehaviour
         {
             switch (_type)
             {
-                case CursorType.Normal:
+                case MyCursor.CursorType.Normal:
                     Cursor.SetCursor(normalCursorImg, m_normalPivot, CursorMode.Auto);
                     break;
-                case CursorType.Knife:
+                case MyCursor.CursorType.Knife:
                     Cursor.SetCursor(knifeCursorImg, m_knifePivot, CursorMode.Auto);
                     break;
             }
-            if (_type != CursorType.None)
+            if (_type != MyCursor.CursorType.None)
                 current_type = _type;
         }
         else
             return;
     }
 
-    public CursorType GetCurrentCursorType()
+    public MyCursor.CursorType GetCurrentCursorType()
     {
         return current_type;
     }

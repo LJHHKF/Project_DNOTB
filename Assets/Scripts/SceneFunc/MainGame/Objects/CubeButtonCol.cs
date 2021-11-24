@@ -16,7 +16,7 @@ public class CubeButtonCol : MonoBehaviour, IEventObject
         m_sprR = GetComponent<SpriteRenderer>();
         m_anim = GetComponent<Animator>();
         ResetEvent();
-        EventManager.instance.ev_Reset += ResetEvent;
+        MainEventManager.instance.ev_Reset += ResetEvent;
     }
 
     private void ResetEvent()
@@ -27,7 +27,7 @@ public class CubeButtonCol : MonoBehaviour, IEventObject
 
     private void OnDestroy()
     {
-        EventManager.instance.ev_Reset -= ResetEvent;
+        MainEventManager.instance.ev_Reset -= ResetEvent;
     }
 
     public void Execute()

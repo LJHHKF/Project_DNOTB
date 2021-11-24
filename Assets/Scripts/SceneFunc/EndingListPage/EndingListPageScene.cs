@@ -50,7 +50,7 @@ public class EndingListPageScene : MonoBehaviour
     public void RepeatWindowOffBTN()
     {
         endingRepeatWindow.SetActive(false);
-        ListSceneBoxMain.child_instance.OnListSceneReset();
+        ListSceneBoxMain.instance.OnListSceneReset();
     }
 
     public Sprite GetEndImageSprite(MyEndings.EndingIndex _index)

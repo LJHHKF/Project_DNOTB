@@ -24,12 +24,12 @@ public class StickerCol : MonoBehaviour, IEventObject
         
 
         CountReset();
-        EventManager.instance.ev_Reset += CountReset;
+        MainEventManager.instance.ev_Reset += CountReset;
     }
 
     private void OnDisable()
     {
-        EventManager.instance.ev_Reset -= CountReset;
+        MainEventManager.instance.ev_Reset -= CountReset;
     }
 
     private void CountReset()

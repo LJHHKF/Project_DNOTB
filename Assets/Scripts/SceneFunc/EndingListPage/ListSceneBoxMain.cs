@@ -6,7 +6,7 @@ using System;
 public class ListSceneBoxMain : MonoBehaviour
 {
     private static ListSceneBoxMain m_instance;
-    public static ListSceneBoxMain child_instance
+    public static ListSceneBoxMain instance
     {
         get
         {
@@ -22,7 +22,8 @@ public class ListSceneBoxMain : MonoBehaviour
     [SerializeField] private Sprite unboxingSprite;
 
     [Header("Objects linking")]
-    [SerializeField] private GameObject object_ShadowLight;
+    [SerializeField] private GameObject object_ClosedBoxShadow;
+    [SerializeField] private GameObject object_OpendBoxShadow;
     [SerializeField] private GameObject object_InBoxObject;
     private InBoxImageManager inBoxObjectImageManager;
     [SerializeField] private GameObject object_Invoice_Cover;
@@ -43,7 +44,7 @@ public class ListSceneBoxMain : MonoBehaviour
 
     private void Awake()
     {
-        if (child_instance != this)
+        if (instance != this)
             Destroy(gameObject);
     }
 
@@ -59,7 +60,7 @@ public class ListSceneBoxMain : MonoBehaviour
         m_sprR = GetComponent<SpriteRenderer>();
         inBoxObjectImageManager = object_InBoxObject.GetComponent<InBoxImageManager>();
 
-        cnt_end = EventManager.instance.CheckDoneEndingCount_all();
+        cnt_end = DataRWManager.instance.CheckDoneEndingCount_all();
         OnReset();
     }
 
@@ -76,7 +77,8 @@ public class ListSceneBoxMain : MonoBehaviour
     private void OnReset()
     {
         object_InBoxObject.SetActive(false);
-        object_ShadowLight.SetActive(true);
+        object_ClosedBoxShadow.SetActive(true);
+        object_OpendBoxShadow.SetActive(false);
         //object_ShadowLight_knife_full.SetActive(true);
         //object_ShadowLight_knife_down.SetActive(false);
         m_sprR.sprite = boxingSprite;
@@ -120,7 +122,8 @@ public class ListSceneBoxMain : MonoBehaviour
         {
             m_sprR.sprite = unboxingSprite;
             m_sprR.sortingOrder = sOrder_open;
-            object_ShadowLight.SetActive(false);
+            object_ClosedBoxShadow.SetActive(false);
+            object_OpendBoxShadow.SetActive(true);
             //object_ShadowLight_knife_full.SetActive(false);
             //object_ShadowLight_knife_down.SetActive(true);
             object_InBoxObject.SetActive(true);

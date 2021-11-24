@@ -9,6 +9,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
     //[SerializeField] private Text m_Text;
     [SerializeField] private ObjectShaking shakeManager;
     [SerializeField] private Image m_sprR;
+    [SerializeField] private GameObject[] m_PointerColliders;
     private SlidingPuzzleSpace m_spaceManager;
     private bool m_isSelected = false;
     private bool isSelected {
@@ -17,6 +18,8 @@ public class SlidingPuzzlePiece : MonoBehaviour
         {
             m_isSelected = value;
             obj_SelectHighright.SetActive(value);
+            for (int i = 0; i < m_PointerColliders.Length; i++)
+                m_PointerColliders[i].SetActive(value);
         }
     }
     private int correctSpaceIndex;
@@ -113,38 +116,38 @@ public class SlidingPuzzlePiece : MonoBehaviour
 
     public void MoveToLeft()
     {
-        if (isSelected)
-        {
-            PieceMoveTo(SlidingPuzzle.MoveTo.Left);
-            isSelected = false;
-        }
+        //if (isSelected)
+        //{
+        PieceMoveTo(SlidingPuzzle.MoveTo.Left);
+        isSelected = false;
+        //}
     }
 
     public void MoveToRight()
     {
-        if (isSelected)
-        {
-            PieceMoveTo(SlidingPuzzle.MoveTo.Right);
-            isSelected = false;
-        }
+        //if (isSelected)
+        //{
+        PieceMoveTo(SlidingPuzzle.MoveTo.Right);
+        isSelected = false;
+        //}
     }
 
     public void MoveToUp()
     {
-        if (isSelected)
-        {
-            PieceMoveTo(SlidingPuzzle.MoveTo.Up);
-            isSelected = false;
-        }
+        //if (isSelected)
+        //{
+        PieceMoveTo(SlidingPuzzle.MoveTo.Up);
+        isSelected = false;
+        //}
     }
 
     public void MoveToDown()
     {
-        if (isSelected)
-        {
-            PieceMoveTo(SlidingPuzzle.MoveTo.Down);
-            isSelected = false;
-        }
+        //if (isSelected)
+        //{
+        PieceMoveTo(SlidingPuzzle.MoveTo.Down);
+        isSelected = false;
+        //}
     }
 
     public void moveEndPos()

@@ -23,12 +23,12 @@ public class CubeCol : MonoBehaviour, IEventObject
     private void OnEnable()
     {
         MyReset();
-        EventManager.instance.ev_Reset += MyReset;
+        MainEventManager.instance.ev_Reset += MyReset;
     }
 
     private void OnDisable()
     {
-        EventManager.instance.ev_Reset -= MyReset;
+        MainEventManager.instance.ev_Reset -= MyReset;
     }
 
     private void MyReset()

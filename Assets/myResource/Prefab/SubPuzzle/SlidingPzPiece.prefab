@@ -113,7 +113,7 @@ RectTransform:
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1.05}
+  m_AnchorMax: {x: 1, y: 2}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -218,7 +218,7 @@ RectTransform:
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1.05, y: 1}
+  m_AnchorMax: {x: 2, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -472,7 +472,7 @@ RectTransform:
   m_Father: {fileID: 8967252295173112024}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: -0.05, y: 0}
+  m_AnchorMin: {x: -1, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -613,6 +613,11 @@ MonoBehaviour:
   obj_SelectHighright: {fileID: 4999946910037185673}
   shakeManager: {fileID: 3247053895352159094}
   m_sprR: {fileID: 5313333006189365274}
+  m_PointerColliders:
+  - {fileID: 931081895979289796}
+  - {fileID: 5691326849702887893}
+  - {fileID: 899440115237466496}
+  - {fileID: 8993856232687377224}
 --- !u!114 &3796135711516811749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,7 +694,7 @@ RectTransform:
   m_Father: {fileID: 8967252295173112024}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: -0.05}
+  m_AnchorMin: {x: 0, y: -1}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}

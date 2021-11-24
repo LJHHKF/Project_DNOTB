@@ -13,7 +13,7 @@ public class Knife : MonoBehaviour, IEventObject
         imageObject.SetActive(true);
         //shadowLight_full.SetActive(true);
         //shadowLight_down.SetActive(false);
-        EventManager.instance.ev_Reset += BoxClosed;
+        MainEventManager.instance.ev_Reset += BoxClosed;
         BoxMain.instance.ev_BoxOpend += BoxOpen;
     }
 

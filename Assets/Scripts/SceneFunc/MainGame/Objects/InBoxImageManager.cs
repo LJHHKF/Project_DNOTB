@@ -6,7 +6,9 @@ public class InBoxImageManager : MonoBehaviour
 {
     [Header("SpriteSet")]
     [SerializeField] private Sprite spr_end03;
+    [SerializeField] private GameObject shaodw_end03;
     [SerializeField] private Sprite spr_end04;
+    [SerializeField] private GameObject shadow_end04;
 
     [Header("Object Link")]
     [SerializeField] private GameObject obj_end04;
@@ -16,7 +18,21 @@ public class InBoxImageManager : MonoBehaviour
     private void Awake()
     { 
         ResetEvent();
-        EventManager.instance.ev_Reset += ResetEvent;
+
+        MySceneName.SceneName _name = MySceneManager.instance.GetCurrentSceneName();
+        if (_name == MySceneName.SceneName.MainGame)
+            MainEventManager.instance.ev_Reset += ResetEvent;
+        else if (_name == MySceneName.SceneName.EndingListPage)
+            ListSceneBoxMain.instance.ev_endingListReset += ResetEvent;
+    }
+
+    private void OnDestroy()
+    {
+        MySceneName.SceneName _name = MySceneManager.instance.GetCurrentSceneName();
+        if (_name == MySceneName.SceneName.MainGame)
+            MainEventManager.instance.ev_Reset -= ResetEvent;
+        else if (_name == MySceneName.SceneName.EndingListPage)
+            ListSceneBoxMain.instance.ev_endingListReset -= ResetEvent;
     }
 
     private void ResetEvent()
@@ -39,14 +55,20 @@ public class InBoxImageManager : MonoBehaviour
             case MyEndings.UnboxingType.first:
                 m_sprR.sprite = null;
                 obj_end04.SetActive(false);
+                shaodw_end03.SetActive(false);
+                shadow_end04.SetActive(false);
                 break;
             case MyEndings.UnboxingType.third:
                 m_sprR.sprite = spr_end03;
+                shaodw_end03.SetActive(true);
                 obj_end04.SetActive(false);
+                shadow_end04.SetActive(false);
                 break;
             case MyEndings.UnboxingType.fourth:
                 m_sprR.sprite = spr_end04;
                 obj_end04.SetActive(true);
+                shadow_end04.SetActive(true);
+                shaodw_end03.SetActive(false);
                 break;
         }
     }

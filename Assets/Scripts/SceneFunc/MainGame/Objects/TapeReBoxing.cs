@@ -6,6 +6,6 @@ public class TapeReBoxing : MonoBehaviour, IEventObject
 {
     public void Execute()
     {
-        EventManager.instance.MyEventReset();
+        MainEventManager.instance.MyEventReset();
     }
 }
