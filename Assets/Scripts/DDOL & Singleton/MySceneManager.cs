@@ -54,6 +54,7 @@ public class MySceneManager : MonoBehaviour
                 break;
             case SceneName.Lobby:
                 SceneManager.LoadScene("Lobby");
+                SoundManager.instance.UnSetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.Alarm01);
                 break;
             case SceneName.MainGame:
                 SceneManager.LoadScene("MainGame");

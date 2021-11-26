@@ -105,6 +105,7 @@ public class ConcentrationCard : MonoBehaviour
         //yield return new WaitForSeconds(cardFlipTime);
         m_Image.sprite = m_curImage;
         m_Button.enabled = false;
+        SoundManager.instance.SetSoundEffect_Overlap(MySound.MySoundEffects_Overlap.CardFlip);
         yield break;
     }
 
@@ -114,6 +115,7 @@ public class ConcentrationCard : MonoBehaviour
         //m_Text.text = flipString;
         yield return new WaitForSeconds(cardFlipTime);
         m_Image.sprite = backFaceImage;
+        SoundManager.instance.SetSoundEffect_Overlap(MySound.MySoundEffects_Overlap.CardFlip);
         ConcentrationEventManager.instance.OnEvCardBtnOn();
         yield break;
     }

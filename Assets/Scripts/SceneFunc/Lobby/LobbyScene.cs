@@ -15,6 +15,7 @@ public class LobbyScene : MonoBehaviour
     public void Start()
     {
         CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
+        SoundManager.instance.SetBG(MySound.MyBGs.Lobby);
         lobbyAnim.enabled = false;
         if (MySceneManager.instance.isSpecialLobbyReturn)
         {

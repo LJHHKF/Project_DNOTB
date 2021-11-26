@@ -40,6 +40,8 @@ public class MainEventManager : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.instance.SetBG(MySound.MyBGs.MainGame);
+        SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.Alarm01);
         StartCoroutine(DelayedReset(0.01f));
     }
 

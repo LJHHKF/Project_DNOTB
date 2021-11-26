@@ -111,9 +111,11 @@ public class EndCutSceneManager : MonoBehaviour
         {
             case MyEndings.EndingIndex.first:
                 //StartCoroutine(DelayedCutSceneOpen(3.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end01));
+                SoundManager.instance.SetBG(MySound.MyBGs.End01);
                 StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end01));
                 break;
             case MyEndings.EndingIndex.second:
+                SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.Bell);
                 StartCoroutine(DialoguesOn(_index));
                 break;
             case MyEndings.EndingIndex.third:
@@ -135,6 +137,7 @@ public class EndCutSceneManager : MonoBehaviour
         yield return new WaitForSeconds(_endTime);
         if (MySceneManager.instance.GetCurrentSceneName() == MySceneName.SceneName.EndingListPage)
         {
+            SoundManager.instance.SetBG(MySound.MyBGs.Lobby);
             ListSceneBoxMain.instance.OnListSceneReset(); // OffCutScene을 포함한 이벤트.
             EndingListPageScene.instance.EndingRepeatWindowSetActive(false);
         }
@@ -174,6 +177,7 @@ public class EndCutSceneManager : MonoBehaviour
         if (_index == MyEndings.EndingIndex.first)
         {
             cutScene_frame.SetActive(false);
+            SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.Alarm02);
             while (curAlpha < 1.0f)
             {
                 if (EndCutSceneDataManager.instance.prop_fadeOut_max_second > 0)
@@ -213,6 +217,7 @@ public class EndCutSceneManager : MonoBehaviour
             }
             if (MySceneManager.instance.GetCurrentSceneName() == MySceneName.SceneName.EndingListPage)
             {
+                SoundManager.instance.SetBG(MySound.MyBGs.Lobby);
                 ListSceneBoxMain.instance.OnListSceneReset(); // OffCutScene을 포함한 이벤트.
                 EndingListPageScene.instance.EndingRepeatWindowSetActive(false);
             }
@@ -272,6 +277,7 @@ public class EndCutSceneManager : MonoBehaviour
                             //}
                             p_dialogues.SetActive(false);
                             //StartCoroutine(DelayedCutSceneOpen(0.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end02));
+                            SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.OpenDoor);
                             StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end02));
                             break;
                         }

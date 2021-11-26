@@ -23,6 +23,7 @@ public class Knife : MonoBehaviour, IEventObject
 
         if(_type == MyCursor.CursorType.Normal)
         {
+            SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.PaperKnife);
             CursorManager.instnace.MySetCursor(MyCursor.CursorType.Knife);
             imageObject.SetActive(false);
             //shadowLight_full.SetActive(false);

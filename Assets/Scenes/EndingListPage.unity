@@ -1612,6 +1612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3fdbfe3578c746438d73d398463935e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boxingTapeCollider: {fileID: 0}
   cutScene_BG: {fileID: 1778299369}
   cutScene_frame: {fileID: 1049337000}
   p_dialogues: {fileID: 1922554522}
@@ -2203,7 +2204,6 @@ GameObject:
   m_Component:
   - component: {fileID: 735834580}
   - component: {fileID: 735834579}
-  - component: {fileID: 735834578}
   - component: {fileID: 735834581}
   m_Layer: 0
   m_Name: Main Camera
@@ -2212,14 +2212,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &735834578
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735834577}
-  m_Enabled: 1
 --- !u!20 &735834579
 Camera:
   m_ObjectHideFlags: 0
