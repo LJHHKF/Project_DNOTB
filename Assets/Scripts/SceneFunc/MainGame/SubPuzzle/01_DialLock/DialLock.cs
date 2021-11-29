@@ -55,7 +55,8 @@ public class DialLock : MonoBehaviour
 
     private void OnDestroy()
     {
-        MainEventManager.instance.ev_Reset -= SetRandomValue;
+        if(MainEventManager.instance != null)
+            MainEventManager.instance.ev_Reset -= SetRandomValue;
     }
 
     private void SetRandomValue()

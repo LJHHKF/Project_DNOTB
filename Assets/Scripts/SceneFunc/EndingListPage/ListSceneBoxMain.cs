@@ -106,11 +106,17 @@ public class ListSceneBoxMain : MonoBehaviour
                 UnSetCube();
                 //m_sprR.sprite = boxingSprite;
                 break;
-            case MyEndings.EndingIndex.third:
+            case MyEndings.EndingIndex.third_1:
                 UnBoxing();
                 UnSetCube();
                 knifeObject.SetActive(false);
-                inBoxObjectImageManager.SetEnding(MyEndings.UnboxingType.third);
+                inBoxObjectImageManager.SetEnding(MyEndings.UnboxingType.third_1);
+                break;
+            case MyEndings.EndingIndex.third_2:
+                UnBoxing();
+                UnSetCube();
+                knifeObject.SetActive(false);
+                inBoxObjectImageManager.SetEnding(MyEndings.UnboxingType.third_2);
                 break;
             case MyEndings.EndingIndex.fourth:
                 UnBoxing();

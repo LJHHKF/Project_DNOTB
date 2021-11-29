@@ -65,7 +65,8 @@ public class SlidingPuzzleEventManager : MonoBehaviour
         if (m_instance == this)
         {
             m_instance = null;
-            MainEventManager.instance.ev_Reset -= InitSetPieces;
+            if(MainEventManager.instance != null)
+                MainEventManager.instance.ev_Reset -= InitSetPieces;
         }
     }
 

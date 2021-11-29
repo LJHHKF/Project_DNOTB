@@ -29,9 +29,9 @@ public class InBoxImageManager : MonoBehaviour
     private void OnDestroy()
     {
         MySceneName.SceneName _name = MySceneManager.instance.GetCurrentSceneName();
-        if (_name == MySceneName.SceneName.MainGame)
+        if (_name == MySceneName.SceneName.MainGame && MainEventManager.instance != null)
             MainEventManager.instance.ev_Reset -= ResetEvent;
-        else if (_name == MySceneName.SceneName.EndingListPage)
+        else if (_name == MySceneName.SceneName.EndingListPage && ListSceneBoxMain.instance != null)
             ListSceneBoxMain.instance.ev_endingListReset -= ResetEvent;
     }
 
@@ -58,7 +58,13 @@ public class InBoxImageManager : MonoBehaviour
                 shaodw_end03.SetActive(false);
                 shadow_end04.SetActive(false);
                 break;
-            case MyEndings.UnboxingType.third:
+            case MyEndings.UnboxingType.third_1:
+                m_sprR.sprite = spr_end03;
+                shaodw_end03.SetActive(true);
+                obj_end04.SetActive(false);
+                shadow_end04.SetActive(false);
+                break;
+            case MyEndings.UnboxingType.third_2:
                 m_sprR.sprite = spr_end03;
                 shaodw_end03.SetActive(true);
                 obj_end04.SetActive(false);

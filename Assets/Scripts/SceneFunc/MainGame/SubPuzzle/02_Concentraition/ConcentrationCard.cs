@@ -36,7 +36,13 @@ public class ConcentrationCard : MonoBehaviour
 
     private void OnDestroy()
     {
-        MainEventManager.instance.ev_Reset -= OnResetEvent;
+        if(MainEventManager.instance != null)
+            MainEventManager.instance.ev_Reset -= OnResetEvent;
+        if(isEvSet && ConcentrationEventManager.instance != null)
+        {
+            ConcentrationEventManager.instance.ev_cardBtnOff -= SelfButtonOff;
+            ConcentrationEventManager.instance.ev_cardBtnOn -= SelfButtonOn;
+        }
     }
 
     private void OnResetEvent()
@@ -87,8 +93,11 @@ public class ConcentrationCard : MonoBehaviour
         m_Image.sprite = m_curImage;
         m_Button.enabled = false;
         isEvSet = false;
-        ConcentrationEventManager.instance.ev_cardBtnOff -= SelfButtonOff;
-        ConcentrationEventManager.instance.ev_cardBtnOn -= SelfButtonOn;
+        if (isEvSet)
+        {
+            ConcentrationEventManager.instance.ev_cardBtnOff -= SelfButtonOff;
+            ConcentrationEventManager.instance.ev_cardBtnOn -= SelfButtonOn;
+        }
         //isMataced = true;
     }
 
@@ -115,7 +124,7 @@ public class ConcentrationCard : MonoBehaviour
         //m_Text.text = flipString;
         yield return new WaitForSeconds(cardFlipTime);
         m_Image.sprite = backFaceImage;
-        SoundManager.instance.SetSoundEffect_Overlap(MySound.MySoundEffects_Overlap.CardFlip);
+        //SoundManager.instance.SetSoundEffect_Overlap(MySound.MySoundEffects_Overlap.CardFlip);
         ConcentrationEventManager.instance.OnEvCardBtnOn();
         yield break;
     }

@@ -148,7 +148,8 @@ public class ConcentrationEventManager : MonoBehaviour
         if (m_instance == this)
         {
             m_instance = null;
-            MainEventManager.instance.ev_Reset -= ResetEvent;
+            if(MainEventManager.instance != null)
+                MainEventManager.instance.ev_Reset -= ResetEvent;
         }
     }
 

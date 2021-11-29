@@ -96,6 +96,7 @@ public class MainEventManager : MonoBehaviour
     public void MyEventReset()
     {
         ev_Reset?.Invoke();
+        CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
         ActiveObject_ending();
     }
 

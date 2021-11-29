@@ -64,7 +64,11 @@ public class DialLockEventManager : MonoBehaviour
     private void OnDestroy()
     {
         if (m_instance == this)
+        {
             m_instance = null;
+            if (MainEventManager.instance != null)
+                MainEventManager.instance.ev_Reset -= ResetEvent;
+        }
     }
 
     // Start is called before the first frame update

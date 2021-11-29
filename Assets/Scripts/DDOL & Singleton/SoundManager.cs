@@ -117,7 +117,8 @@ public class SoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetMouseButtonDown(0))
+            SetSoundEffect_Overlap(MySound.MySoundEffects_Overlap.Click);
         for(int i = 0; i < evQueues_NonOverlapSE.Length; i++)
         {
             if (delays_NonOverlapSE[i] > 0.0f)
@@ -220,7 +221,7 @@ public class SoundManager : MonoBehaviour
     public void UnSetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap _se)
     {
         evQueues_NonOverlapSE[(int)_se].Clear();
-        if (_se == MySound.MySoundEffects_NonOverlap.Alarm01)
+        if (_se == MySound.MySoundEffects_NonOverlap.Alarm01 && corutine_Alarm1_Recall != null)
             StopCoroutine(corutine_Alarm1_Recall);
     }
 

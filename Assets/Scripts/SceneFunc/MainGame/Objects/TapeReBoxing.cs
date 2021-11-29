@@ -6,7 +6,12 @@ public class TapeReBoxing : MonoBehaviour, IEventObject
 {
     public void Execute()
     {
-        SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.Taping);
-        MainEventManager.instance.MyEventReset();
+        if (CursorManager.instnace.GetCurrentCursorType() == MyCursor.CursorType.Magnifier)
+            MagnifierManager.instance.SetInfoText(MyInfoText.Types.Tape);
+        else
+        {
+            SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.Taping);
+            MainEventManager.instance.MyEventReset();
+        }
     }
 }

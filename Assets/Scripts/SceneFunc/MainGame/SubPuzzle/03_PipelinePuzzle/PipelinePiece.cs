@@ -34,6 +34,12 @@ public class PipelinePiece : MonoBehaviour
         MainEventManager.instance.ev_Reset += ResetEvent;
     }
 
+    private void OnDestroy()
+    {
+        if (MainEventManager.instance != null)
+            MainEventManager.instance.ev_Reset -= ResetEvent;
+    }
+
     private void ResetEvent()
     {
         UnsetSelect();

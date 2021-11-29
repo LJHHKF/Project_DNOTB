@@ -3,28 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace MyEndings
-{
-    public enum UnboxingType
-    {
-        first,
-        third,
-        fourth
-    }
-
-    public enum EndingIndex
-    {
-        first = 0,
-        second = 1,
-        third = 2,
-        fourth = 3,
-        fifth = 4,
-        sixth = 5,
-        seventh = 6,
-        eighth = 7
-    }
-}
-
 public partial class BoxMain : MonoBehaviour
 {
     private static BoxMain m_instance;
@@ -99,9 +77,12 @@ public partial class BoxMain : MonoBehaviour
 
     private void OnDisable()
     {
-        MainEventManager.instance.ev_Reset -= OnResetEvent;
-        MainEventManager.instance.ev_Endleast_Set_1 -= OnResetEvent_depth_1;
-        MainEventManager.instance.ev_Endleast_UnSet_1 -= OnUnsetEvent_depth_1;
+        if (MainEventManager.instance != null)
+        {
+            MainEventManager.instance.ev_Reset -= OnResetEvent;
+            MainEventManager.instance.ev_Endleast_Set_1 -= OnResetEvent_depth_1;
+            MainEventManager.instance.ev_Endleast_UnSet_1 -= OnUnsetEvent_depth_1;
+        }
     }
 
     // Start is called before the first frame update
@@ -232,11 +213,17 @@ public partial class BoxMain : MonoBehaviour
                     EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.first);
                     Debug.Log("1번째 엔딩");
                     break;
-                case MyEndings.UnboxingType.third:
-                    DataRWManager.instance.InputDataValue("end03", 1, DataRWManager.instance.mySaveData_event);
+                case MyEndings.UnboxingType.third_1:
+                    DataRWManager.instance.InputDataValue("end03_1", 1, DataRWManager.instance.mySaveData_event);
                     MainEventManager.instance.OnEvent_EndingOpen();
-                    EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third);
-                    Debug.Log("3번째 엔딩");
+                    EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third_1);
+                    Debug.Log("3_1번째 엔딩");
+                    break;
+                case MyEndings.UnboxingType.third_2:
+                    DataRWManager.instance.InputDataValue("end03_2", 1, DataRWManager.instance.mySaveData_event);
+                    MainEventManager.instance.OnEvent_EndingOpen();
+                    EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third_2);
+                    Debug.Log("3_2번째 엔딩");
                     break;
                 case MyEndings.UnboxingType.fourth:
                     //object_CubeSticker.SetActive(false);

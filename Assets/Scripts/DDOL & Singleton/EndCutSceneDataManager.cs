@@ -34,8 +34,10 @@ public class EndCutSceneDataManager : MonoBehaviour
     public Sprite prop_cs_spr_end01 { get { return cs_spr_end01; } }
     [SerializeField] private Sprite cs_spr_end02;
     public Sprite prop_cs_spr_end02 { get { return cs_spr_end02; } }
-    [SerializeField] private Sprite cs_spr_end03;
-    public Sprite prop_cs_spr_end03 { get { return cs_spr_end03; } }
+    [SerializeField] private Sprite cs_spr_end03_1;
+    public Sprite prop_cs_spr_end03_1 { get { return cs_spr_end03_1; } }
+    [SerializeField] private Sprite cs_spr_end03_2;
+    public Sprite prop_cs_spr_end03_2 { get { return cs_spr_end03_2; } }
     [SerializeField] private Sprite cs_spr_end04;
     public Sprite prop_cs_spr_end04 { get { return cs_spr_end04; } }
 
@@ -52,8 +54,10 @@ public class EndCutSceneDataManager : MonoBehaviour
     public float prop_fadeOut_max_second { get { return fadeOut_max_second; } }
     [SerializeField] private MyDialogue.DialogueStruct[] dialogue_end02;
     public MyDialogue.DialogueStruct[] prop_dialogue_end02 { get { return dialogue_end02; } }
-    [SerializeField] private MyDialogue.DialogueStruct[] dialogue_end03;
-    public MyDialogue.DialogueStruct[] prop_dialogue_end03 { get { return dialogue_end03; } }
+    [SerializeField] private MyDialogue.DialogueStruct[] dialogue_end03_1;
+    public MyDialogue.DialogueStruct[] prop_dialogue_end03_1 { get { return dialogue_end03_1; } }
+    [SerializeField] private MyDialogue.DialogueStruct[] dialogues_end03_2;
+    public MyDialogue.DialogueStruct[] prop_dialogue_end03_2 { get { return dialogues_end03_2; } }
 
     private void Awake()
     {

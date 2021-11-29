@@ -11,48 +11,56 @@ public class Knife : MonoBehaviour, IEventObject
     private void OnEnable()
     {
         imageObject.SetActive(true);
+        CursorManager.instnace.ev_UnsetKnife += UnsetEvent;
         //shadowLight_full.SetActive(true);
         //shadowLight_down.SetActive(false);
-        MainEventManager.instance.ev_Reset += BoxClosed;
-        BoxMain.instance.ev_BoxOpend += BoxOpen;
+        //MainEventManager.instance.ev_Reset += BoxClosed;
+        //BoxMain.instance.ev_BoxOpend += BoxOpen;
     }
 
     public void Execute()
     {
         MyCursor.CursorType _type = CursorManager.instnace.GetCurrentCursorType();
 
-        if(_type == MyCursor.CursorType.Normal)
+        if (_type == MyCursor.CursorType.Magnifier)
+            MagnifierManager.instance.SetInfoText(MyInfoText.Types.Knife);
+        else if (_type == MyCursor.CursorType.Normal)
         {
             SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.PaperKnife);
             CursorManager.instnace.MySetCursor(MyCursor.CursorType.Knife);
             imageObject.SetActive(false);
             //shadowLight_full.SetActive(false);
         }
-        else if(_type == MyCursor.CursorType.Knife)
+        else if (_type == MyCursor.CursorType.Knife)
         {
             CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
-            imageObject.SetActive(true);
+            //imageObject.SetActive(true);
             //shadowLight_full.SetActive(true);
         }
     }
 
-    private void BoxClosed()
+    private void UnsetEvent()
     {
-        CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
         imageObject.SetActive(true);
-
-        //shadowLight_full.SetActive(true);
-        //shadowLight_down.SetActive(false);
     }
 
-    private void BoxOpen()
-    {
-        if (imageObject.activeSelf)
-        {
-            //shadowLight_full.SetActive(false);
-            //shadowLight_down.SetActive(true);
-        }
-        else
-            CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
-    }
+    //private void BoxClosed()
+    //{
+    //    CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
+    //    imageObject.SetActive(true);
+
+    //    //shadowLight_full.SetActive(true);
+    //    //shadowLight_down.SetActive(false);
+    //}
+
+    //private void BoxOpen()
+    //{
+    //    if (imageObject.activeSelf)
+    //    {
+    //        //shadowLight_full.SetActive(false);
+    //        //shadowLight_down.SetActive(true);
+    //    }
+    //    else
+    //        CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
+    //}
 }

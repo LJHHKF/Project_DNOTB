@@ -50,7 +50,11 @@ public partial class SubPuzzleManager : MonoBehaviour
         {
             m_isConcentrationClear = value;
             if (m_isConcentrationClear)
+            {
                 UnActiveConcentration();
+                GlitchScreenManager.instance.DelayedGlitchOn(1.0f, 0.5f);
+                BoxMain.instance.DoUnBoxing(MyEndings.UnboxingType.third_2);
+            }
         }
     }
     [SerializeField] private GameObject slidingPuzzleObjects;
@@ -94,6 +98,7 @@ public partial class SubPuzzleManager : MonoBehaviour
         if (m_instance == this)
         {
             m_instance = null;
+            if(MainEventManager.instance != null)
             MainEventManager.instance.ev_Reset -= ResetEvent;
         }
     }

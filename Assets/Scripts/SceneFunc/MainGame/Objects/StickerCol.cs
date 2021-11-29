@@ -22,14 +22,14 @@ public class StickerCol : MonoBehaviour, IEventObject
         m_anim.enabled = false;
         m_sprR.sprite = spr_defualt;
         
-
         CountReset();
         MainEventManager.instance.ev_Reset += CountReset;
     }
 
     private void OnDisable()
     {
-        MainEventManager.instance.ev_Reset -= CountReset;
+        if(MainEventManager.instance != null)
+            MainEventManager.instance.ev_Reset -= CountReset;
     }
 
     private void CountReset()
@@ -43,7 +43,9 @@ public class StickerCol : MonoBehaviour, IEventObject
         if (!m_anim.enabled)
         {
             MyCursor.CursorType _type = CursorManager.instnace.GetCurrentCursorType();
-            if (_type == MyCursor.CursorType.Knife)
+            if (_type == MyCursor.CursorType.Magnifier)
+                MagnifierManager.instance.SetInfoText(MyInfoText.Types.InvoiceCover);
+            else if (_type == MyCursor.CursorType.Knife)
             {
                 if (clickMax_withKnife <= ++clickedCnt_withKnife)
                     StartCoroutine(DelayedRemoveSticker());

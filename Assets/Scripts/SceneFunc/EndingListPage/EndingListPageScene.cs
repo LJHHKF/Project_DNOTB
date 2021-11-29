@@ -61,8 +61,10 @@ public class EndingListPageScene : MonoBehaviour
                 return EndCutSceneDataManager.instance.prop_cs_spr_end01;
             case MyEndings.EndingIndex.second:
                 return EndCutSceneDataManager.instance.prop_cs_spr_end02;
-            case MyEndings.EndingIndex.third:
-                return EndCutSceneDataManager.instance.prop_cs_spr_end03;
+            case MyEndings.EndingIndex.third_1:
+                return EndCutSceneDataManager.instance.prop_cs_spr_end03_1;
+            case MyEndings.EndingIndex.third_2:
+                return EndCutSceneDataManager.instance.prop_cs_spr_end03_2;
             case MyEndings.EndingIndex.fourth:
                 return EndCutSceneDataManager.instance.prop_cs_spr_end04;
         }

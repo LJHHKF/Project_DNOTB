@@ -28,7 +28,8 @@ public class CubeCol : MonoBehaviour, IEventObject
 
     private void OnDisable()
     {
-        MainEventManager.instance.ev_Reset -= MyReset;
+        if(MainEventManager.instance != null)
+            MainEventManager.instance.ev_Reset -= MyReset;
     }
 
     private void MyReset()

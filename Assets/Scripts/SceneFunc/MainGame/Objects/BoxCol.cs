@@ -6,6 +6,9 @@ public class BoxCol : MonoBehaviour, IEventObject
 {
     public void Execute()
     {
-        BoxMain.instance.DoUnBoxing(MyEndings.UnboxingType.first);
+        if (CursorManager.instnace.GetCurrentCursorType() == MyCursor.CursorType.Magnifier)
+            MagnifierManager.instance.SetInfoText(MyInfoText.Types.Box);
+        else
+            BoxMain.instance.DoUnBoxing(MyEndings.UnboxingType.first);
     }
 }

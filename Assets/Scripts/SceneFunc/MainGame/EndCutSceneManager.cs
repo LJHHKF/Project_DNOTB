@@ -1,8 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Text;
+
+namespace MyEndings
+{
+    public enum UnboxingType
+    {
+        first,
+        third_1,
+        third_2,
+        fourth
+    }
+
+    public enum EndingIndex
+    {
+        first = 0,
+        second, //1
+        third_1, //2
+        third_2, //3
+        fourth,  //4
+        fifth, //5
+        sixth, //6
+        seventh, //7
+        eighth, //8
+    }
+}
 
 public class EndCutSceneManager : MonoBehaviour
 {
@@ -30,6 +53,35 @@ public class EndCutSceneManager : MonoBehaviour
     private Image[] img_dialogues = new Image[3];
     private Image dialogues_BG;
     private float curAlpha = 0;
+
+    private bool m_isMagnifierSet = false;
+    public bool isMagnifierSet
+    {
+        get { return m_isMagnifierSet; }
+        set
+        {
+            m_isMagnifierSet = value;
+            if (value == true)
+            {
+                p_dialogues.SetActive(true);
+                dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                for(int i = 0; i < obj_dialogues.Length; i++)
+                {
+                    if (i > 0)
+                        obj_dialogues[i].SetActive(false);
+                    else
+                        obj_dialogues[i].SetActive(true);
+                }
+            }
+            else
+            {
+                dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                for (int i = 0; i < obj_dialogues.Length; i++)
+                    obj_dialogues[i].SetActive(false);
+                p_dialogues.SetActive(false);
+            }
+        }
+    }
 
     [Header("Other Setting")]
     private bool m_isEndingOn = false;
@@ -65,6 +117,7 @@ public class EndCutSceneManager : MonoBehaviour
             obj_dialogues[i].SetActive(false);
         }
         OffCutScene();
+        m_isMagnifierSet = false;
     }
 
     private void OnEnable()
@@ -79,9 +132,9 @@ public class EndCutSceneManager : MonoBehaviour
     private void OnDisable()
     {
         MySceneName.SceneName _name = MySceneManager.instance.GetCurrentSceneName();
-        if (_name == MySceneName.SceneName.MainGame)
+        if (_name == MySceneName.SceneName.MainGame && MainEventManager.instance != null)
             MainEventManager.instance.ev_Reset -= OffCutScene;
-        else if (_name == MySceneName.SceneName.EndingListPage)
+        else if (_name == MySceneName.SceneName.EndingListPage && ListSceneBoxMain.instance != null)
             ListSceneBoxMain.instance.ev_endingListReset -= OffCutScene;
     }
 
@@ -107,6 +160,7 @@ public class EndCutSceneManager : MonoBehaviour
 
     public void OnCutScene(MyEndings.EndingIndex _index)
     {
+        CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
         switch(_index)
         {
             case MyEndings.EndingIndex.first:
@@ -118,7 +172,8 @@ public class EndCutSceneManager : MonoBehaviour
                 SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.Bell);
                 StartCoroutine(DialoguesOn(_index));
                 break;
-            case MyEndings.EndingIndex.third:
+            case MyEndings.EndingIndex.third_1:
+            case MyEndings.EndingIndex.third_2:
                 StartCoroutine(DialoguesOn(_index));
                 break;
             case MyEndings.EndingIndex.fourth:
@@ -170,14 +225,15 @@ public class EndCutSceneManager : MonoBehaviour
                 cutScene_BG_img.color = new Color(1.0f, 1.0f, 1.0f, curAlpha);
                 yield return null;
             }
-        } 
+        }
+        if(_index == MyEndings.EndingIndex.first)
+            SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.Alarm02);
         cutScene_frame.SetActive(true);
         cutScene_img.sprite = _spr;
         yield return new WaitForSeconds(_endTime);
         if (_index == MyEndings.EndingIndex.first)
         {
             cutScene_frame.SetActive(false);
-            SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.Alarm02);
             while (curAlpha < 1.0f)
             {
                 if (EndCutSceneDataManager.instance.prop_fadeOut_max_second > 0)
@@ -205,6 +261,8 @@ public class EndCutSceneManager : MonoBehaviour
         else
         {
             cutScene_frame.SetActive(false);
+            if (_index == MyEndings.EndingIndex.third_2)
+                GlitchScreenManager.instance.GlitchOn(1.0f);
             while (curAlpha > 0)
             {
                 if (EndCutSceneDataManager.instance.prop_fadeOut_max_alpha != 0)
@@ -228,9 +286,32 @@ public class EndCutSceneManager : MonoBehaviour
 
     private IEnumerator DialoguesOn(MyEndings.EndingIndex _index)
     {
-        isEndingOn = true;
-        if (_index == MyEndings.EndingIndex.second || _index == MyEndings.EndingIndex.third)
+        if(isMagnifierSet)
         {
+            isMagnifierSet = false;
+            MagnifierManager.instance.StopInfoCoroutine();
+        }
+        isEndingOn = true;
+        if (_index == MyEndings.EndingIndex.second || _index == MyEndings.EndingIndex.third_1 || _index == MyEndings.EndingIndex.third_2)
+        {
+            MyDialogue.DialogueStruct[] array_dialogue = null;
+            switch(_index)
+            {
+                case MyEndings.EndingIndex.second:
+                    array_dialogue = EndCutSceneDataManager.instance.prop_dialogue_end02;
+                    break;
+                case MyEndings.EndingIndex.third_1:
+                    array_dialogue = EndCutSceneDataManager.instance.prop_dialogue_end03_1;
+                    break;
+                case MyEndings.EndingIndex.third_2:
+                    array_dialogue = EndCutSceneDataManager.instance.prop_dialogue_end03_2;
+                    break;
+            }
+            if(array_dialogue == null)
+            {
+                Debug.LogError("(EndCutSceneManager Coroutine)대화문을 가져오는 데 실패했습니다.");
+                yield break;
+            }
             p_dialogues.SetActive(true);
             dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
             curAlpha = 0.0f;
@@ -252,117 +333,74 @@ public class EndCutSceneManager : MonoBehaviour
                 {
                     obj_dialogues[cnt].SetActive(true);
                 }
-                switch(_index)
+                if (cnt >= array_dialogue.Length)
                 {
-                    case MyEndings.EndingIndex.second:
-                        if (cnt >= EndCutSceneDataManager.instance.prop_dialogue_end02.Length)
-                        {
-                            yield return new WaitForSeconds(1.0f);
-                            isEnd = true;
-                            for (int i = 0; i < obj_dialogues.Length; i++)
-                            {
-                                text_dialogues[i].text = null;
-                                text_head[i].text = null;
-                                obj_dialogues[i].SetActive(false);
-                            }
-                            //while (curAlpha > 0)
-                            //{
-                            //    if (EndCutSceneDataManager.instance.prop_fadeOut_max_alpha != 0)
-                            //        curAlpha -= (Time.deltaTime / EndCutSceneDataManager.instance.prop_fadeOut_max_second) * EndCutSceneDataManager.instance.prop_fadeOut_max_alpha;
-                            //    else
-                            //        curAlpha = 0;
+                    yield return new WaitForSeconds(1.0f);
+                    isEnd = true;
+                    for (int i = 0; i < obj_dialogues.Length; i++)
+                    {
+                        text_dialogues[i].text = null;
+                        text_head[i].text = null;
+                        obj_dialogues[i].SetActive(false);
+                    }
+                    //while (curAlpha > 0)
+                    //{
+                    //    if (EndCutSceneDataManager.instance.prop_fadeOut_max_alpha != 0)
+                    //        curAlpha -= (Time.deltaTime / EndCutSceneDataManager.instance.prop_fadeOut_max_second) * EndCutSceneDataManager.instance.prop_fadeOut_max_alpha;
+                    //    else
+                    //        curAlpha = 0;
 
-                            //    dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, curAlpha);
-                            //    yield return null;
-                            //}
-                            p_dialogues.SetActive(false);
-                            //StartCoroutine(DelayedCutSceneOpen(0.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end02));
+                    //    dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, curAlpha);
+                    //    yield return null;
+                    //}
+                    p_dialogues.SetActive(false);
+                    //StartCoroutine(DelayedCutSceneOpen(0.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end02));
+
+                    switch(_index)
+                    {
+                        case MyEndings.EndingIndex.second:
                             SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.OpenDoor);
                             StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end02));
                             break;
-                        }
-                        else if (cnt == 0)
-                        {
-                            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
-                            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].speaker;
-                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
-                        }
-                        else if (cnt == 1)
-                        {
-                            //img_dialogues[1].sprite = img_dialogues[0].sprite;
-                            text_head[1].text = text_head[0].text;
-                            text_dialogues[1].text = text_dialogues[0].text;
-                            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
-                            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].speaker;
-                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
-                        }
-                        else if (cnt >= 2)
-                        {
-                            //img_dialogues[2].sprite = img_dialogues[1].sprite;
-                            text_head[2].text = text_head[1].text;
-                            text_dialogues[2].text = text_dialogues[1].text;
-                            //img_dialogues[1].sprite = img_dialogues[0].sprite;
-                            text_head[1].text = text_head[0].text;
-                            text_dialogues[1].text = text_dialogues[0].text;
-                            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
-                            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].speaker;
-                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
-                        }
-                    break;
-                    case MyEndings.EndingIndex.third:
-                        if (cnt >= EndCutSceneDataManager.instance.prop_dialogue_end03.Length)
-                        {
-                            yield return new WaitForSeconds(1.0f);
-                            isEnd = true;
-                            for (int i = 0; i < obj_dialogues.Length; i++)
-                            {
-                                text_dialogues[i].text = null;
-                                text_head[i].text = null;
-                                obj_dialogues[i].SetActive(false);
-                            }
-                            //while (curAlpha > 0)
-                            //{
-                            //    if (EndCutSceneDataManager.instance.prop_fadeOut_max_alpha != 0)
-                            //        curAlpha -= (Time.deltaTime / EndCutSceneDataManager.instance.prop_fadeOut_max_second) * EndCutSceneDataManager.instance.prop_fadeOut_max_alpha;
-                            //    else
-                            //        curAlpha = 0;
-
-                            //    dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, curAlpha);
-                            //    yield return null;
-                            //}
-                            p_dialogues.SetActive(false);
-                            //StartCoroutine(DelayedCutSceneOpen(0.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end03));
-                            StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end03));
+                        case MyEndings.EndingIndex.third_1:
+                            GlitchScreenManager.instance.GlitchOn(1.0f);
+                            StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end03_1));
                             break;
-                        }
-                        else if (cnt == 0)
-                        {
-                            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
-                            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].speaker;
-                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].dialogue;
-                        }
-                        else if (cnt == 1)
-                        {
-                            //img_dialogues[1].sprite = img_dialogues[0].sprite;
-                            text_head[1].text = text_head[0].text;
-                            text_dialogues[1].text = text_dialogues[0].text;
-                            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
-                            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].speaker;
-                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].dialogue;
-                        }
-                        else if (cnt >= 2)
-                        {
-                            //img_dialogues[2].sprite = img_dialogues[1].sprite;
-                            text_head[2].text = text_head[1].text;
-                            text_dialogues[2].text = text_dialogues[1].text;
-                            //img_dialogues[1].sprite = img_dialogues[0].sprite;
-                            text_head[1].text = text_head[0].text;
-                            text_dialogues[1].text = text_dialogues[0].text;
-                            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
-                            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].speaker;
-                            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].dialogue;
-                        }
-                        break;
+                        case MyEndings.EndingIndex.third_2:
+                            GlitchScreenManager.instance.GlitchOn(1.0f);
+                            StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end03_2));
+                            break;
+                    }
+
+
+                    break;
+                }
+                else if (cnt == 0)
+                {
+                    //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+                    text_head[0].text = array_dialogue[cnt].speaker;
+                    text_dialogues[0].text = array_dialogue[cnt].dialogue;
+                }
+                else if (cnt == 1)
+                {
+                    //img_dialogues[1].sprite = img_dialogues[0].sprite;
+                    text_head[1].text = text_head[0].text;
+                    text_dialogues[1].text = text_dialogues[0].text;
+                    //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+                    text_head[0].text = array_dialogue[cnt].speaker;
+                    text_dialogues[0].text = array_dialogue[cnt].dialogue;
+                }
+                else if (cnt >= 2)
+                {
+                    //img_dialogues[2].sprite = img_dialogues[1].sprite;
+                    text_head[2].text = text_head[1].text;
+                    text_dialogues[2].text = text_dialogues[1].text;
+                    //img_dialogues[1].sprite = img_dialogues[0].sprite;
+                    text_head[1].text = text_head[0].text;
+                    text_dialogues[1].text = text_dialogues[0].text;
+                    //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+                    text_head[0].text = array_dialogue[cnt].speaker;
+                    text_dialogues[0].text = array_dialogue[cnt].dialogue;
                 }
                 cnt++;
                 yield return new WaitForSeconds(EndCutSceneDataManager.instance.prop_dialogueDelay);
@@ -370,4 +408,185 @@ public class EndCutSceneManager : MonoBehaviour
         }
         yield break;
     }
+
+    public void MagnifierDialogueSet(string _specker,string _text)
+    {
+        if (m_isMagnifierSet == false)
+            isMagnifierSet = true;
+
+        text_head[0].text = _specker;
+        text_dialogues[0].text = _text;
+    }
 }
+
+
+
+
+//switch (_index)
+//{
+//    case MyEndings.EndingIndex.second:
+//        if (cnt >= EndCutSceneDataManager.instance.prop_dialogue_end02.Length)
+//        {
+//            yield return new WaitForSeconds(1.0f);
+//            isEnd = true;
+//            for (int i = 0; i < obj_dialogues.Length; i++)
+//            {
+//                text_dialogues[i].text = null;
+//                text_head[i].text = null;
+//                obj_dialogues[i].SetActive(false);
+//            }
+//            //while (curAlpha > 0)
+//            //{
+//            //    if (EndCutSceneDataManager.instance.prop_fadeOut_max_alpha != 0)
+//            //        curAlpha -= (Time.deltaTime / EndCutSceneDataManager.instance.prop_fadeOut_max_second) * EndCutSceneDataManager.instance.prop_fadeOut_max_alpha;
+//            //    else
+//            //        curAlpha = 0;
+
+//            //    dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, curAlpha);
+//            //    yield return null;
+//            //}
+//            p_dialogues.SetActive(false);
+//            //StartCoroutine(DelayedCutSceneOpen(0.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end02));
+//            SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.OpenDoor);
+//            StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end02));
+//            break;
+//        }
+//        else if (cnt == 0)
+//        {
+//            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+//            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].speaker;
+//            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
+//        }
+//        else if (cnt == 1)
+//        {
+//            //img_dialogues[1].sprite = img_dialogues[0].sprite;
+//            text_head[1].text = text_head[0].text;
+//            text_dialogues[1].text = text_dialogues[0].text;
+//            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+//            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].speaker;
+//            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
+//        }
+//        else if (cnt >= 2)
+//        {
+//            //img_dialogues[2].sprite = img_dialogues[1].sprite;
+//            text_head[2].text = text_head[1].text;
+//            text_dialogues[2].text = text_dialogues[1].text;
+//            //img_dialogues[1].sprite = img_dialogues[0].sprite;
+//            text_head[1].text = text_head[0].text;
+//            text_dialogues[1].text = text_dialogues[0].text;
+//            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+//            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].speaker;
+//            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end02[cnt].dialogue;
+//        }
+//        break;
+//    case MyEndings.EndingIndex.third_1:
+//        if (cnt >= EndCutSceneDataManager.instance.prop_dialogue_end03_1.Length)
+//        {
+//            yield return new WaitForSeconds(1.0f);
+//            isEnd = true;
+//            for (int i = 0; i < obj_dialogues.Length; i++)
+//            {
+//                text_dialogues[i].text = null;
+//                text_head[i].text = null;
+//                obj_dialogues[i].SetActive(false);
+//            }
+//            //while (curAlpha > 0)
+//            //{
+//            //    if (EndCutSceneDataManager.instance.prop_fadeOut_max_alpha != 0)
+//            //        curAlpha -= (Time.deltaTime / EndCutSceneDataManager.instance.prop_fadeOut_max_second) * EndCutSceneDataManager.instance.prop_fadeOut_max_alpha;
+//            //    else
+//            //        curAlpha = 0;
+
+//            //    dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, curAlpha);
+//            //    yield return null;
+//            //}
+//            p_dialogues.SetActive(false);
+//            //StartCoroutine(DelayedCutSceneOpen(0.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end03));
+//            GlitchScreenManager.instance.GlitchOn(1.0f);
+//            StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end03_1));
+//            break;
+//        }
+//        else if (cnt == 0)
+//        {
+//            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+//            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03_1[cnt].speaker;
+//            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03_1[cnt].dialogue;
+//        }
+//        else if (cnt == 1)
+//        {
+//            //img_dialogues[1].sprite = img_dialogues[0].sprite;
+//            text_head[1].text = text_head[0].text;
+//            text_dialogues[1].text = text_dialogues[0].text;
+//            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+//            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03_1[cnt].speaker;
+//            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03_1[cnt].dialogue;
+//        }
+//        else if (cnt >= 2)
+//        {
+//            //img_dialogues[2].sprite = img_dialogues[1].sprite;
+//            text_head[2].text = text_head[1].text;
+//            text_dialogues[2].text = text_dialogues[1].text;
+//            //img_dialogues[1].sprite = img_dialogues[0].sprite;
+//            text_head[1].text = text_head[0].text;
+//            text_dialogues[1].text = text_dialogues[0].text;
+//            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+//            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03_1[cnt].speaker;
+//            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03_1[cnt].dialogue;
+//        }
+//        break;
+//    case MyEndings.EndingIndex.third_2:
+//        if (cnt >= EndCutSceneDataManager.instance.prop_dialogue_end03_1.Length)
+//        {
+//            yield return new WaitForSeconds(1.0f);
+//            isEnd = true;
+//            for (int i = 0; i < obj_dialogues.Length; i++)
+//            {
+//                text_dialogues[i].text = null;
+//                text_head[i].text = null;
+//                obj_dialogues[i].SetActive(false);
+//            }
+//            //while (curAlpha > 0)
+//            //{
+//            //    if (EndCutSceneDataManager.instance.prop_fadeOut_max_alpha != 0)
+//            //        curAlpha -= (Time.deltaTime / EndCutSceneDataManager.instance.prop_fadeOut_max_second) * EndCutSceneDataManager.instance.prop_fadeOut_max_alpha;
+//            //    else
+//            //        curAlpha = 0;
+
+//            //    dialogues_BG.color = new Color(1.0f, 1.0f, 1.0f, curAlpha);
+//            //    yield return null;
+//            //}
+//            p_dialogues.SetActive(false);
+//            //StartCoroutine(DelayedCutSceneOpen(0.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end03));
+//            GlitchScreenManager.instance.GlitchOn(1.0f);
+//            StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end03));
+//            break;
+//        }
+//        else if (cnt == 0)
+//        {
+//            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+//            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].speaker;
+//            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].dialogue;
+//        }
+//        else if (cnt == 1)
+//        {
+//            //img_dialogues[1].sprite = img_dialogues[0].sprite;
+//            text_head[1].text = text_head[0].text;
+//            text_dialogues[1].text = text_dialogues[0].text;
+//            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+//            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].speaker;
+//            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].dialogue;
+//        }
+//        else if (cnt >= 2)
+//        {
+//            //img_dialogues[2].sprite = img_dialogues[1].sprite;
+//            text_head[2].text = text_head[1].text;
+//            text_dialogues[2].text = text_dialogues[1].text;
+//            //img_dialogues[1].sprite = img_dialogues[0].sprite;
+//            text_head[1].text = text_head[0].text;
+//            text_dialogues[1].text = text_dialogues[0].text;
+//            //img_dialogues[0].sprite = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].isLeft ? EndCutSceneDataManager.instance.prop_dialogue_spr_left : EndCutSceneDataManager.instance.prop_dialogue_spr_right;
+//            text_head[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].speaker;
+//            text_dialogues[0].text = EndCutSceneDataManager.instance.prop_dialogue_end03[cnt].dialogue;
+//        }
+//        break;
+//}

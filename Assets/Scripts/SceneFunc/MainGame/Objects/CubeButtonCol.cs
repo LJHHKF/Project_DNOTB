@@ -27,7 +27,8 @@ public class CubeButtonCol : MonoBehaviour, IEventObject
 
     private void OnDestroy()
     {
-        MainEventManager.instance.ev_Reset -= ResetEvent;
+        if(MainEventManager.instance != null)
+            MainEventManager.instance.ev_Reset -= ResetEvent;
     }
 
     public void Execute()
