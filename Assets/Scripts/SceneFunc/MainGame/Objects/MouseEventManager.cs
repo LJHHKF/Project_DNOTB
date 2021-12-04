@@ -17,37 +17,42 @@ public class MouseEventManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!SubPuzzleManager.instance.isSubPuzzleOn)
+        if (MySceneManager.instance.GetCurrentSceneName() == MySceneName.SceneName.MainGame)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (!SubPuzzleManager.instance.isSubPuzzleOn)
             {
-                mousePosition = Input.mousePosition;
-                mousePosition = myMainCam.ScreenToWorldPoint(mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(mousePosition, transform.forward, maxDepth);
-
-
-                if (hit)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (hit.collider.tag == "EventObjectCol")
+                    mousePosition = Input.mousePosition;
+                    mousePosition = myMainCam.ScreenToWorldPoint(mousePosition);
+                    RaycastHit2D hit = Physics2D.Raycast(mousePosition, transform.forward, maxDepth);
+
+
+                    if (hit)
                     {
-                        hitTarget = hit.transform.gameObject;
+                        if (hit.collider.tag == "EventObjectCol")
+                        {
+                            hitTarget = hit.transform.gameObject;
+                        }
                     }
                 }
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                mousePosition = Input.mousePosition;
-                mousePosition = myMainCam.ScreenToWorldPoint(mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(mousePosition, transform.forward, maxDepth);
-
-                if (hit)
+                else if (Input.GetMouseButtonUp(0))
                 {
-                    if (hit.collider.tag == "EventObjectCol")
+                    mousePosition = Input.mousePosition;
+                    mousePosition = myMainCam.ScreenToWorldPoint(mousePosition);
+                    RaycastHit2D hit = Physics2D.Raycast(mousePosition, transform.forward, maxDepth);
+
+                    if (hit)
                     {
-                        if (ReferenceEquals(hitTarget, hit.transform.gameObject) && !ReferenceEquals(hitTarget, null))
+                        if (hit.collider.tag == "EventObjectCol")
                         {
-                            hitTarget.GetComponent<IEventObject>().Execute();
-                            hitTarget = null;
+                            if (ReferenceEquals(hitTarget, hit.transform.gameObject) && !ReferenceEquals(hitTarget, null))
+                            {
+                                hitTarget.GetComponent<IEventObject>().Execute();
+                                hitTarget = null;
+                                if(!BoxMain.instance.isUntaped)
+                                    BoxMain.instance.isUntaped = true;
+                            }
                         }
                     }
                 }

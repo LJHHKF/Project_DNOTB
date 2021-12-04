@@ -97,6 +97,7 @@ public class MainEventManager : MonoBehaviour
     {
         ev_Reset?.Invoke();
         CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
+        MagnifierManager.instance.ResetInfo();
         ActiveObject_ending();
     }
 

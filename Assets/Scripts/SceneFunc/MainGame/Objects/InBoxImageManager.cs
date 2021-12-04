@@ -9,10 +9,12 @@ public class InBoxImageManager : MonoBehaviour
     [SerializeField] private GameObject shaodw_end03;
     [SerializeField] private Sprite spr_end04;
     [SerializeField] private GameObject shadow_end04;
+    [SerializeField] private Sprite spr_end05;
 
     [Header("Object Link")]
     [SerializeField] private GameObject obj_end04;
     [SerializeField] private GameObject obj_smoke;
+    [SerializeField] private GameObject obj_planet;
 
     private SpriteRenderer m_sprR; 
 
@@ -64,27 +66,43 @@ public class InBoxImageManager : MonoBehaviour
                 obj_end04.SetActive(false);
                 shaodw_end03.SetActive(false);
                 shadow_end04.SetActive(false);
+                obj_planet.SetActive(false);
                 break;
             case MyEndings.UnboxingType.third_1:
                 m_sprR.sprite = spr_end03;
                 shaodw_end03.SetActive(true);
+
                 obj_smoke.SetActive(false);
                 obj_end04.SetActive(false);
                 shadow_end04.SetActive(false);
+                obj_planet.SetActive(false);
                 break;
             case MyEndings.UnboxingType.third_2:
                 m_sprR.sprite = spr_end03;
                 shaodw_end03.SetActive(true);
+
                 obj_smoke.SetActive(false);
                 obj_end04.SetActive(false);
                 shadow_end04.SetActive(false);
+                obj_planet.SetActive(false);
                 break;
             case MyEndings.UnboxingType.fourth:
                 m_sprR.sprite = spr_end04;
                 obj_end04.SetActive(true);
                 shadow_end04.SetActive(true);
+
                 shaodw_end03.SetActive(false);
                 obj_smoke.SetActive(false);
+                obj_planet.SetActive(false);
+                break;
+            case MyEndings.UnboxingType.fifth:
+                m_sprR.sprite = spr_end05;
+                obj_planet.SetActive(true);
+
+                obj_smoke.SetActive(false);
+                obj_end04.SetActive(false);
+                shaodw_end03.SetActive(false);
+                shadow_end04.SetActive(false);
                 break;
         }
     }

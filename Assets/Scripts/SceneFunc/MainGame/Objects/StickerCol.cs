@@ -6,8 +6,6 @@ public class StickerCol : MonoBehaviour, IEventObject
 {
     private int clickedCnt_withKnife = 0;
     private readonly int clickMax_withKnife = 5;
-    private int clickedCnt_none = 0;
-    private readonly int clickMax_none = 3;
     private Animator m_anim;
     private SpriteRenderer m_sprR;
     [SerializeField] private float animPlayTime = 1.0f;
@@ -35,7 +33,6 @@ public class StickerCol : MonoBehaviour, IEventObject
     private void CountReset()
     {
         clickedCnt_withKnife = 0;
-        clickedCnt_none = 0;
 
         StopAllCoroutines();
         m_anim.enabled = false;
@@ -53,11 +50,6 @@ public class StickerCol : MonoBehaviour, IEventObject
             {
                 if (clickMax_withKnife <= ++clickedCnt_withKnife)
                     StartCoroutine(DelayedRemoveSticker());
-            }
-            else if (_type == MyCursor.CursorType.Normal)
-            {
-                if (clickMax_none <= ++clickedCnt_none)
-                    BoxMain.instance.CubeSetActive();
             }
         }
     }

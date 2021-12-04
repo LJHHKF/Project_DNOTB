@@ -124,10 +124,15 @@ public class SoundManager : MonoBehaviour
         if (m_instance == this)
         {
             m_instance = null;
-            DataRWManager.instance.InputDataValue("soundBG", Mathf.RoundToInt(bgVolume * 100), DataRWManager.instance.mySaveData_option);
-            DataRWManager.instance.InputDataValue("soundSE", Mathf.RoundToInt(seVolume * 100), DataRWManager.instance.mySaveData_option);
-            DataRWManager.WriteData("DNOTB_save_option.csv", DataRWManager.instance.mySaveData_option);
         }
+    }
+
+    private void OnDisable()
+    {
+        //Destroy 과정서 하면 데이터 저장 코드쪽이 먼저 파괴됨.
+        DataRWManager.instance.InputDataValue("soundBG", Mathf.RoundToInt(bgVolume * 100), DataRWManager.instance.mySaveData_option);
+        DataRWManager.instance.InputDataValue("soundSE", Mathf.RoundToInt(seVolume * 100), DataRWManager.instance.mySaveData_option);
+        DataRWManager.WriteData("DNOTB_save_option.csv", DataRWManager.instance.mySaveData_option);
     }
 
     // Start is called before the first frame update

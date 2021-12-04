@@ -10,7 +10,8 @@ namespace MyEndings
         first,
         third_1,
         third_2,
-        fourth
+        fourth,
+        fifth
     }
 
     public enum EndingIndex
@@ -178,7 +179,11 @@ public class EndCutSceneManager : MonoBehaviour
                 break;
             case MyEndings.EndingIndex.fourth:
                 //StartCoroutine(DelayedCutSceneOpen(3.0f, 5.0f, EndCutSceneDataManager.instance.prop_cs_spr_end04));
-                StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end04));
+                //StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end04));
+                StartCoroutine(DialoguesOn(_index));
+                break;
+            case MyEndings.EndingIndex.fifth:
+                StartCoroutine(DialoguesOn(_index));
                 break;
         }
     }
@@ -306,6 +311,12 @@ public class EndCutSceneManager : MonoBehaviour
                 case MyEndings.EndingIndex.third_2:
                     array_dialogue = EndCutSceneDataManager.instance.prop_dialogue_end03_2;
                     break;
+                case MyEndings.EndingIndex.fourth:
+                    array_dialogue = EndCutSceneDataManager.instance.prop_dialogue_end04;
+                    break;
+                case MyEndings.EndingIndex.fifth:
+                    array_dialogue = EndCutSceneDataManager.instance.prop_dialogue_end05;
+                    break;
             }
             if(array_dialogue == null)
             {
@@ -369,6 +380,12 @@ public class EndCutSceneManager : MonoBehaviour
                         case MyEndings.EndingIndex.third_2:
                             GlitchScreenManager.instance.GlitchOn(1.0f);
                             StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end03_2));
+                            break;
+                        case MyEndings.EndingIndex.fourth:
+                            StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end04));
+                            break;
+                        case MyEndings.EndingIndex.fifth:
+                            StartCoroutine(CutSceneOpen(5.0f, _index, EndCutSceneDataManager.instance.prop_cs_spr_end05));
                             break;
                     }
 

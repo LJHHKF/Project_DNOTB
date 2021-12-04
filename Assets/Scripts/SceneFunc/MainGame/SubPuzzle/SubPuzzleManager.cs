@@ -24,8 +24,10 @@ public partial class SubPuzzleManager : MonoBehaviour
 
     [Header("Screen Border Setting")]
     [SerializeField] private RectTransform pos_LeftTop;
-    private Vector2 m_pos_LeftTop;
     [SerializeField] private RectTransform pos_RightBottom;
+    [SerializeField] private RectTransform pos_LeftTop_Sliding;
+    [SerializeField] private RectTransform pos_RightBottom_Sliding;
+    private Vector2 m_pos_LeftTop;
     private Vector2 m_pos_RightBottom;
     private Camera cam_main;
 
@@ -66,7 +68,10 @@ public partial class SubPuzzleManager : MonoBehaviour
         {
             m_isSlidingPuzzleClear = value;
             if (m_isSlidingPuzzleClear)
+            {
                 UnActiveSlidingPuzzle();
+                BoxMain.instance.PortalSetActive(false);
+            }
         }
     }
     [SerializeField] private GameObject pipelinePuzzleObjects;
@@ -246,5 +251,19 @@ public partial class SubPuzzleManager : MonoBehaviour
     {
         pipelinePuzzleObjects.SetActive(false);
         OffWindow();
+    }
+
+    public void ChangeBorder(bool _isSlidingPz)
+    {
+        if(_isSlidingPz)
+        {
+            m_pos_LeftTop = pos_LeftTop_Sliding.position;
+            m_pos_RightBottom = pos_RightBottom_Sliding.position;
+        }
+        else
+        {
+            m_pos_LeftTop = pos_LeftTop.position;
+            m_pos_RightBottom = pos_RightBottom.position;
+        }
     }
 }

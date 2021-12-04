@@ -40,6 +40,8 @@ public class EndCutSceneDataManager : MonoBehaviour
     public Sprite prop_cs_spr_end03_2 { get { return cs_spr_end03_2; } }
     [SerializeField] private Sprite cs_spr_end04;
     public Sprite prop_cs_spr_end04 { get { return cs_spr_end04; } }
+    [SerializeField] private Sprite cs_spr_end05;
+    public Sprite prop_cs_spr_end05 { get { return cs_spr_end05; } }
 
     [Header("Dialouge Setting")]
     //[SerializeField] private Sprite dialogue_spr_left;
@@ -58,6 +60,10 @@ public class EndCutSceneDataManager : MonoBehaviour
     public MyDialogue.DialogueStruct[] prop_dialogue_end03_1 { get { return dialogue_end03_1; } }
     [SerializeField] private MyDialogue.DialogueStruct[] dialogues_end03_2;
     public MyDialogue.DialogueStruct[] prop_dialogue_end03_2 { get { return dialogues_end03_2; } }
+    [SerializeField] private MyDialogue.DialogueStruct[] dialogues_end04;
+    public MyDialogue.DialogueStruct[] prop_dialogue_end04 { get { return dialogues_end04; } }
+    [SerializeField] private MyDialogue.DialogueStruct[] dialogues_end05;
+    public MyDialogue.DialogueStruct[] prop_dialogue_end05 { get { return dialogues_end05; } }
 
     private void Awake()
     {

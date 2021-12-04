@@ -74,6 +74,13 @@ public class SlidingPuzzleEventManager : MonoBehaviour
     {
         if (completeImage.activeSelf)
             SubPuzzleManager.instance.isSlidingPuzzleClear = true;
+
+        SubPuzzleManager.instance.ChangeBorder(true);
+    }
+
+    private void OnDisable()
+    {
+        SubPuzzleManager.instance.ChangeBorder(false);
     }
 
     private void SetList()

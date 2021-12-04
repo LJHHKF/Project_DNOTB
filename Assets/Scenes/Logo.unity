@@ -361,6 +361,7 @@ MonoBehaviour:
   cs_spr_end03_1: {fileID: 21300000, guid: 543fbfbbb82fa6c48a9174078adff0fe, type: 3}
   cs_spr_end03_2: {fileID: 21300000, guid: 543fbfbbb82fa6c48a9174078adff0fe, type: 3}
   cs_spr_end04: {fileID: 21300000, guid: 473829bec127a894fb9e83990e0e9866, type: 3}
+  cs_spr_end05: {fileID: 21300000, guid: 7b9e0d49ad3390b4c98636974af61059, type: 3}
   dialogueDelay: 1
   fadeOut_max_alpha: 0.6
   fadeOut_max_second: 1
@@ -420,6 +421,34 @@ MonoBehaviour:
   - speaker: "\uB098"
     dialogue: "\uC774 \uD0C0\uC784 \uCEA1\uC290 \uC548\uC5D0\uB294\u2026 \u2026.
       \uC548\uC5D0\uB294 \u2026\u2026 \u2026\u2026."
+  dialogues_end04:
+  - speaker: "\uB098"
+    dialogue: "\uC751? \uC774\uAC8C \uBB50\uC57C? ...\uB85C\uBD07?"
+  - speaker: "\uB098"
+    dialogue: "\uB85C\uBD07 \uB9D0\uACE0 \uC124\uBA85\uC11C\uB791\u2026 \uC0AC\uC6D0\uC99D?"
+  - speaker: "\uB098"
+    dialogue: "\u2026\uBB54\uAC00 \uB354 \uC788\uB124? \u2026Scar Laboratory?"
+  - speaker: 
+    dialogue: "\uB09C \uBD84\uBA85 \uC5EC\uAE30 \uC9C0\uC6D0\uD55C \uC801\uB3C4 \uC5C6\uB294\uB370\u2026."
+  - speaker: "\uB098"
+    dialogue: "\uC5B4\uB514\uBCF4\uC790\u2026 \uB0B4\uC6A9\uC774\u2026."
+  - speaker: "\uB098"
+    dialogue: "Scar Laboratory\uC5D0 \uC9C0\uC6D0\uD574 \uC8FC\uC154\uC11C \uAC10\uC0AC\uD569\uB2C8\uB2E4.
+      Scar Laboratory\uB294..."
+  dialogues_end05:
+  - speaker: "\uB098"
+    dialogue: "\u2026\uC5E5?"
+  - speaker: "\uB098"
+    dialogue: "\uC774\uAC8C\u2026 \uBB50\uC57C\u2026."
+  - speaker: "\uB098"
+    dialogue: "\u2026\uC6B0\uC8FC?!"
+  - speaker: "\uB098"
+    dialogue: "\uD0DD\uBC30 \uC548\uC5D0 \uC6B0\uC8FC\uAC00 \uC788\uC744 \uC218 \uC788\uC5B4?!..."
+  - speaker: "\uB098"
+    dialogue: "\u2026 \u2026. \u2026\u2026."
+  - speaker: 
+    dialogue: "\u2026\uC774\uAC70 \uC815\uB9D0\uB85C \uC6C0\uC9C1\uC774\uB294\uAC70\uC57C?
+      \u2026.\uC0B4\uC544 \uC788\uC5B4\u2026?"
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
