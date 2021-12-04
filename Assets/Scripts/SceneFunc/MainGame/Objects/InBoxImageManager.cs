@@ -12,6 +12,7 @@ public class InBoxImageManager : MonoBehaviour
 
     [Header("Object Link")]
     [SerializeField] private GameObject obj_end04;
+    [SerializeField] private GameObject obj_smoke;
 
     private SpriteRenderer m_sprR; 
 
@@ -39,6 +40,11 @@ public class InBoxImageManager : MonoBehaviour
     {
         GetComponent<SpriteRenderer>().sprite = null;
         obj_end04.SetActive(false);
+        obj_smoke.SetActive(false);
+        shaodw_end03.SetActive(false);
+        shadow_end04.SetActive(false);
+
+        StopAllCoroutines();
     }
 
     private void ChkAndFind_SprR() // Start나 Awake에서 찾는 방식에서 왠지 오류나서 그냥 쓸 때 마다 찾아 쓰도록 만듦.
@@ -54,6 +60,7 @@ public class InBoxImageManager : MonoBehaviour
         {
             case MyEndings.UnboxingType.first:
                 m_sprR.sprite = null;
+                obj_smoke.SetActive(false);
                 obj_end04.SetActive(false);
                 shaodw_end03.SetActive(false);
                 shadow_end04.SetActive(false);
@@ -61,12 +68,14 @@ public class InBoxImageManager : MonoBehaviour
             case MyEndings.UnboxingType.third_1:
                 m_sprR.sprite = spr_end03;
                 shaodw_end03.SetActive(true);
+                obj_smoke.SetActive(false);
                 obj_end04.SetActive(false);
                 shadow_end04.SetActive(false);
                 break;
             case MyEndings.UnboxingType.third_2:
                 m_sprR.sprite = spr_end03;
                 shaodw_end03.SetActive(true);
+                obj_smoke.SetActive(false);
                 obj_end04.SetActive(false);
                 shadow_end04.SetActive(false);
                 break;
@@ -75,7 +84,21 @@ public class InBoxImageManager : MonoBehaviour
                 obj_end04.SetActive(true);
                 shadow_end04.SetActive(true);
                 shaodw_end03.SetActive(false);
+                obj_smoke.SetActive(false);
                 break;
         }
+    }
+
+    public void SmokeAnimOn(float _delayTime)
+    {
+        StartCoroutine(SmokeOn(_delayTime));
+    }
+
+    private IEnumerator SmokeOn(float _delayTime)
+    {
+        yield return new WaitForSeconds(_delayTime);
+        obj_smoke.SetActive(true);
+        yield return new WaitForSeconds(1.0f); // 애니메이션 플레이 시간
+        obj_smoke.SetActive(false);
     }
 }

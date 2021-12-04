@@ -34,6 +34,7 @@ public class CubeCol : MonoBehaviour, IEventObject
 
     private void MyReset()
     {
+        StopAllCoroutines();
         transform.position = resetPoint.position;
         cubeActiveCount = 0;
         isMoving = false;

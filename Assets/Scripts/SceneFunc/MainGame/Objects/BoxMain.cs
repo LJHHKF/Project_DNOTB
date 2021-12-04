@@ -118,6 +118,7 @@ public partial class BoxMain : MonoBehaviour
         ev_queue.Enqueue(Execute);
         void Execute()
         {
+            StopAllCoroutines();
             isUntaped = false;
             wastedTime = 0.0f;
             object_Collider_Tape?.SetActive(true);
@@ -220,9 +221,10 @@ public partial class BoxMain : MonoBehaviour
                     Debug.Log("3_1번째 엔딩");
                     break;
                 case MyEndings.UnboxingType.third_2:
+                    inBoxObjectImageManager.SmokeAnimOn(1.5f);
                     DataRWManager.instance.InputDataValue("end03_2", 1, DataRWManager.instance.mySaveData_event);
                     MainEventManager.instance.OnEvent_EndingOpen();
-                    EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third_2);
+                    StartCoroutine(DelayedActiveEnd03_2(2.5f));
                     Debug.Log("3_2번째 엔딩");
                     break;
                 case MyEndings.UnboxingType.fourth:
@@ -264,5 +266,12 @@ public partial class BoxMain : MonoBehaviour
             object_Portal.SetActive(false);
             object_CubeSticker.SetActive(true);
         }
+    }
+
+    private IEnumerator DelayedActiveEnd03_2(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        EndCutSceneManager.instance.OnCutScene(MyEndings.EndingIndex.third_2);
+        yield break;
     }
 }

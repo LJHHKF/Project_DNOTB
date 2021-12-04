@@ -18,6 +18,12 @@ public class Knife : MonoBehaviour, IEventObject
         //BoxMain.instance.ev_BoxOpend += BoxOpen;
     }
 
+    private void OnDisable()
+    {
+        if(CursorManager.instnace != null)
+            CursorManager.instnace.ev_UnsetKnife -= UnsetEvent;
+    }
+
     public void Execute()
     {
         MyCursor.CursorType _type = CursorManager.instnace.GetCurrentCursorType();

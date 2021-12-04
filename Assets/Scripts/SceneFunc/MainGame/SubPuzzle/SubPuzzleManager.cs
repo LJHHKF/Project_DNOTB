@@ -53,7 +53,7 @@ public partial class SubPuzzleManager : MonoBehaviour
             {
                 UnActiveConcentration();
                 GlitchScreenManager.instance.DelayedGlitchOn(1.0f, 0.5f);
-                BoxMain.instance.DoUnBoxing(MyEndings.UnboxingType.third_2);
+                BoxMain.instance.DoUnBoxing(MyEndings.UnboxingType.third_2); // 내부에서 1.5초 딜레이 후 연기 애니메이션 실행부분 존재.
             }
         }
     }

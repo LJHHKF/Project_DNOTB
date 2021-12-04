@@ -121,6 +121,11 @@ public class SlidingPuzzleEventManager : MonoBehaviour
 
     private void InitSetPieces()
     {
+        StopAllCoroutines();
+        endCnt = 0;
+        //위치 값은 피스 OnEnable
+        completeImage.SetActive(false);
+
         if (array_Pieces[0] == null)
         {
             for (int i = 0; i < array_Pieces.Length; i++)

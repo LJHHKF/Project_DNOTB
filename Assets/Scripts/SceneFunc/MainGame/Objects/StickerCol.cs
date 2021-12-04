@@ -19,8 +19,8 @@ public class StickerCol : MonoBehaviour, IEventObject
             m_anim = GetComponent<Animator>();
         if (m_sprR == null)
             m_sprR = GetComponent<SpriteRenderer>();
-        m_anim.enabled = false;
-        m_sprR.sprite = spr_defualt;
+        //m_anim.enabled = false;
+        //m_sprR.sprite = spr_defualt;
         
         CountReset();
         MainEventManager.instance.ev_Reset += CountReset;
@@ -36,6 +36,10 @@ public class StickerCol : MonoBehaviour, IEventObject
     {
         clickedCnt_withKnife = 0;
         clickedCnt_none = 0;
+
+        StopAllCoroutines();
+        m_anim.enabled = false;
+        m_sprR.sprite = spr_defualt;
     }
 
     public void Execute()

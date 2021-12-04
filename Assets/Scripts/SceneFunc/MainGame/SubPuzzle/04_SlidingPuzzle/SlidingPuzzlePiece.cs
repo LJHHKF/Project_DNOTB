@@ -30,6 +30,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
 
     private void OnEnable()
     {
+        StopAllCoroutines();
         transform.localPosition = Vector3.zero;
     }
 

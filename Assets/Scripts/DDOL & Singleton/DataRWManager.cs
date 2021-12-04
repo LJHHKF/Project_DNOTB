@@ -20,6 +20,7 @@ public partial class DataRWManager : MonoBehaviour
     }
 
     public Dictionary<string, int> mySaveData_event = new Dictionary<string, int>(); //필요할 경우 밖에서라도 Add 하면 됨.
+    public Dictionary<string, int> mySaveData_option = new Dictionary<string, int>();
     private List<string> readList;
 
     [SerializeField] private bool saveReset = false;
@@ -29,14 +30,22 @@ public partial class DataRWManager : MonoBehaviour
         if (instance != this)
             Destroy(gameObject);
 
-        if(!saveReset)
+        if (!saveReset)
+        {
             ReadData("DNOTB_save_event.csv", mySaveData_event);
+            ReadData("DNOTB_save_option.csv", mySaveData_option);
+        }
         else
         {
             readList = CreateNewSaveData("DNOTB_save_event.csv");
             for (int i = 0; i < readList.Count; i += 2)
                 mySaveData_event.Add(readList[i].ToString(), int.Parse(readList[i + 1]));
             WriteData("DNOTB_save_event.csv", mySaveData_event);
+
+            readList = CreateNewSaveData("DNOTB_save_option.csv");
+            for (int i = 0; i < readList.Count; i += 2)
+                mySaveData_option.Add(readList[i].ToString(), int.Parse(readList[i + 1]));
+            WriteData("DNOTB_save_option.csv", mySaveData_option);
         }
     }
 

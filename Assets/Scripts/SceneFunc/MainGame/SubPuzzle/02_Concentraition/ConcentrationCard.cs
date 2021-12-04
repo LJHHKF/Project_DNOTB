@@ -49,6 +49,7 @@ public class ConcentrationCard : MonoBehaviour
     {
         //ChkAndGetImage();
         //ChkAndGetButton();
+        StopAllCoroutines();
         m_Image.sprite = backFaceImage;
         m_Button.enabled = true;
         if (!isEvSet)

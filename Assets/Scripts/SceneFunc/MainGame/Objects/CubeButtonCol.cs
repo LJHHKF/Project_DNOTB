@@ -21,6 +21,7 @@ public class CubeButtonCol : MonoBehaviour, IEventObject
 
     private void ResetEvent()
     {
+        StopAllCoroutines();
         m_sprR.sprite = spr_ButtonBlcok;
         m_anim.enabled = false;
     }

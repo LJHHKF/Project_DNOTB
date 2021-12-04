@@ -50,11 +50,39 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    [Header("Sound Player Setting")]
+    [SerializeField] private AudioSource audio_BG;
+    [SerializeField] private AudioSource audio_SE;
+    public float bgVolume 
+    {   get { return audio_BG.volume; } 
+        set
+        {
+            if (value > 1.0f)
+                audio_BG.volume = 1.0f;
+            else if (value < 0.0f)
+                audio_BG.volume = 0.0f;
+            else
+                audio_BG.volume = value;
+        } 
+    }
+    public float seVolume
+    {   get { return audio_SE.volume; } 
+        set 
+        {
+            if (value > 1.0f)
+                audio_SE.volume = 1.0f;
+            else if (value < 0.0f)
+                audio_SE.volume = 0.0f;
+            else
+                audio_SE.volume = value;
+        } 
+    }
+
     [Header("BG Setting")]
     [SerializeField] private AudioClip gameLobby;
     [SerializeField] private AudioClip mainGame;
     [SerializeField] private AudioClip end01;
-    private AudioSource m_audio;
+    
     private MySound.MyBGs curBG;
 
     [Serializable] private struct SE_Clip_NonOverlap
@@ -94,15 +122,21 @@ public class SoundManager : MonoBehaviour
     private void OnDestroy()
     {
         if (m_instance == this)
+        {
             m_instance = null;
+            DataRWManager.instance.InputDataValue("soundBG", Mathf.RoundToInt(bgVolume * 100), DataRWManager.instance.mySaveData_option);
+            DataRWManager.instance.InputDataValue("soundSE", Mathf.RoundToInt(seVolume * 100), DataRWManager.instance.mySaveData_option);
+            DataRWManager.WriteData("DNOTB_save_option.csv", DataRWManager.instance.mySaveData_option);
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        m_audio = gameObject.GetComponent<AudioSource>();
-        m_audio.clip = null;
         curBG = MySound.MyBGs.Null;
+
+        audio_BG.loop = true;
+        audio_SE.loop = false;
 
         //InitSESet();
         for (int i = 0; i < delays_NonOverlapSE.Length; i++)
@@ -132,21 +166,21 @@ public class SoundManager : MonoBehaviour
     {
         if(curBG != _bg)
         {
-            m_audio.Stop();
+            audio_BG.Stop();
             curBG = _bg;
             switch(_bg)
             {
                 case MySound.MyBGs.Lobby:
-                    m_audio.clip = gameLobby;
-                    m_audio.Play();
+                    audio_BG.clip = gameLobby;
+                    audio_BG.Play();
                     break;
                 case MySound.MyBGs.MainGame:
-                    m_audio.clip = mainGame;
-                    m_audio.Play();
+                    audio_BG.clip = mainGame;
+                    audio_BG.Play();
                     break;
                 case MySound.MyBGs.End01:
-                    m_audio.clip = end01;
-                    m_audio.Play();
+                    audio_BG.clip = end01;
+                    audio_BG.Play();
                     break;
             }
         }
@@ -199,7 +233,7 @@ public class SoundManager : MonoBehaviour
             }
 
             if(_clip != null)
-                m_audio.PlayOneShot(_clip);
+                audio_SE.PlayOneShot(_clip);
         }
     }
 
@@ -242,6 +276,6 @@ public class SoundManager : MonoBehaviour
                 break;
         }
         if (_clip != null)
-            m_audio.PlayOneShot(_clip);
+            audio_SE.PlayOneShot(_clip);
     }
 }

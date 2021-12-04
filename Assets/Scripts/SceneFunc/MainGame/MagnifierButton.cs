@@ -22,7 +22,8 @@ public class MagnifierButton : MonoBehaviour
 
     private void OnDisable()
     {
-        CursorManager.instnace.ev_UnsetMagnifire -= UnsetEvent;
+        if(CursorManager.instnace != null)
+            CursorManager.instnace.ev_UnsetMagnifire -= UnsetEvent;
     }
 
     public void Execute()
