@@ -22,9 +22,8 @@ namespace MyEndings
         third_2, //3
         fourth,  //4
         fifth, //5
-        sixth, //6
-        seventh, //7
-        eighth, //8
+        temp_1, //6
+        temp_2 //7
     }
 }
 
@@ -297,7 +296,7 @@ public class EndCutSceneManager : MonoBehaviour
             MagnifierManager.instance.StopInfoCoroutine();
         }
         isEndingOn = true;
-        if (_index == MyEndings.EndingIndex.second || _index == MyEndings.EndingIndex.third_1 || _index == MyEndings.EndingIndex.third_2)
+        if (_index == MyEndings.EndingIndex.second || _index == MyEndings.EndingIndex.third_1 || _index == MyEndings.EndingIndex.third_2 || _index == MyEndings.EndingIndex.fourth || _index == MyEndings.EndingIndex.fifth)
         {
             MyDialogue.DialogueStruct[] array_dialogue = null;
             switch(_index)

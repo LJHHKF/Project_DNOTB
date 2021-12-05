@@ -61,7 +61,7 @@ public class PortalCol : MonoBehaviour, IEventObject
             cnt_clicked++;
             clickedTime = 1.0f;
             if (cnt_clicked >= 2)
-                BoxMain.instance.SetCubeIllumination();
+                BoxMain.instance.SetCubeIllumination(false);
         }
     }
 }

@@ -18,6 +18,7 @@ public class EndingListPageScene : MonoBehaviour
 
     [Header("Object linking")]
     [SerializeField] private GameObject endingRepeatWindow;
+    private List<GameObject> unActiveButtons = new List<GameObject>();
 
     //[Header("end Image Set")]
     //[SerializeField] private Sprite spr_end01;
@@ -35,6 +36,7 @@ public class EndingListPageScene : MonoBehaviour
     {
         endingRepeatWindow.SetActive(false);
         curPage = 0;
+        unActiveButtons.Capacity = 4;
     }
 
     public void ToLobby()
@@ -67,6 +69,8 @@ public class EndingListPageScene : MonoBehaviour
                 return EndCutSceneDataManager.instance.prop_cs_spr_end03_2;
             case MyEndings.EndingIndex.fourth:
                 return EndCutSceneDataManager.instance.prop_cs_spr_end04;
+            case MyEndings.EndingIndex.fifth:
+                return EndCutSceneDataManager.instance.prop_cs_spr_end05;
         }
         return null;
     }
@@ -90,7 +94,19 @@ public class EndingListPageScene : MonoBehaviour
                 pageChanged = true;
             }
         }
-        if(pageChanged)
+        if (pageChanged)
+        {
+            for (int i = 0; i < unActiveButtons.Count; i++)
+                unActiveButtons[i].SetActive(true);
+            unActiveButtons.Clear();
+
             ev_pageChange?.Invoke();
+        }
+    }
+
+    public void UnActiveButton(GameObject _self)
+    {
+        unActiveButtons.Add(_self);
+        _self.SetActive(false);
     }
 }

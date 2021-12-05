@@ -122,6 +122,10 @@ public class ListSceneBoxMain : MonoBehaviour
                 UnBoxing();
                 inBoxObjectImageManager.SetEnding(MyEndings.UnboxingType.fourth);
                 break;
+            case MyEndings.EndingIndex.fifth:
+                UnBoxing();
+                inBoxObjectImageManager.SetEnding(MyEndings.UnboxingType.fifth);
+                break;
         }
 
         void UnBoxing()

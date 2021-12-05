@@ -32,6 +32,7 @@ public class CubeCol : MonoBehaviour, IEventObject
     private int cnt_clicked = 0;
     private int cnt_clicked2 = 0;
     private float clickTime = 0.0f;
+    private bool isPuzzleOn = false;
     private readonly float moveSpeed = 0.01f;
 
     private void Start()
@@ -65,6 +66,7 @@ public class CubeCol : MonoBehaviour, IEventObject
         cnt_clicked = 0;
         cnt_clicked2 = 0;
         clickTime = 0.0f;
+        isPuzzleOn = false;
     }
 
     public void SetCubeIllumination()
@@ -94,13 +96,13 @@ public class CubeCol : MonoBehaviour, IEventObject
         else
         {
             if (BoxMain.instance.GetButtonClickedCount() >= 2)
-                BoxMain.instance.SetCubeIllumination();
+                BoxMain.instance.SetCubeIllumination(false);
             else
             {
                 //엔딩5분기
                 if (cnt_clicked == 0)
                 {
-                    BoxMain.instance.SetCubeIllumination();
+                    BoxMain.instance.SetCubeIllumination(true);
                     cnt_clicked++;
                 }
                 else if(cnt_clicked == 1)
@@ -111,9 +113,10 @@ public class CubeCol : MonoBehaviour, IEventObject
                     void Execute()
                     {
                         SubPuzzleManager.instance.ActiveSlidingPuzzle();
+                        isPuzzleOn = true;
                     }
                 }
-                else if (cnt_clicked >= 2)
+                else if (cnt_clicked >= 2 && isPuzzleOn)
                 {
                     if (!SubPuzzleManager.instance.isSlidingPuzzleClear)
                         SubPuzzleManager.instance.ActiveSlidingPuzzle();
@@ -135,12 +138,12 @@ public class CubeCol : MonoBehaviour, IEventObject
             cnt_clicked2 = 0;
     }
 
-    public void CubeMovePortal(Vector2 _first, Vector2 _second, bool _isFOrenge)
+    public void CubeMovePortal(Vector3 _first, Vector3 _second, bool _isFOrenge)
     {
         StartCoroutine(CubeMoving_Portal(_first, _second, _isFOrenge));
     }
 
-    public void CubeMovePortal_end05(Vector2 _blue)
+    public void CubeMovePortal_end05(Vector3 _blue)
     {
         StartCoroutine(CubeMoving_end05(_blue));
     }
@@ -153,7 +156,7 @@ public class CubeCol : MonoBehaviour, IEventObject
             m_Transform = GetComponent<Transform>();
 
         isMoving = true;
-        Vector2 _target = Vector2.zero;
+        Vector3 _target = Vector3.zero;
         m_Collider.enabled = false;
         switch (_index)
         {
@@ -173,9 +176,9 @@ public class CubeCol : MonoBehaviour, IEventObject
         }
         while (isMoving)
         {
-            m_Transform.position = Vector2.MoveTowards(m_Transform.position, _target, moveSpeed);
+            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _target, moveSpeed);
 
-            if ((((Vector2)m_Transform.position) - _target).sqrMagnitude < 0.0000001f)
+            if (((m_Transform.position) - _target).sqrMagnitude < 0.0000001f)
                 isMoving = false;
             else
                 yield return null;
@@ -184,14 +187,14 @@ public class CubeCol : MonoBehaviour, IEventObject
         yield break;
     }
 
-    private IEnumerator CubeMoving_end05(Vector2 _target)
+    private IEnumerator CubeMoving_end05(Vector3 _target)
     {
         isMoving = true;
         m_Collider.enabled = false;
         while(isMoving)
         {
-            m_Transform.position = Vector2.MoveTowards(m_Transform.position, _target, moveSpeed);
-            if ((((Vector2)m_Transform.position) - _target).sqrMagnitude < 0.0000001f)
+            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _target, moveSpeed);
+            if (((m_Transform.position) - _target).sqrMagnitude < 0.0000001f)
                 isMoving = false;
             else
                 yield return null;
@@ -201,14 +204,14 @@ public class CubeCol : MonoBehaviour, IEventObject
         yield break;
     }
 
-    private IEnumerator CubeMoving_Portal(Vector2 _first, Vector2 _second, bool _isFOrenge)
+    private IEnumerator CubeMoving_Portal(Vector3 _first, Vector3 _second, bool _isFOrenge)
     {
         isMoving = true;
         m_Collider.enabled = false;
         while(isMoving)
         {
-            m_Transform.position = Vector2.MoveTowards(m_Transform.position, _first, moveSpeed);
-            if ((((Vector2)m_Transform.position) - _first).sqrMagnitude < 0.0000001f)
+            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _first, moveSpeed);
+            if (((m_Transform.position) - _first).sqrMagnitude < 0.0000001f)
                 isMoving = false;
             else
                 yield return null;
@@ -216,8 +219,8 @@ public class CubeCol : MonoBehaviour, IEventObject
         isMoving = true;
         while(isMoving)
         {
-            m_Transform.position = Vector2.MoveTowards(m_Transform.position, _second, moveSpeed);
-            if ((((Vector2)m_Transform.position) - _second).sqrMagnitude < 0.0000001f)
+            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _second, moveSpeed);
+            if (((m_Transform.position) - _second).sqrMagnitude < 0.0000001f)
                 isMoving = false;
             else
                 yield return null;

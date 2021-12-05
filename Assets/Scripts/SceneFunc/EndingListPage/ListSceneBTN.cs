@@ -34,7 +34,7 @@ public class ListSceneBTN : MonoBehaviour
         int temp = 0;
         switch (endingIndex)
         {
-            case MyEndings.EndingIndex.first:
+            case MyEndings.EndingIndex.first: //1
                 if (DataRWManager.instance.mySaveData_event.TryGetValue("end01", out temp))
                 {
                     if (temp == 0) isOn = false;
@@ -46,7 +46,7 @@ public class ListSceneBTN : MonoBehaviour
                     DataRWManager.instance.InputDataValue("end01", 0, DataRWManager.instance.mySaveData_event);
                 }
                 break;
-            case MyEndings.EndingIndex.second:
+            case MyEndings.EndingIndex.second: //2
                 if (DataRWManager.instance.mySaveData_event.TryGetValue("end02", out temp))
                 {
                     if (temp == 0) isOn = false;
@@ -58,7 +58,7 @@ public class ListSceneBTN : MonoBehaviour
                     DataRWManager.instance.InputDataValue("end02", 0, DataRWManager.instance.mySaveData_event);
                 }
                 break;
-            case MyEndings.EndingIndex.third_1:
+            case MyEndings.EndingIndex.third_1: //3
                 if (DataRWManager.instance.mySaveData_event.TryGetValue("end03_1", out temp))
                 {
                     if (temp == 0) isOn = false;
@@ -70,7 +70,7 @@ public class ListSceneBTN : MonoBehaviour
                     DataRWManager.instance.InputDataValue("end03_1", 0, DataRWManager.instance.mySaveData_event);
                 }
                 break;
-            case MyEndings.EndingIndex.third_2:
+            case MyEndings.EndingIndex.third_2: //4
                 if (DataRWManager.instance.mySaveData_event.TryGetValue("end03_2", out temp))
                 {
                     if (temp == 0) isOn = false;
@@ -82,7 +82,7 @@ public class ListSceneBTN : MonoBehaviour
                     DataRWManager.instance.InputDataValue("end03_2", 0, DataRWManager.instance.mySaveData_event);
                 }
                 break;
-            case MyEndings.EndingIndex.fourth:
+            case MyEndings.EndingIndex.fourth:  //5
                 if (DataRWManager.instance.mySaveData_event.TryGetValue("end04", out temp))
                 {
                     if (temp == 0) isOn = false;
@@ -94,7 +94,7 @@ public class ListSceneBTN : MonoBehaviour
                     DataRWManager.instance.InputDataValue("end04", 0, DataRWManager.instance.mySaveData_event);
                 }
                 break;
-            case MyEndings.EndingIndex.fifth:
+            case MyEndings.EndingIndex.fifth: //6
                 if (DataRWManager.instance.mySaveData_event.TryGetValue("end05", out temp))
                 {
                     if (temp == 0) isOn = false;
@@ -106,42 +106,10 @@ public class ListSceneBTN : MonoBehaviour
                     DataRWManager.instance.InputDataValue("end05", 0, DataRWManager.instance.mySaveData_event);
                 }
                 break;
-            case MyEndings.EndingIndex.sixth:
-                if (DataRWManager.instance.mySaveData_event.TryGetValue("end06", out temp))
-                {
-                    if (temp == 0) isOn = false;
-                    else isOn = true;
-                }
-                else
-                {
-                    isOn = false;
-                    DataRWManager.instance.InputDataValue("end06", 0, DataRWManager.instance.mySaveData_event);
-                }
+            case MyEndings.EndingIndex.temp_1: //7
+            case MyEndings.EndingIndex.temp_2: //8
+                EndingListPageScene.instance.UnActiveButton(gameObject);
                 break;
-            case MyEndings.EndingIndex.seventh:
-                if (DataRWManager.instance.mySaveData_event.TryGetValue("end07", out temp))
-                {
-                    if (temp == 0) isOn = false;
-                    else isOn = true;
-                }
-                else
-                {
-                    isOn = false;
-                    DataRWManager.instance.InputDataValue("end07", 0, DataRWManager.instance.mySaveData_event);
-                }
-                break;
-            //case MyEndings.EndingIndex.eighth:
-            //    if (DataRWManager.instance.mySaveData_event.TryGetValue("end08", out temp))
-            //    {
-            //        if (temp == 0) isOn = false;
-            //        else isOn = true;
-            //    }
-            //    else
-            //    {
-            //        isOn = false;
-            //        DataRWManager.instance.InputDataValue("end08", 0, DataRWManager.instance.mySaveData_event);
-            //    }
-            //    break;
         }
 
 

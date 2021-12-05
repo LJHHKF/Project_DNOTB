@@ -51,8 +51,8 @@ public partial class BoxMain : MonoBehaviour
     [SerializeField] private float timeForSecondEnd = 60.0f;
     private float wastedTime;
     //엔딩4
-    private Vector2 firstPortalPos;
-    private Vector2 secondPortalPos;
+    private Vector3 firstPortalPos;
+    private Vector3 secondPortalPos;
     private bool m_isCubeIlluminated = false;
     public bool isCubeIlluminated { get { return m_isCubeIlluminated; } }
     private bool m_isCubeSecondIlluminated = false;
@@ -61,6 +61,8 @@ public partial class BoxMain : MonoBehaviour
     //엔딩5
     private bool m_isCubeOut = false;
     public bool isCubeOut { get { return m_isCubeOut; } }
+    private bool m_isEnd05Route = false;
+    public bool isEnd05Route { get { return m_isEnd05Route; } }
 
     private Queue<Action> ev_queue = new Queue<Action>(); //언박싱 처리 중인데 리셋 불려서 '박스는 열린', '송장은 다시 붙어있는' 오류가 발생하는 것 방지용도.
     public event Action ev_BoxOpend;
@@ -133,6 +135,7 @@ public partial class BoxMain : MonoBehaviour
             m_isCubeSecondIlluminated = false;
             isFirstOrenge = false;
             m_isCubeOut = false;
+            m_isEnd05Route = false;
             wastedTime = 0.0f;
             object_Collider_Tape?.SetActive(true);
             object_BoxCol?.SetActive(false);
@@ -323,12 +326,18 @@ public partial class BoxMain : MonoBehaviour
         }
     }
 
-    public void SetCubeIllumination()
+    public void SetCubeIllumination(bool _isEnd05)
     {
         ev_queue.Enqueue(Execute);
         void Execute()
         {
-            if (!m_isCubeIlluminated)
+            if(_isEnd05)
+            {
+                //m_isCubeIlluminated = true;
+                m_isEnd05Route = true;
+                cubeManager.SetCubeIllumination();
+            }                
+            else if (!m_isCubeIlluminated)
             {
                 m_isCubeIlluminated = true;
                 cubeManager.SetCubeIllumination();

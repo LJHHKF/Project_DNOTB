@@ -86,7 +86,7 @@ public class CubeButtonCol : MonoBehaviour, IEventObject
                 BoxMain.instance.DoUnBoxing(MyEndings.UnboxingType.fifth);
                 SoundManager.instance.SetSoundEffect_NonOverlap(MySound.MySoundEffects_NonOverlap.SpaceShip);
             }
-            else
+            else if(!BoxMain.instance.isEnd05Route)
             {
                 if(cnt_clicked == 0)
                 {

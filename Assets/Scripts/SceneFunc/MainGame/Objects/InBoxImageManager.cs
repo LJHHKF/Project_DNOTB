@@ -81,7 +81,10 @@ public class InBoxImageManager : MonoBehaviour
                 m_sprR.sprite = spr_end03;
                 shaodw_end03.SetActive(true);
 
-                obj_smoke.SetActive(false);
+                if (MySceneManager.instance.GetCurrentSceneName() == MySceneName.SceneName.EndingListPage)
+                    StartCoroutine(SmokeOn(0.0f));
+                else
+                    obj_smoke.SetActive(false);
                 obj_end04.SetActive(false);
                 shadow_end04.SetActive(false);
                 obj_planet.SetActive(false);
