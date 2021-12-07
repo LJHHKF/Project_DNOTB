@@ -47,12 +47,18 @@ public class EndingListPageScene : MonoBehaviour
     public void EndingRepeatWindowSetActive(bool _value)
     {
         endingRepeatWindow.SetActive(_value);
+        if (_value)
+            SoundManager.instance.SetBG(MySound.MyBGs.MainGame);
+        else
+            SoundManager.instance.SetBG(MySound.MyBGs.Lobby);
     }
 
     public void RepeatWindowOffBTN()
     {
         endingRepeatWindow.SetActive(false);
         ListSceneBoxMain.instance.OnListSceneReset();
+        SoundManager.instance.UnSetSoundEffects();
+        SoundManager.instance.SetBG(MySound.MyBGs.Lobby);
     }
 
     public Sprite GetEndImageSprite(MyEndings.EndingIndex _index)

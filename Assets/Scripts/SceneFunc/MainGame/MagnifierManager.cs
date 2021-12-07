@@ -73,62 +73,65 @@ public class MagnifierManager : MonoBehaviour
 
     public void SetInfoText(MyInfoText.Types _type)
     {
-        EndCutSceneManager.instance.isMagnifierSet = true;
-        StopInfoCoroutine();
-        SoundManager.instance.SetSoundEffect_Overlap(MySound.MySoundEffects_Overlap.Notification);
-        switch(_type)
+        if (!EndCutSceneManager.instance.isEndingOn)
         {
-            case MyInfoText.Types.Box:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_Box.speaker, info_Box.dialogue);
-                break;
-            case MyInfoText.Types.Knife:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_Knife.speaker, info_Knife.dialogue);
-                break;
-            case MyInfoText.Types.Tape:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_Tape.speaker, info_Tape.dialogue);
-                break;
-            case MyInfoText.Types.InvoiceCover:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_InvoiceCover.speaker, info_InvoiceCover.dialogue);
-                break;
-            case MyInfoText.Types.Invoice:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_Invoice.speaker, info_Invoice.dialogue);
-                endCorutine = StartCoroutine(DelayedOnConcentraition());
-                break;
-            case MyInfoText.Types.Table:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_Table.speaker, info_Table.dialogue);
-                break;
-            case MyInfoText.Types.PortalBlue:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_PortalBlue.speaker, info_PortalBlue.dialogue);
-                break;
-            case MyInfoText.Types.PortalOrenge:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_PortalOrenge.speaker, info_PortalOrenge.dialogue);
-                break;
-            case MyInfoText.Types.Cube_Init:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_Cube_Init.speaker, info_Cube_Init.dialogue);
-                m_isCubeInvest = true;
-                break;
-            case MyInfoText.Types.Cube_Second:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_Cube_Second.speaker, info_Cube_Second.dialogue);
-                break;
-            case MyInfoText.Types.Cube_Final:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_Cube_Final.speaker, info_Cube_Final.dialogue);
-                break;
-            case MyInfoText.Types.TableButtonCover_Init:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_TableButtonCover_Init.speaker, info_TableButtonCover_Init.dialogue);
-                break;
-            case MyInfoText.Types.TableButtonCover_Final:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_TableButtonCover_Final.speaker, info_TableButtonCover_Final.dialogue);
-                break;
-            case MyInfoText.Types.TableButton_Init:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_TableButton_Init.speaker, info_TableButton_Init.dialogue);
-                break;
-            case MyInfoText.Types.TableButton_Final:
-                EndCutSceneManager.instance.MagnifierDialogueSet(info_TableButton_Final.speaker, info_TableButton_Final.dialogue);
-                break;
+            EndCutSceneManager.instance.isMagnifierSet = true;
+            StopInfoCoroutine();
+            SoundManager.instance.SetSoundEffect_Overlap(MySound.MySoundEffects_Overlap.Notification);
+            switch (_type)
+            {
+                case MyInfoText.Types.Box:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_Box.speaker, info_Box.dialogue);
+                    break;
+                case MyInfoText.Types.Knife:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_Knife.speaker, info_Knife.dialogue);
+                    break;
+                case MyInfoText.Types.Tape:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_Tape.speaker, info_Tape.dialogue);
+                    break;
+                case MyInfoText.Types.InvoiceCover:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_InvoiceCover.speaker, info_InvoiceCover.dialogue);
+                    break;
+                case MyInfoText.Types.Invoice:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_Invoice.speaker, info_Invoice.dialogue);
+                    endCorutine = StartCoroutine(DelayedOnConcentraition());
+                    break;
+                case MyInfoText.Types.Table:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_Table.speaker, info_Table.dialogue);
+                    break;
+                case MyInfoText.Types.PortalBlue:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_PortalBlue.speaker, info_PortalBlue.dialogue);
+                    break;
+                case MyInfoText.Types.PortalOrenge:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_PortalOrenge.speaker, info_PortalOrenge.dialogue);
+                    break;
+                case MyInfoText.Types.Cube_Init:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_Cube_Init.speaker, info_Cube_Init.dialogue);
+                    m_isCubeInvest = true;
+                    break;
+                case MyInfoText.Types.Cube_Second:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_Cube_Second.speaker, info_Cube_Second.dialogue);
+                    break;
+                case MyInfoText.Types.Cube_Final:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_Cube_Final.speaker, info_Cube_Final.dialogue);
+                    break;
+                case MyInfoText.Types.TableButtonCover_Init:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_TableButtonCover_Init.speaker, info_TableButtonCover_Init.dialogue);
+                    break;
+                case MyInfoText.Types.TableButtonCover_Final:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_TableButtonCover_Final.speaker, info_TableButtonCover_Final.dialogue);
+                    break;
+                case MyInfoText.Types.TableButton_Init:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_TableButton_Init.speaker, info_TableButton_Init.dialogue);
+                    break;
+                case MyInfoText.Types.TableButton_Final:
+                    EndCutSceneManager.instance.MagnifierDialogueSet(info_TableButton_Final.speaker, info_TableButton_Final.dialogue);
+                    break;
 
+            }
+            if (endCorutine == null)
+                endCorutine = StartCoroutine(DelayedSetFalse());
         }
-        if(endCorutine == null)
-            endCorutine = StartCoroutine(DelayedSetFalse());
     }
 
     public void StopInfoCoroutine()

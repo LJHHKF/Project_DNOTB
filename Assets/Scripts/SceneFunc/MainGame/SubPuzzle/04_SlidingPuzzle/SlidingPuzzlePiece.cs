@@ -26,7 +26,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
     private int curSpaceIndex;
     private bool isMoved = false;
     private float shakingDelay = 0.0f;
-    private float moveSpeed = 1.0f;
+    [SerializeField]private float moveSpeed = 1.0f;
 
     private void OnEnable()
     {
@@ -101,7 +101,7 @@ public class SlidingPuzzlePiece : MonoBehaviour
             isMoved = true;
             while (true)
             {
-                transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector2.zero , moveSpeed);
+                transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector2.zero , moveSpeed * Time.deltaTime);
                 if ((transform.localPosition).sqrMagnitude < 0.000001)
                     break;
                 else

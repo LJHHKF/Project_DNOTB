@@ -283,4 +283,11 @@ public class SoundManager : MonoBehaviour
         if (_clip != null)
             audio_SE.PlayOneShot(_clip);
     }
+
+    public void UnSetSoundEffects()
+    {
+        for (int i = 0; i < evQueues_NonOverlapSE.Length; i++)
+            evQueues_NonOverlapSE[i].Clear();
+        audio_SE.Stop();
+    }
 }

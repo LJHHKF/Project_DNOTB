@@ -6,6 +6,7 @@ using System;
 public class CubeCol : MonoBehaviour, IEventObject
 {
     [Header("Way Points")]
+    [SerializeField] private float moveSpeed = 3.0f;
     [SerializeField] private Transform resetPoint;
     [SerializeField] private Transform firstWayPoint;
     [SerializeField] private Transform wayPointA;
@@ -13,7 +14,13 @@ public class CubeCol : MonoBehaviour, IEventObject
 
     [Header("Objects")]
     [SerializeField] private GameObject bottomShadow;
-    [SerializeField] private GameObject illumination;
+    [SerializeField] private GameObject normalShadow;
+    //[SerializeField] private GameObject illumination;
+
+    [Header("Sprite")]
+    [SerializeField] private Sprite spr_normal;
+    [SerializeField] private Sprite spr_illumination;
+    private SpriteRenderer m_sprR;
 
     private Collider2D m_Collider;
     private Transform m_Transform;
@@ -33,7 +40,7 @@ public class CubeCol : MonoBehaviour, IEventObject
     private int cnt_clicked2 = 0;
     private float clickTime = 0.0f;
     private bool isPuzzleOn = false;
-    private readonly float moveSpeed = 0.01f;
+    
 
     private void Start()
     {
@@ -58,10 +65,14 @@ public class CubeCol : MonoBehaviour, IEventObject
 
     private void MyReset()
     {
+        if (m_sprR == null)
+            m_sprR = GetComponent<SpriteRenderer>();
+
         StopAllCoroutines();
         transform.position = resetPoint.position;
         isMoving = false;
-        illumination.SetActive(false);
+        m_sprR.sprite = spr_normal;
+        //illumination.SetActive(false);
         isMagnifiered = false;
         cnt_clicked = 0;
         cnt_clicked2 = 0;
@@ -71,7 +82,10 @@ public class CubeCol : MonoBehaviour, IEventObject
 
     public void SetCubeIllumination()
     {
-        illumination.SetActive(true);
+        //illumination.SetActive(true);
+        m_sprR.sprite = spr_illumination;
+        bottomShadow.SetActive(false);
+        normalShadow.SetActive(false);
         StartCoroutine(IlluminationOff());
         isMagnifiered = false;
     }
@@ -176,7 +190,7 @@ public class CubeCol : MonoBehaviour, IEventObject
         }
         while (isMoving)
         {
-            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _target, moveSpeed);
+            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _target, moveSpeed * Time.deltaTime);
 
             if (((m_Transform.position) - _target).sqrMagnitude < 0.0000001f)
                 isMoving = false;
@@ -193,7 +207,7 @@ public class CubeCol : MonoBehaviour, IEventObject
         m_Collider.enabled = false;
         while(isMoving)
         {
-            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _target, moveSpeed);
+            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _target, moveSpeed * Time.deltaTime);
             if (((m_Transform.position) - _target).sqrMagnitude < 0.0000001f)
                 isMoving = false;
             else
@@ -235,7 +249,10 @@ public class CubeCol : MonoBehaviour, IEventObject
     private IEnumerator IlluminationOff()
     {
         yield return new WaitForSeconds(1.0f);
-        illumination.SetActive(false);
+        //illumination.SetActive(false);
+        m_sprR.sprite = spr_normal;
+        bottomShadow.SetActive(true);
+        normalShadow.SetActive(true);
         yield break;
     }
 

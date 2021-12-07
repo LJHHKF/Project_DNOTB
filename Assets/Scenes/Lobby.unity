@@ -539,6 +539,10 @@ MonoBehaviour:
   animPlayTime: 1
   blackOut: {fileID: 567791684}
   maxFadeInTime: 2
+  buttons:
+  - {fileID: 2028878649}
+  - {fileID: 1701962812}
+  - {fileID: 1824144636}
 --- !u!1 &1701962812
 GameObject:
   m_ObjectHideFlags: 0

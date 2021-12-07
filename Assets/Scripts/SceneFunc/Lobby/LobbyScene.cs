@@ -12,6 +12,9 @@ public class LobbyScene : MonoBehaviour
     private Image blackOut_img;
     private bool isFadeOut = false;
 
+    [Header("Buttons Set")]
+    [SerializeField] private GameObject[] buttons;
+
     public void Start()
     {
         CursorManager.instnace.MySetCursor(MyCursor.CursorType.Normal);
@@ -36,6 +39,8 @@ public class LobbyScene : MonoBehaviour
         if (!isFadeOut)
         {
             lobbyAnim.enabled = true;
+            for (int i = 0; i < buttons.Length; i++)
+                buttons[i].SetActive(false);
             StartCoroutine(DelayedLoadMainGameScene());
         }
     }
