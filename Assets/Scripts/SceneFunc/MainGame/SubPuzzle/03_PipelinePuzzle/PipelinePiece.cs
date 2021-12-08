@@ -88,7 +88,7 @@ public class PipelinePiece : MonoBehaviour
                 switch(_rot)
                 {
                     case PipelinePuzzle.ClockwiseRotate.Clockwise:
-                        if (m_rot_index >= 2)
+                        if (m_rot_index >= 1)
                             m_rot_index = 0;
                         else
                             m_rot_index++;

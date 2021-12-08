@@ -224,7 +224,7 @@ public class CubeCol : MonoBehaviour, IEventObject
         m_Collider.enabled = false;
         while(isMoving)
         {
-            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _first, moveSpeed);
+            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _first, moveSpeed * Time.deltaTime);
             if (((m_Transform.position) - _first).sqrMagnitude < 0.0000001f)
                 isMoving = false;
             else
@@ -233,7 +233,7 @@ public class CubeCol : MonoBehaviour, IEventObject
         isMoving = true;
         while(isMoving)
         {
-            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _second, moveSpeed);
+            m_Transform.position = Vector3.MoveTowards(m_Transform.position, _second, moveSpeed * Time.deltaTime);
             if (((m_Transform.position) - _second).sqrMagnitude < 0.0000001f)
                 isMoving = false;
             else

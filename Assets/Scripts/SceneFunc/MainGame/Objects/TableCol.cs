@@ -6,6 +6,7 @@ public class TableCol : MonoBehaviour, IEventObject
 {
     public void Execute()
     {
-        MagnifierManager.instance.SetInfoText(MyInfoText.Types.Table);
+        if(CursorManager.instnace.GetCurrentCursorType() == MyCursor.CursorType.Magnifier)
+            MagnifierManager.instance.SetInfoText(MyInfoText.Types.Table);
     }
 }
